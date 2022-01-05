@@ -54,8 +54,8 @@ Students by the end of the course will be able to ...
 |  10 | Thu, Feb 17 | [Lesson 10 - Advanced Queries]         | - |
 |  11 | Tue, Feb 22 | [Lesson 11 - Lab]                      | - |
 |  12 | Thu, Feb 24 | [Lesson 12 - GraphQL ORM]              | - |
-|  13 | Tue, Mar 1  | Final Exams/Presentations              | - |
-|  14 | Thu, Mar 3  | Final Exams/Presentations              | - |
+|  13 | Tue, Mar 1  | Final Presentations                    | - |
+|  14 | Thu, Mar 3  | Final Assessment                       | - |
 
 [Lesson 1 - GraphQL Intro]: Lessons/Lesson-1.md
 [Lesson 2 - GraphQL Schemas and Types]: Lessons/Lesson-2.md
