@@ -20,12 +20,12 @@ If you want to work with a future of network resources learn GraphQL.
 
 **Course Credits**: 3 units | 37.5 Seat Hours | 75 Total Hours
 
-## Prerequisites  
+### Prerequisites  
 
 - Senior Standing
 - Instructor Approval
 
-## Learning Objectives
+### Learning Objectives
 
 Students by the end of the course will be able to ...
 
@@ -41,7 +41,7 @@ Students by the end of the course will be able to ...
 **Class Times:** Tuesday and Thursday at 4:30 PM - 5:20 PM
 
 | Class |    Date   |                Topics                  | Assignment |
-|:-----:|:---------:|:--------------------------------------:|:-----------|
+|:-----|:---------:|:--------------------------------------:|:-----------|
 |  1  | Tue, Jan 18 | [Lesson 1 - GraphQL Intro]             | SWAPI Query Challenges |
 |  2  | Thu, Jan 20 | [Lesson 2 - GraphQL Schemas and Types] | GraphQL Resolver Challenges |
 |  3  | Tue, Jan 25 | [Lesson 3 - GraphQL + Express]         | GraphQL OpenWeatherMap API |
