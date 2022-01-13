@@ -1,5 +1,13 @@
 # reveal-md
 
+## Quick start
+
+Run Slides with: 
+
+```bash
+reveal-md Lessons/ --css makeschool.css
+```
+
 ## Installation:
 
 ```bash

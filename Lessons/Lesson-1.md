@@ -21,7 +21,7 @@ GraphQL represents a new way to work with network transactions. It provides many
 <!-- > -->
 ## Warm Up (5 mins)
 
-ELI5 (Explain Like I'm 5). Choose one of these to explain
+ELI5 (Explain Like I'm 5). Choose one of these to explain (in groups)
 
 - How do Web Pages work?
 - How do web browsers work?
@@ -30,17 +30,19 @@ ELI5 (Explain Like I'm 5). Choose one of these to explain
 <!-- > -->
 ## What makes the web work? 
 
-REST 😴 and SOAP 🧼
+These are two different approaches to online data transmission. These describe how data is passed around over the internet.
 
-These are two different approaches to online data transmission. These describe how data is passed around over the internet. 
+REST 😴 and SOAP 🧼
 
 <!-- > -->
 
 ### SOAP 🧼
 
-Simple Object Access Protcol 
+SOAP (Simple Object Access Protcol) is the **official** standard maintained by the W3C. 
 
-is the official standard maintained by the W3C. SOAP uses XML exclusively!
+<!-- > -->
+
+SOAP uses XML exclusively! XML is a format for storing and transmitting data. Below a block of simple XML:
 
 ```xml
 <book>
@@ -50,15 +52,13 @@ is the official standard maintained by the W3C. SOAP uses XML exclusively!
 </book>
 ```
 
-<small>xml: Extensible Markup Language</small>
+<small>xml: eXtensible Markup Language</small>
 
 <!-- > -->
 
 ### REST 😴
 
-Representational State Transfer 
-
-is an architectural 🏛 principal and guidelines <br> for creating public APIs.
+REST (Representational State Transfer) is an **architectural 🏛 principal** and guideline, used to create public APIs.
 
 <small>Wikipedia says: REST is a software architectural *style*...</small>
 
@@ -66,11 +66,11 @@ is an architectural 🏛 principal and guidelines <br> for creating public APIs.
 
 ## How does REST 😴 work?
 
-A REST API is an API that follows REST-ful Routing. REST-ful routing is a set of conventions for implementing CRUD on an HTTP server. 
+A REST API is an API that follows REST-ful Routing. REST-ful routing is a set of conventions for implementing **CRUD** applications on an HTTP server. 
 
 <!-- > -->
 
-These conventions are common rules around the type of **HTTP request** and the **URLS** that are used for reading, updating, creating or deleting data on a server.
+These conventions are common rules around the type of **HTTP request** and the **URLS** that are used for Creating, Reading, Updating, or Deleting data on a server.
 
 <!-- > -->
 
@@ -97,11 +97,17 @@ The Star Wars API (SWAPI) uses the following routes:
 - https://swapi.dev/api/vehicles/<id>
 - https://swapi.dev/api/starships/<id>
 
+<small>Notice: There is one endpoint for each resource type.</small>
+
+<!-- > -->
+
+## What's the difference between REST and GraphQL?
+
 <!-- > -->
 
 Unlike REST 😴 a GraphQL 😎 server would use a single ☝️ endpoint to serve all of it's resources. 
 
-The SWAPI (REST) had 5 endpoints! 
+<small>The SWAPI (REST) had 5 endpoints!</small> 
 
 <!-- > -->
 
@@ -123,7 +129,7 @@ Try the people 👯‍♀️ endpoint.
 - https://swapi.dev/api/people/4 - Vader
 - https://swapi.dev/api/people/5 - Leia
 
-**Challenge: find C-3PO, Han Solo, Chewbacca and Boba Fett**
+**Challenge:** find C-3PO, Han Solo, Chewbacca and Boba Fett
 
 <!-- > -->
 
@@ -133,7 +139,7 @@ Use the planets 🪐 endpoint.
 - https://swapi.dev/api/planets/3 - Yavin VI
 - https://swapi.dev/api/planets/4 - Hoth
 - https://swapi.dev/api/planets/5 - Dagobah
-- **Challenge: find Alderaan, Bespin, and Endor**
+- **Challenge:** find Alderaan, Bespin, and Endor
 
 <!-- > -->
 
@@ -163,7 +169,7 @@ Or this:
 
 <!-- > -->
 
-A query begins with: 
+A query begins with brackets `{}`: 
 
 ```JS
 {
@@ -173,7 +179,9 @@ A query begins with:
 
 <!-- > -->
 
-Next add a type and any parameters for that type. In this case person is our type and personID is the parameter:
+Next add a type and any parameters for that type. 
+
+In this case `person` is our type and `personID` is the parameter
 
 ```js
 {
@@ -321,8 +329,8 @@ Describe the fields you want in the query:
 
 **Compare REST with GraphQL**
 
-- GraphQL 😎 - we describe what we want <br> in our query and server returns 🎁 data that matches the query. 
-- REST 😴 - you get everything (often **over fetching**)
+- GraphQL 😎 - we describe what we want <br> and server returns 🎁 data that matches the query. 
+- REST 😴 - you often get more than you need (**over fetching**)
 
 <!-- > -->
 
@@ -353,9 +361,9 @@ Use the REST API to find:
 **What happened? 🧐**
 
 Each time you found a person, *you had to make a second request* to find their  homeworld. <br> 
-<small>(under fetching)</small>
+<small>(under fetching 🥚)</small>
 
-Along the way you loaded *more* data than you needed.<small>(over fetching)</small>
+Along the way you loaded *more* data than you needed.<small>(over fetching 🗑)</small>
 
 <!-- > -->
 
@@ -381,14 +389,14 @@ Along the way you loaded *more* data than you needed.<small>(over fetching)</sma
 1. Get R2-D2's name and homeworld
 1. Get Leia's name and homeworld
 1. Get Han's name, height, and homeworld
-1. Get R2's name, eyecolor, homeworld and it's diameter
+1. Get the diameter of R2's homeworld
 
 <!-- > -->
 
 **Compare REST with GraphQL**
 
-- REST 😴 - over or under fetches
-- GraphQL 😎 - fetches only what you ask for in a single ☝️ query!
+- REST 😴 - Often over fetches or under fetches
+- GraphQL 😎 - fetches only what you ask for with a single ☝️ query!
 
 <!-- > -->
 
@@ -413,8 +421,8 @@ Tell your partner everything that was just covered. Think how this might improve
     - Easier to manage
     - More tolerant to changes
   - Fetches only what you ask for
-    - Prevents over fetching 
-    - Prevents under fetching
+    - Prevents over and under fetching 
+    - Queries return what you ask for
     - Saves bandwidth
 
 <!-- > -->
@@ -545,17 +553,18 @@ The result would look like this:
 
 ### Evaluate your Work!
 
-1. Compare REST with GraphQL
-1. Define RESTful routes
-1. Describe the benefits of GraphQL
-1. Compare and contrast REST and GraphQL
-1. Write GraphQL Queries
+Answer the questions on Gradescope. Write the **query** that solves each question. 
 
-| -   | Does not meet | Meets | Exceeds |
-|:---:|:-------------:|:-----:|:-------:|
-| Understanding | Can't describe GraphQL | Could describe GraphQL it basic features and usage | Can confidently describe GraphQL and suggest use cases |
-| Comprehension | Can't compare GraphQL and REST | Could compare GraphQL and REST and identify the features unique to each | Can contrast GraphQL and REST and posit use cases suitable for each |
-| GraphQL Query Language | Can't write a query with graphQL | Can write a graphQL Query | Can see a path to writing GraphQL queries for a wide variety of operations |
+1. Fetch Boba Fet find the person and get the name.
+1. Get Yoda name, height, and eye color.
+1. Get Obi-Wan Kenobi include the name and name of the homeworld.
+1. Get the totalCount of allSpecies.
+1. Get the name of all vehicles.
+1. List all of Lukes vehicles.
+1. List the name of all of Vaders starships including the maxAtmospheringSpeed.
+1. Get both R2-D2 and C-3PO's names and eye color. Use a single query to get both characters!
+1. Get the name of Han and Chewbacca's homeworld. Use a single query to get the names of both worlds.
+1. List the title of all films with Leia, include the title and director.
 
 <!-- > -->
 
