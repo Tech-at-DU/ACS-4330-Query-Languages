@@ -1,6 +1,8 @@
-# FEW 2.9 GraphQL Intro
+# ACS 4390 GraphQL
 
-Welcome to FEW 2.9
+Welcome to ACS 4390
+
+<small>Watch this video lecture here: https://youtu.be/nbwLpcngk_4</small>
 
 <!-- > -->
 
@@ -342,7 +344,7 @@ Under fetching 🥚 occurs when you don't get all of the data you need in a sing
 
 **Challenge:** Use REST to find Leia's homeworld. 🌍
 
-- https://swapi.dev/people/5
+- https://swapi.dev/api/people/5
 - Get the people results find the homeworld 
 - Call the homeworld endpoint to get the homeworld
 
@@ -355,6 +357,8 @@ Use the REST API to find:
 1. Find Chewbacca's homeworld. 
 1. Find R2-D2's homeworld
 1. Find Han's homeworld
+
+https://swapi.dev/api/people/5
 
 <!-- > -->
 
@@ -390,6 +394,8 @@ Along the way you loaded *more* data than you needed.<small>(over fetching 🗑)
 1. Get Leia's name and homeworld
 1. Get Han's name, height, and homeworld
 1. Get the diameter of R2's homeworld
+
+http://graphql.org/swapi-graphql
 
 <!-- > -->
 
