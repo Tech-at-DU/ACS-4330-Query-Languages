@@ -8,7 +8,7 @@ Use a schema to define what your <br> GraphQL API can provide.
 
 ## GraphQL 😎 Schemas and Types
 
-Today we will look at a simple example implementing GraphQL with Express. This will give us a chance to look at GrapQL from the server side.
+Today we will look at a simple example implementing GraphQL with Express. This will give us a chance to look at GraphQL from the server side.
 
 <!-- > -->
 
@@ -24,7 +24,7 @@ Today we will look at a simple example implementing GraphQL with Express. This w
 
 ## Warm Up (5 mins)
 
-**Discuss:**
+**Discuss:** 🤼‍♀️
 
 GraphQL and SQL are both Query languages. How do they differ?
 
@@ -36,7 +36,7 @@ GraphQL and SQL are both Query languages. How do they differ?
 
 <!-- > -->
 
-### GraphQL Queries
+### GraphQL Queries 😎
 
 **Use: https://graphql.org/swapi-graphql to answer the following questions...**
 
@@ -104,7 +104,7 @@ You can use types like:
 
 - `Int`
 - `Float`
-- `[...Type...]` (a collection)
+- `[Type]` (a collection)
 
 <!-- > -->
 
@@ -123,9 +123,9 @@ The elements in a collection are typed and they will all be the same type.
 
 ```python
 type MyType {
-  favNumbers: [Int!]   # null, [], [1,4,7] Not [1,null,7]
+  favNumbers: [Int!]   # null, [], [1,4,7] No nulls [1,null,7]
   favFoods: [String!]! # [], ["a", "b"] Not null, ["a", null]
-  favWebsites: [URL]!  # [], ["http://", null] 
+  favWebsites: [URL]!  # [], ["http://", null], not null 
   favFavs: [Favs]      # null, [], [Fav1, null Fav2]
 }
 ```
@@ -180,11 +180,19 @@ type Recipe {
 
 <!-- > -->
 
-The GraphQL Schema language supports enumerations.
+The GraphQL Schema language supports enumerations. ☎️
 
 <!-- > -->
 
 An **enumeration** ☎️ is a list of set values.
+
+1️⃣ 2️⃣ 3️⃣ 
+
+🍏 🍊 🍉
+
+🙁 😄 😊
+
+👽 👾 🤖
 
 <!-- > -->
 
@@ -755,7 +763,7 @@ You are going to make a GraphQL server that serves the things in your list.
 
 <!-- > -->
 
-**Challenge 1**
+**Challenge 1** 🐶
 
 Make an Array of objects. Each object should have at least three properties.
 
@@ -779,7 +787,7 @@ const petList = [
 
 <!-- > -->
 
-**Challenge 2** 
+**Challenge 2** 🐶
 
 Make a Type in your schema for your objects:
 
@@ -796,7 +804,7 @@ Advanced: Use an interface!
 
 <!-- > -->
 
-**Challenge 3**
+**Challenge 3** 🐈
 
 Make a Query type that will return all of the things: 
 
@@ -808,7 +816,7 @@ type Query {
 
 <!-- > -->
 
-**Challenge 3**
+**Challenge 4** 🐈
 
 Write a resolver for your query: 
 
@@ -825,7 +833,7 @@ This returns the entire list.
 
 <!-- > -->
 
-**Challenge 4**
+**Challenge 5** 🐡
 
 Test your work in Graphiql: 
 
@@ -841,7 +849,7 @@ Shoule display a list of names.
 
 <!-- > -->
 
-**Challenge 5**
+**Challenge 6** 🐸
 
 Add a query that returns a thing at an index: 
 
@@ -856,7 +864,7 @@ Add the new query to your Query types in your schema.
 
 <!-- > -->
 
-**Challenge 6**
+**Challenge 7** 🐿
 
 Add a new resolver. The parameters from the query will be received in resolver function: 
 
@@ -871,7 +879,7 @@ const root = {
 
 <!-- > -->
 
-**Challenge 7**
+**Challenge 8** 🐹
 
 Test your work, write a query in Graphiql. 
 
@@ -885,7 +893,7 @@ Test your work, write a query in Graphiql.
 
 <!-- > -->
 
-**Challenge 8**
+**Challenge 9** 👽
 
 Write a query that gets the last item and the first item from the collection.
 
@@ -899,7 +907,7 @@ Resolver:
 
 <!-- > -->
 
-**Challenge 9**
+**Challenge 10** ⏰
 
 We need a type that represents the time. 
 
@@ -921,7 +929,7 @@ Write a resolver that gets the time and returns an object with the properties: h
 
 <!-- > -->
 
-**Challenge 10** 
+**Challenge 11** 🎲
 
 Imagine we need the server to return a random random number. Your job is to write a query type and resolver that makes the GraphQL query below function: 
 
@@ -943,7 +951,7 @@ Which should return:
 
 <!-- > -->
 
-**Challenge 11** 
+**Challenge 12** 🤔 
 
 Create a type that represents a die roll. It should take the number of dice and the number of sides on each die. It should return the total of all dice, sides, and an array of the rolls. 
 
@@ -975,7 +983,7 @@ Below is an example query, and the response that should come back
 
 <!-- > -->
 
-**Challenge 12**
+**Challenge 13** 📋
 
 Add a query that returns the count of elements in your collection. You'll need to add a query and a resolver.
 
@@ -983,7 +991,7 @@ The trick of this problem is how to form this query.
 
 <!-- > -->
 
-**Challenge 13**
+**Challenge 14** ✅
 
 Add a query that returns some of your collection in a range. Imagine the query below for pets:
 
@@ -999,7 +1007,7 @@ The results of the query should return two pets starting with the pet at index 0
 
 <!-- > -->
 
-**Challenge 14**
+**Challenge 15** 🔎
 
 Get things by one of their features. For example if the Type was Pet we could get pets by their species:
 
@@ -1011,7 +1019,9 @@ Get things by one of their features. For example if the Type was Pet we could ge
 }
 ```
 
-**Challenge 15**
+<!-- > -->
+
+**Challenge 16** ➡️
 
 Choose a field. This query should return all of these values that exist in the things in your list. This would work best for a field with a fixed or limited set of values, like a field that uses an enum as it's type: 
 
