@@ -1,4 +1,4 @@
-# FEW 2.9 GraphQL React Lab
+# ACS 4390 - GraphQL React Lab
 
 <!-- > -->
 

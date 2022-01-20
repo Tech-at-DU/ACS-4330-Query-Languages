@@ -1,4 +1,4 @@
-# FEW 2.9 GraphQL and React
+# ACS 4390 - GraphQL and React
 
 Lab day to get the React GraphQL Weather app off the ground. 
 

@@ -1,4 +1,4 @@
-## Slack Clone Client with Apollo Client
+## ACS 4390 - Slack Clone
 
 <!-- > -->
 

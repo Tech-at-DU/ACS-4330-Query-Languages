@@ -1,4 +1,4 @@
-# FEW 2.9 GraphQL Mutations 
+# ACS 4390 - GraphQL Mutations 
 
 Mutations are queries that make changes or you could say mutate data.
 

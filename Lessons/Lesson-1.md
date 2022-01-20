@@ -1,4 +1,4 @@
-# ACS 4390 GraphQL
+# ACS 4390 - GraphQL
 
 Welcome to ACS 4390
 

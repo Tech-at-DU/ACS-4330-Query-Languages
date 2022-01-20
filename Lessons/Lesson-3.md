@@ -1,4 +1,4 @@
-# FEW 2.9 GraphQL + Express
+# ACS 4390 - GraphQL + Express
 
 <!-- ![banner_image](./assets/public_api_banner.jpg) -->
 

@@ -1,4 +1,4 @@
-# Subscriptions Lab
+# ACS 4390 - Subscriptions Lab
 
 <!-- > -->
 
