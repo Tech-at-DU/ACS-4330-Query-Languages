@@ -21,7 +21,7 @@ GraphQL represents a new way to work with network transactions. It provides many
 1. Write GraphQL Queries
 
 <!-- > -->
-## Warm Up (5 mins)
+## Warm-Up (5 mins)
 
 ELI5 (Explain Like I'm 5). Choose one of these to explain (in groups)
 
@@ -40,7 +40,7 @@ REST 😴 and SOAP 🧼
 
 ### SOAP 🧼
 
-SOAP (Simple Object Access Protcol) is the **official** standard maintained by the W3C. 
+SOAP (Simple Object Access Protocol) is the **official** standard maintained by the W3C. 
 
 <!-- > -->
 
@@ -107,7 +107,7 @@ The Star Wars API (SWAPI) uses the following routes:
 
 <!-- > -->
 
-Unlike REST 😴 a GraphQL 😎 server would use a single ☝️ endpoint to serve all of it's resources. 
+Unlike REST 😴 a GraphQL 😎 server would use a single ☝️ endpoint to serve all of its resources. 
 
 <small>The SWAPI (REST) had 5 endpoints!</small> 
 
@@ -131,7 +131,7 @@ Try the people 👯‍♀️ endpoint.
 - https://swapi.dev/api/people/4 - Vader
 - https://swapi.dev/api/people/5 - Leia
 
-**Challenge:** find C-3PO, Han Solo, Chewbacca and Boba Fett
+**Challenge:** find C-3PO, Han Solo, Chewbacca, and Boba Fett
 
 <!-- > -->
 
@@ -181,9 +181,9 @@ A query begins with brackets `{}`:
 
 <!-- > -->
 
-Next add a type and any parameters for that type. 
+Next, add a type and any parameters for that type. 
 
-In this case `person` is our type and `personID` is the parameter
+In this case, `person` is our type and `personID` is the parameter
 
 ```js
 {
@@ -202,7 +202,7 @@ Add fields that you want. Note that person() returns a Person type and we can on
   person(personID: 5) {
     name
     eyeColor
-    ...
+      ...
   }
 }
 ```
@@ -211,7 +211,7 @@ Add fields that you want. Note that person() returns a Person type and we can on
 
 ### Try out GraphQL 😎 with SWAPI! 
 
-To do this you'll use GraphiQL. It's a web page that let's you write GraphQL queries and see the results.
+To do this you'll use GraphiQL. It's a web page that lets you write GraphQL queries and see the results.
 
 <!-- > -->
 
@@ -219,7 +219,7 @@ First, open the GraphiQL browser:
 
 http://graphql.org/swapi-graphql
 
-- Type a Query in the left side
+- Type a Query on the left side
 - Click the ▶️ button at the top 
 - Look 👁 at the results on the right
 - Try the following queries...
@@ -237,7 +237,7 @@ http://graphql.org/swapi-graphql
 }
 ```
 
-<small>Challenge: change the id to find Luke, Han, R2, C3PO and Vader</small>
+<small>Challenge: change the id to find Luke, Han, R2, C3PO, and Vader</small>
 
 <!-- > -->
 
@@ -259,37 +259,37 @@ The REST API returns the following when you use the /people route:
 
 ```JS
 {
-	"name": "Luke Skywalker",
-	"height": "172",
-	"mass": "77",
-	"hair_color": "blond",
-	"skin_color": "fair",
-	"eye_color": "blue",
-	"birth_year": "19BBY",
-	"gender": "male",
-	"homeworld": "https://swapi.dev/api/planets/1/",
-	"films": [
-		"https://swapi.dev/api/films/2/",
-		"https://swapi.dev/api/films/6/",
-		"https://swapi.dev/api/films/3/",
-		"https://swapi.dev/api/films/1/",
-		"https://swapi.dev/api/films/7/"
-	],
-	"species": [
-		"https://swapi.dev/api/species/1/"
-	],
-	"vehicles": [
-		"https://swapi.dev/api/vehicles/14/",
-		"https://swapi.dev/api/vehicles/30/"
-	],
-	"starships": [
-		"https://swapi.dev/api/starships/12/",
-		"https://swapi.dev/api/starships/22/"
-	],
-	"created": "2014-12-09T13:50:51.644000Z",
-	"edited": "2014-12-20T21:17:56.891000Z",
-	"url": "https://swapi.dev/api/people/1/"
-}       
+  "name": "Luke Skywalker",
+  "height": "172",
+  "mass": "77",
+  "hair_color": "blond",
+  "skin_color": "fair",
+  "eye_color": "blue",
+  "birth_year": "19BBY",
+  "gender": "male",
+  "homeworld": "https://swapi.dev/api/planets/1/",
+  "films": [
+    "https://swapi.dev/api/films/2/",
+    "https://swapi.dev/api/films/6/",
+    "https://swapi.dev/api/films/3/",
+    "https://swapi.dev/api/films/1/",
+    "https://swapi.dev/api/films/7/"
+  ],
+  "species": [
+    "https://swapi.dev/api/species/1/"
+  ],
+  "vehicles": [
+    "https://swapi.dev/api/vehicles/14/",
+    "https://swapi.dev/api/vehicles/30/"
+  ],
+  "starships": [
+    "https://swapi.dev/api/starships/12/",
+    "https://swapi.dev/api/starships/22/"
+  ],
+  "created": "2014-12-09T13:50:51.644000Z",
+  "edited": "2014-12-20T21:17:56.891000Z",
+  "url": "https://swapi.dev/api/people/1/"
+} 
 ```
 
 <!-- > -->
@@ -331,7 +331,7 @@ Describe the fields you want in the query:
 
 **Compare REST with GraphQL**
 
-- GraphQL 😎 - we describe what we want <br> and server returns 🎁 data that matches the query. 
+- GraphQL 😎 - we describe what we want <br> and the server returns 🎁 data that matches the query. 
 - REST 😴 - you often get more than you need (**over fetching**)
 
 <!-- > -->
@@ -364,10 +364,10 @@ https://swapi.dev/api/people/5
 
 **What happened? 🧐**
 
-Each time you found a person, *you had to make a second request* to find their  homeworld. <br> 
+Each time you found a person, *you had to make a second request* to find their homeworld. <br> 
 <small>(under fetching 🥚)</small>
 
-Along the way you loaded *more* data than you needed.<small>(over fetching 🗑)</small>
+Along the way, you loaded *more* data than you needed.<small>(over fetching 🗑)</small>
 
 <!-- > -->
 
@@ -410,32 +410,35 @@ http://graphql.org/swapi-graphql
 
 **Pair and discuss the pros and cons of REST and GraphQL.**
 
-Tell your partner everything that was just covered. Think how this might improve your work or where there might be problems. 
+Tell your partner everything that was just covered. Think about how this might improve your work or where there might be problems. 
 
 <!-- > -->
 
-- **REST** 😴
-  - Requires multiple endpoints. Makes for a complex API.
-    - Harder to make changes to your API. 
-  - Often over fetches providing more data than you need eating bandwidth
-  - Often under fetchs, requiring more complex queries and more bandwidth. 
+**REST** 😴
+
+- Requires multiple endpoints. Makes for a complex API.
+- Harder to make changes to your API. 
+- Often over fetches providing more data than you, which eating bandwidth
+- Often under fetches, requiring more complex queries and more bandwidth. 
 
 <!-- > -->
 
-- **GraphQL** 😎
-  - Uses a single endpoint.
-    - Easier to manage
-    - More tolerant to changes
-  - Fetches only what you ask for
-    - Prevents over and under fetching 
-    - Queries return what you ask for
-    - Saves bandwidth
+**GraphQL** 😎
+ 
+- Uses a single endpoint.
+- Easier to manage
+- More tolerant to changes
+- Fetches only what you ask for
+- Prevents over and under fetching 
+- Queries return what you ask for
+- Saves bandwidth
 
 <!-- > -->
 
-- **GraphQL** 😎 provides other benefits!
-  - Type safety 🛡
-  - Introspection 🔎
+**GraphQL** 😎 provides other benefits!
+ 
+- Type safety 🛡
+- Introspection 🔎
 
 <!-- > -->
 
@@ -476,9 +479,9 @@ Consider a scenario where you need two people:
 ```JS 
 {
   person(personID:2) {
-		name    
+    name 
   }
-  
+
   person(personID:3) {
     name
   }
@@ -513,9 +516,9 @@ Use an **alias** to solve the problem!
 ```JS 
 {
   personA: person(personID:2) {
-		name    
+    name 
   }
-  
+
   personB: person(personID:3) {
     name
   }
@@ -561,16 +564,16 @@ The result would look like this:
 
 Answer the questions on Gradescope. Write the **query** that solves each question. 
 
-1. Fetch Boba Fet find the person and get the name.
-1. Get Yoda name, height, and eye color.
-1. Get Obi-Wan Kenobi include the name and name of the homeworld.
-1. Get the totalCount of allSpecies.
+1. Fetch Boba Fet, get the name.
+1. Get Yoda's name, height, and eye color.
+1. Get Obi-Wan Kenobi, include the name and name of the homeworld.
+1. Get the total count of all species.
 1. Get the name of all vehicles.
-1. List all of Lukes vehicles.
+1. List all of Lukes's vehicles.
 1. List the name of all of Vaders starships including the maxAtmospheringSpeed.
-1. Get both R2-D2 and C-3PO's names and eye color. Use a single query to get both characters!
+1. Get both R2-D2 and C-3PO's names and eye colors. Use a single query to get both characters!
 1. Get the name of Han and Chewbacca's homeworld. Use a single query to get the names of both worlds.
-1. List the title of all films with Leia, include the title and director.
+1. List the title of all films with Leia, including the title and director.
 
 <!-- > -->
 
