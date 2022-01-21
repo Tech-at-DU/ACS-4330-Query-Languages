@@ -200,9 +200,9 @@ Add fields that you want. Note that person() returns a Person type and we can on
 ```js
 {
   person(personID: 5) {
-    name
+  name
     eyeColor
-      ...
+    ...
   }
 }
 ```
