@@ -8,7 +8,7 @@ Use a schema to define what your <br> GraphQL API can provide.
 
 ## GraphQL 😎 Schemas and Types
 
-Today we will look at a simple example implementing GraphQL with Express. This will give us a chance to look at GraphQL from the server side.
+Today we will look at a simple example of implementing GraphQL with Express. This will give us a chance to look at GraphQL from the server-side.
 
 <!-- > -->
 
@@ -22,9 +22,9 @@ Today we will look at a simple example implementing GraphQL with Express. This w
 
 <!-- > -->
 
-## Warm Up (5 mins)
+## Warm-Up (5 mins)
 
-**Discuss:** 🤼‍♀️
+**Discuss** 🤼‍♀️
 
 GraphQL and SQL are both Query languages. How do they differ?
 
@@ -86,8 +86,8 @@ type Person {
 ```
 
 - `name` is a field 
-- `String` is it's type
-- `!` means the field is non-nullable (it will always return a value.)  
+- `String` is its type
+- `!` means the field is non-nullable (it will always return a value.) 
 
 <!-- > -->
 
@@ -123,10 +123,10 @@ The elements in a collection are typed and they will all be the same type.
 
 ```python
 type MyType {
-  favNumbers: [Int!]   # null, [], [1,4,7] No nulls [1,null,7]
+  favNumbers: [Int!] # null, [], [1,4,7] No nulls [1,null,7]
   favFoods: [String!]! # [], ["a", "b"] Not null, ["a", null]
-  favWebsites: [URL]!  # [], ["http://", null], not null 
-  favFavs: [Favs]      # null, [], [Fav1, null Fav2]
+  favWebsites: [URL]! # [], ["http://", null], not null 
+  favFavs: [Favs] # null, [], [Fav1, null Fav2]
 }
 ```
 
@@ -136,9 +136,9 @@ What about a Recipe 🍛 type:
 
 ```python
 type Recipe {
-  name: String! # Name is a string can't be null
+  name: String! # Name is a string that can't be null
   description: String # Description is a string and 
-                      # might be null
+  # might be null
 }
 ```
 
@@ -153,8 +153,8 @@ type Recipe {
   name: String!
   description: String
   ingredients: [String!]! # Must have a list of Strings
-                          # and none of those strings can be 
-                          # null 
+  # and none of those strings can be 
+  # null 
 }
 ```
 
@@ -167,7 +167,7 @@ type Recipe {
   name: String!
   description: String
   ingredients: [String!]! 
-  isSpicy: ?      # what type?
+  isSpicy: ? # what type?
   isVegetarian: ? # what type?
 }
 ```
@@ -206,8 +206,8 @@ enum MealType {
 }
 
 type Recipe {
-  ...
-  mealType: MealType! # Only "breakfast", "lunch" or "dinner"
+ ...
+ mealType: MealType! # Only "breakfast", "lunch" or "dinner"
 }
 ```
 
@@ -217,7 +217,7 @@ type Recipe {
 
 Write an enum that defines the diet type: 
 
-- ominvore 🍱
+- omnivore 🍱
 - paleo 🍖
 - vegetarian 🧁
 - vegan 🥗
@@ -253,19 +253,19 @@ An **interface** 🔌 is a description (or contract) that describes types that c
 Imagine characters 👯‍♂️ in the Star Wars films 🎬 could be humans 👷 or droids 🤖. 
 
 ```python
-interface Character { # All Character have...
+interface Character { # All characters have...
   name: String!
   films: [film!]!
 }
 
 type Human implements Character { 
-  name: String!     # Character
+  name: String! # Character
   eyeColor: String! # Character
   films: [film!]!
 }
 
 type Droid implements Character {
-  name: String!   # Character
+  name: String! # Character
   films: [film!]! # Character
   primaryFunction: String!
 }
@@ -301,7 +301,7 @@ Let's get started with GraphQL 😎 and Express 🚂.
 
 1. Create a new folder
 1. Initialize a new npm project: `npm init -y`
-1. Install dependancies: `npm install --save express express-graphql graphql`
+1. Install dependencies: `npm install --save express express-graphql graphql`
 1. Create a new file: `server.js`
 
 <!-- > -->
@@ -315,9 +315,9 @@ Let's get started with GraphQL 😎 and Express 🚂.
 Edit `package.json`
 
 ```json
-  "scripts": {
-    "start": "nodemon server.js"
-  }
+"scripts": {
+  "start": "nodemon server.js"
+}
 ```
 
 <small>If you don't have nodemon use: "start": "node server.js"</small>
@@ -345,7 +345,7 @@ const { buildSchema } = require('graphql')
 
 <!-- > -->
 
-Build a schema. Add the following to `server.js`.  
+Build a schema. Add the following to `server.js`. 
 
 ```JS
 // Create a schema
@@ -374,7 +374,7 @@ const root = {
 }
 ```
 
-<small>A **resolver** is a function that's responsible for returning the results of a query. You might a say a resolver *resolves a query.*</small>
+<small>A **resolver** is a function that's responsible for returning the results of a query. You might say a resolver *resolves a query.*</small>
 
 <!-- > -->
 
@@ -429,7 +429,7 @@ app.listen(port, () => {
 
 This should open GraphiQL in your browser. 
 
-GraphiQL allows us to test our GraphQL Queries. Its the same tool you used in the last class. 
+GraphiQL allows us to test our GraphQL Queries. It's the same tool you used in the last class. 
 
 <!-- > -->
 
@@ -453,7 +453,7 @@ Compare this to the schema and the resolver:
 
 <!-- > -->
 
-Let's follow this backwards. Starting with this query: 
+Let's follow this backward. Starting with this query: 
 
 ```JS
 {
@@ -479,7 +479,7 @@ const root = {
 
 <small>It returns an object with a `message` property that is type `String`.</small>
 
-getAbout has to return something that looks the the About type. 
+getAbout has to return something that looks the About type. 
 
 <!-- > -->
 
@@ -503,7 +503,7 @@ The `getAbout` query returns an `About` which always has a `message` of type `St
 
 <!-- > -->
 
-A resolver is responsible for resolving a query. Resolvers can be hierarchical and complicated. You might spend more time here in some projects. 
+A resolver is responsible for resolving a query. Resolvers can be hierarchical and complicated. You might spend more time here on some projects. 
 
 <!-- ![GraphiQL Interface Expanded](../assets/graphiql-expanded.png) -->
 
@@ -533,7 +533,7 @@ type Query {
 
 <!-- > -->
 
-Imagine you're making an API for yourself. Imagine a query is like asking you a question. The repsonse is like the answer you might provide. 
+Imagine you're making an API for yourself. Imagine a query is like asking you a question. The response is like the answer you might provide. 
 
 <!-- > -->
 
@@ -543,7 +543,7 @@ If someone asks what to eat? You would reply with a meal type.
 
 ```python
 type Meal {
-	description: String!
+  description: String!
 }
 ```
 
@@ -556,7 +556,7 @@ type Meal {
 ```python
 type Query {
   getAbout: About
-	getmeal: Meal
+  getmeal: Meal
 }
 ```
 
@@ -571,9 +571,9 @@ const root = {
   getAbout: () => {
     return { message: 'Hello World' }
   },
-	getmeal: () => {
-		return { description: 'Noodles' }
-	}
+  getmeal: () => {
+    return { description: 'Noodles' }
+  }
 }
 ```
 
@@ -598,7 +598,7 @@ The Meal type will stay the same since it will still be a field description that
 ```JS
 type Query {
   getAbout: About
-	getmeal(time: String!): Meal
+  getmeal(time: String!): Meal
 }
 ```
 
@@ -613,15 +613,15 @@ const root = {
   getAbout: () => {
     return { message: 'Hello World' }
   },
-	getmeal: ({ time }) => {
-		const allMeals = { breakfast: 'toast', lunch: 'noodles', dinner: 'pizza' }
-		const meal = allMeals[time]
-		return { description: meal }
-	}
+  getmeal: ({ time }) => {
+    const allMeals = { breakfast: 'toast', lunch: 'noodles', dinner: 'pizza' }
+    const meal = allMeals[time]
+    return { description: meal }
+  }
 }
 ```
 
-<small>(The resolver receives an args object with all of the parmeters defined in the query type)</small>
+<small>(The resolver receives an args object with all of the parameters defined in the query type)</small>
 
 <!-- > -->
 
@@ -660,11 +660,11 @@ enum MealTime {
 
 type Query {
   getAbout: About
-    getmeal(time: MealTime!): Meal
+  getmeal(time: MealTime!): Meal
 }
 ```
 
-<small>Note! Using an enum prevents spelling errors or things assumptions like bunch...</small>
+<small>Note! Using an enum prevents spelling errors or things assumptions like a bunch...</small>
 
 <!-- > -->
 
@@ -690,10 +690,10 @@ type Pet {
 Imagine you have an array of pets. A query type might look like this: 
 
 ```python
-type Query {
+  type Query {
   ...
   getPet(id: Int!): Pet # Add a query to get a single pet
-  allPets: [Pet!]!      # Returns an array of type Pet
+  allPets: [Pet!]! # Returns an array of type Pet
 }
 ```
 
@@ -704,13 +704,13 @@ Now set up a resolver for each of the new queries.
 ```JS 
 const root = {
   ...
-	getPet: ({ id }) => {	
-		return petList[id]
-	},
-	allPets: () => {	
-		return petList
-	},
-	...
+  getPet: ({ id }) => { 
+    return petList[id]
+  },
+  allPets: () => { 
+    return petList
+  },
+  ...
 }
 ```
 
@@ -723,9 +723,9 @@ Better define the `petList`!
 ```JS
 // Mock datatbase in this case:
 const petList = [
-	{ name: 'Fluffy', species: 'Dog' },
-	{ name: 'Sassy', species: 'Cat' },
-	{ name: 'Goldberg', species: 'Frog' }
+  { name: 'Fluffy', species: 'Dog' },
+  { name: 'Sassy', species: 'Cat' },
+  { name: 'Goldberg', species: 'Frog' }
 ]
 ```
 
@@ -757,7 +757,7 @@ Now write a query. Notice you can choose fields to fetch.
 
 <!-- > -->
 
-Your goal is to make a list of things, not unlike SWAPI. This could be a list of pets, songs, recipes, movies, anything really. 
+Your goal is to make a list of things, not unlike SWAPI. This could be a list of pets, songs, recipes, movies, anything. 
 
 You are going to make a GraphQL server that serves the things in your list.
 
@@ -779,9 +779,9 @@ In code this might look something like:
 
 ```JS
 const petList = [
-	{ name: 'Fluffy', species: 'Dog' },
-	{ name: 'Sassy', species: 'Cat' },
-	{ name: 'Goldberg', species: 'Frog' }
+  { name: 'Fluffy', species: 'Dog' },
+  { name: 'Sassy', species: 'Cat' },
+  { name: 'Goldberg', species: 'Frog' }
 ]
 ```
 
@@ -793,12 +793,12 @@ Make a Type in your schema for your objects:
 
 ```python
 type Pet {
-	name: String!
-	species: Species! # use an enum!
+  name: String!
+  species: Species! # use an enum!
 }
 ```
 
-Use an enum for something!
+Use enum for something!
 
 Advanced: Use an interface!
 
@@ -822,9 +822,9 @@ Write a resolver for your query:
 
 ```JS
 const root = {
-  allPets: () => {	
-		return petList
-	},
+  allPets: () => { 
+    return petList
+  },
   ...
 }
 ```
@@ -845,7 +845,7 @@ Test your work in Graphiql:
 }
 ```
 
-Shoule display a list of names.
+Should display a list of names.
 
 <!-- > -->
 
@@ -866,14 +866,14 @@ Add the new query to your Query types in your schema.
 
 **Challenge 7** 🐿
 
-Add a new resolver. The parameters from the query will be received in resolver function: 
+Add a new resolver. The parameters from the query will be received in the resolver function: 
 
 ```JS
 const root = {
   ...
   getPet: ({ index }) => { // index is a param from the query
-		return petList[index]
-	}
+    return petList[index]
+  }
 }
 ```
 
@@ -909,7 +909,7 @@ Resolver:
 
 **Challenge 10** ⏰
 
-We need a type that represents the time. 
+We need a type that represents time. 
 
 - hour
 - minute
@@ -931,7 +931,7 @@ Write a resolver that gets the time and returns an object with the properties: h
 
 **Challenge 11** 🎲
 
-Imagine we need the server to return a random random number. Your job is to write a query type and resolver that makes the GraphQL query below function: 
+Imagine we need the server to return a random number. Your job is to write a query type and resolver that makes the GraphQL query below function: 
 
 ```JS
 {
@@ -976,7 +976,7 @@ Below is an example query, and the response that should come back
 ```JS
 {
   total: 10, // total of all rolls (see below)
-  sides: 6,  // each roll should be 1 to 6 based on the original sides parameter
+  sides: 6, // each roll should be 1 to 6 based on the original sides parameter
   rolls: [5, 2, 3] // 3 rolls based on the original rools parameter (5+2+3=10)
 }
 ```
@@ -1009,7 +1009,7 @@ The results of the query should return two pets starting with the pet at index 0
 
 **Challenge 15** 🔎
 
-Get things by one of their features. For example if the Type was Pet we could get pets by their species:
+Get things by one of their features. For example, if the Type was Pet we could get pets by their species:
 
 ```python
 {
@@ -1023,7 +1023,7 @@ Get things by one of their features. For example if the Type was Pet we could ge
 
 **Challenge 16** ➡️
 
-Choose a field. This query should return all of these values that exist in the things in your list. This would work best for a field with a fixed or limited set of values, like a field that uses an enum as it's type: 
+Choose a field. This query should return all of these values that exist in the things in your list. This would work best for a field with a fixed or limited set of values, like a field that uses an enum as its type: 
 
 Here is a sample query:
 
@@ -1053,14 +1053,14 @@ Returns: "Cat", "Dog", "Frog"
 
 <!-- > -->
 
-### Evaulate your Work
+### Evaluate your Work
 
 1. Define a GraphQL Schema
 1. Define a GraphQL Resolver
 1. Use GraphQL Queries
 1. Use GraphiQL
 
-| -   | Does not meet expectations | Meets Expectations | Exceeds Expectations |
+| - | Does not meet expectations | Meets Expectations | Exceeds Expectations |
 |:---:|:---:|:---:|:---:|
 | GraphQL Schemas | Can't describe or explain GraphQL schemas | Can describe GraphQL schemas | Could teach the basic concepts of GraphQL schemas to someone else |
 | Writing Schemas | Can't write a GraphQL schema | Can write a GraphQL schema | Feel confident you could write a GraphQL schema for a variety of situations beyond the homework examples |
@@ -1081,10 +1081,9 @@ Pop Quiz - After Break
 
 Write a schema for these types
 
-
-- Kaiju type this is a gian monster like Godzilla
+- Kaiju type this is a giant monster like Godzilla
 - City type
-- Monster battle type should
+- Monster battle type
 
 - Card type for a playing card
 - Deck type for a deck of cards
@@ -1099,6 +1098,6 @@ Write a schema for these types
 
 - Write a location type?
 - Write walk type needs to map out a sequence of locations
-- Write a query type for a a walk
+- Write a query type for a walk
 
 -->
