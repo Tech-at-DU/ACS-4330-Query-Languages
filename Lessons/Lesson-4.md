@@ -6,7 +6,7 @@ Your GraphQL Projects need a frontend!
 
 <!-- > -->
 
-Any type of front end client can connect to a GraphQL backend server. We will be using React.
+Any type of front-end client can connect to a GraphQL backend server. We will be using React.
 
 <!-- > -->
 
@@ -18,7 +18,7 @@ Why use React?
 
 <!-- > -->
 
-It's efficient and has a great workflow, developer experience and community.
+It's efficient and has a great workflow, developer experience, and community.
 
 <!-- > -->
 
@@ -26,16 +26,8 @@ It's efficient and has a great workflow, developer experience and community.
 
 1. Build a React app
 2. Create reusable components
-3. Use JSX, State and Props
+3. Use JSX, State, and Props
 4. Use Hooks
-
-<!-- > -->
-
-## Review
-
-<!-- > -->
-
-
 
 <!-- > -->
 
@@ -65,7 +57,7 @@ This creates a new folder containing a complete React project.
 
 <!-- > -->
 
-Let tour the project.
+Let's tour the project.
 
 - public/
 - src/
@@ -95,9 +87,9 @@ This is a Component
 
 ```JS
 function Header(props) {
- return (
-  <h1>{props.title}</h1>
- )
+  return (
+    <h1>{props.title}</h1>
+  )
 }
 ```
 
@@ -107,7 +99,7 @@ function Header(props) {
 
 What's JSX? 
 
-JSX is an extension of the JavaScript Lanaguage. 
+JSX is an extension of the JavaScript Language. 
 
 JSX === JavaScript and XML. 
 
@@ -131,16 +123,16 @@ React.createElement("h1", null, props.title);
 
 Why use JSX? 
 
-- Looks like the HTML it will generate
+- Looks like the HTML will generate
 - Easier to reason about
 
 <!-- > -->
 
-## JSX has it's own rules! 
+## JSX has its own rules! 
 
 <!-- > -->
 
-1. Must have a top level node
+1. Must have a top-level node
 
 ```JS
 // Good!
@@ -190,7 +182,7 @@ Can't use `class`, use `className` instead!
 
 <!-- > -->
 
-A tag with no children must be self closing by adding a `/` be the closing `>`.
+A tag with no children must be self-closing by adding a `/` be the closing `>`.
 
 ```JS
 // Error!
@@ -240,7 +232,7 @@ Any JS expression can be used in a JSX expression as long as it appears in the `
 
 <!-- > -->
 
-Store components each in their own file. 
+Store components each in their file. 
 
 ```JS
 // Title.js
@@ -289,7 +281,7 @@ Props are values passed to a component.
 
 When props change the component renders. 
 
-Props come from outside the component and are passed into the the component.
+Props come from outside the component and are passed into the component.
 
 <!-- > -->
 
@@ -319,9 +311,9 @@ function Heading(props) {
 
 <!-- > -->
 
-State presents values a component stores internally. 
+State presents values component stores internally. 
 
-When state change the component renders. 
+When the state changes the component renders. 
 
 <!-- > -->
 
@@ -366,10 +358,10 @@ function Counter() {
   const [ zip, setZip ] = useState('')
   return (
     <>
-      <input 
-        value={zip}
-        onChange={(e) => setZip(e.target.value)}
-      />
+    <input 
+      value={zip}
+      onChange={(e) => setZip(e.target.value)}
+    />
     </>
   )
 }
@@ -383,7 +375,7 @@ function Counter() {
 
 <!-- > -->
 
-Forms are really important. They have some some behaviors that can make them a little confusing. 
+Forms are really important. They have some behaviors that can make them a little confusing. 
 
 <!-- > -->
 
@@ -395,7 +387,7 @@ Group all of your form elements in a form!
   <input type="email" />
   <textarea></textarea>
   <label>
-    Sing up for out news letter!
+    Sign up for out news letter!
     <input type="checkbox" />
   </label>
   ...
@@ -448,7 +440,7 @@ Submitting a form will reload the current page, you need to prevent this in a Re
 
 <!-- > -->
 
-For the client side you'll be using Apollo GraphQL client.
+For the client-side, you'll be using Apollo GraphQL client.
 
 <!-- > -->
 
@@ -458,11 +450,11 @@ The goal of this project is to create a client built with React that connects to
 
 The server will run at locahost:4000 and the client will run on localhost:3000. 
 
-You need so start **both** for the project to work locally. 
+You need to start **both** for the project to work locally. 
 
 <!-- > -->
 
-I find it easier to keep both projects in seprate folders.
+I find it easier to keep both projects in separate folders.
 
 <!-- > -->
 
@@ -491,19 +483,23 @@ What's CORS?
 
 Cross-Origin Resource Sharing is a mechanism that uses additional HTTP headers.
 
-It uses these headers to tell a browser to let a web application running at one origin have permission to access selected resources from a server at a different origin.
+CORS defines the rules that allow or deny permissions to use resources from a different origin. 
 
 <!-- > -->
 
-Follow these steps to setup Apollo Client with React.
+Follow these steps to set up Apollo Client with React.
 
 Create a new React project: 
 
-`npx create-react-app weather-client`
+```
+npx create-react-app weather-client
+```
 
 Install dependencies: 
 
-`npm install @apollo/client`
+```
+npm install @apollo/client
+```
 
 <!-- > -->
 
@@ -520,7 +516,7 @@ export const client = new ApolloClient({
 
 <!-- > -->
 
-Still in index.js Wrap your app in the ApolloProvider:
+Still, in index.js Wrap your app in the ApolloProvider:
 
 ```js
 ReactDOM.render(
@@ -601,10 +597,10 @@ Add an input and submit button.
 <div className="Weather">
   <form>
     <input 
-        value={zip}
-        onChange={(e) => setZip(e.target.value)}
-      />
-      <button type="submit">Submit</button>
+      value={zip}
+      onChange={(e) => setZip(e.target.value)}
+    />
+    <button type="submit">Submit</button>
   </form>
 </div>
 ```
@@ -619,21 +615,20 @@ function Weather() {
   async function getWeather() {
     try {
       const json = await client.query({
-        query: gql`
-          query {
-            getWeather(zip:${zip}) {
-              temperature
-              description
-            }
-          }
-        `
+      query: gql`
+      query {
+      getWeather(zip:${zip}) {
+      temperature
+      description
+      }
+      }
+      `
       })
       setWeather(json)
     } catch(err) {
       console.log(err.message)
     }
   }
-
   ...
 }
 ```
@@ -644,10 +639,10 @@ Handle the submit event:
 
 ```js
 <form onSubmit={(e) => {
-    e.preventDefault()
-    getWeather()
-  }}>
-    <input 
+  e.preventDefault()
+  getWeather()
+}}>
+  <input 
     value={zip}
     onChange={(e) => setZip(e.target.value)}
   />
@@ -657,23 +652,23 @@ Handle the submit event:
 
 <!-- > -->
 
-Handle displaying the your weather data. 
+Handle displaying your weather data. 
 
 ```JS
 <div className="Weather">
-  
+
   {weather ? <h1>{weather.data.getWeather.temperature}</h1>: null}
-  
+
   <form onSubmit={(e) => {
     e.preventDefault()
     getWeather()
   }}>
-    ...
+  ...
   </form>
 </div>
 ```
 
-<small>This conditional rendering technique looks at `weather`, if its truthy displays the h1, otherweise `null`</small>
+<small>This conditional rendering technique looks at `weather`, if its truthy displays the h1, otherwise `null`</small>
 
 <!-- > -->
 
@@ -685,7 +680,7 @@ All of the examples here may need some name changes to work with your server or 
 
 <!-- > -->
 
-You will build a React App that fetches weather data from your GraphQL Weather server. It will be use the Apollo client for GraphQL for query.
+You will build a React App that fetches weather data from your GraphQL Weather server. It will be used by the Apollo client for GraphQL for queries.
 
 <!-- > -->
 
@@ -715,8 +710,8 @@ Your Express project will run on port 4000 (or another port check!) and the Reac
 
 Add Apollo Client to your React Project. Follow the instructions above.
 
-- Check the port! and the end point.
-- The `uri: 'http://localhost:4000/graphql'` must match the port and endpoint that your server uses! 
+- Check the port! and the endpoint.
+- The `URI: 'http://localhost:4000/graphql'` must match the port and endpoint that your server uses! 
 
 <!-- > -->
 
@@ -762,7 +757,7 @@ If you enter a zip code that doesn't exist you'll get an error or nothing will h
 
 **Challenge 8 - Style Your work**
 
-This is an open ended challenge. Do as much work here as you like!
+This is an open-ended challenge. Do as much work here as you like!
 
 - Style the form
 - Style the weather results
@@ -772,7 +767,7 @@ This is an open ended challenge. Do as much work here as you like!
 
 **Challenge 9 - Use Units**
 
-Add radio button or other method to set the unit type: metric or imperial. And display the weather with that unit. 
+Add a radio button or another method to set the unit type: metric or imperial. And display the weather with that unit. 
 
 - Add two radio buttons to the UI. 
 - Send the unit to the server
@@ -798,13 +793,13 @@ Spends some time on your GraphQL server. Add a query type that gets weather by g
 
 **Challenge 12 - Get weather by geolocation**
 
-Add a button to your React project that gets the geolocation from the browser and makes a reques to the GraphQL API. 
+Add a button to your React project that gets the geolocation from the browser and makes a request to the GraphQL API. 
 
 <!-- > -->
 
 **Challenge 13 - Sub another API**
 
-This is an openended stretch challenge. Substitute another API for the OpenWeatherMap API.
+This is an open-ended stretch challenge. Substitute another API for the OpenWeatherMap API.
 
 <!-- > -->
 
