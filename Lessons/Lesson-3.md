@@ -297,7 +297,7 @@ type Query {
 
 Import node-fetch to make network calls. You can also use Axios or another library of your choice. You need something to make network requests.
 
-`npm install node-fetch`
+`npm install node-fetch@2`
 
 Add import to server.js
 
