@@ -616,11 +616,11 @@ function Weather() {
     try {
       const json = await client.query({
       query: gql`
-      query {
-      getWeather(zip:${zip}) {
-      temperature
-      description
-      }
+        query {
+          getWeather(zip:${zip}) {
+          temperature
+          description
+        }
       }
       `
       })
@@ -672,7 +672,7 @@ Handle displaying your weather data.
 
 <!-- > -->
 
-All of the examples here may need some name changes to work with your server or components!
+All of the examples here may need some name changes to work with your server and components!
 
 <!-- > -->
 
