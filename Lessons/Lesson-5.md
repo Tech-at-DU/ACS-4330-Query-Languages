@@ -1,10 +1,18 @@
 # ACS 4390 - GraphQL and React
 
+<!-- > -->
+
 Lab day to get the React GraphQL Weather app off the ground. 
+
+<!-- > -->
 
 ## What to do
 
+<!-- > -->
+
 The React GraphQL Weather project is due next week. Use today to get the project started if you're behind or identify problems and questions that need answers. Use the check list below. These are short descriptions here look for more details on how to solve these in Lesson-4. 
+
+<!-- > -->
 
 - Server - Your server is built around express-graphql. It needs to get the weather data from OpenWeatherMap.org and return that data from a GraphQL end point. 
 	- Credentials - Sing up at OpenWeatherMap.org confirm, confirm your account and get your API key. 
@@ -42,9 +50,15 @@ The React GraphQL Weather project is due next week. Use today to get the project
 				- Use a ternary operator in an expression in your JSX return value. Use this to display the weather data. 
 					- A good strategy is make a component dedicated to displaying your weather data. Pass the weather data to this component as props. 
 
+<!-- > -->
+
 ## Challenges 
 
+<!-- > -->
+
 Refer to challenges in lesson 4 details on the complete project client + server. Check lesson 3 for details on challenges for the server.
+
+<!-- > -->
 
 Server Challenges: 
 
@@ -57,6 +71,8 @@ Server Challenges:
 - **Challenge 7 - Add units**
 - **Challenge 8 - Expand the API**
 - **Challenge 9 - Handle Errors**
+
+<!-- > -->
 
 Client Challenges:
 
@@ -75,9 +91,15 @@ Client Challenges:
 - **Challenge 12 - Get weather by geolocation**
 - **Challenge 13 - Sub another API**
 
+<!-- > -->
+
 ## Stretch Challenges 
 
+<!-- > -->
+
 Anyone working on the stretch challenges. If you are working on the geolocation challenge the browsre will not let you use geolocation from an `http` connection it wants an `https` connection. You'll to provide this from both the lient and the server. 
+
+<!-- > -->
 
 **Setup https on your express server**
 
@@ -92,7 +114,11 @@ brew install mkcert
 mkcert -install
 ```
 
+<!-- > -->
+
 This will create the files `localhost-key.pem` and `localhost.pem`. These should be in your root directory. **Do not share or commit these to gihub!** Note the path to these files, its used in the nect step. 
+
+<!-- > -->
 
 Set up in your express server: 
 
@@ -104,6 +130,8 @@ const homedir = require('os').homedir();
 const key = fs.readFileSync(`${homedir}/localhost-key.pem`, 'utf-8');
 const cert = fs.readFileSync(`${homedir}/localhost.pem`, 'utf-8');
 ```
+
+<!-- > -->
 
 The path to `localhost-key.pem` and `localhost.pem` is from the home directory. You may need to adjust this. 
 
@@ -118,6 +146,8 @@ const port = 4000
 https.createServer({ key, cert }, app).listen(port);
 ```
 
+<!-- > -->
+
 **Start your React APP with HTTPS**
 
 This is easier than it sounds! Quit your React app and restart with: 
@@ -126,17 +156,23 @@ This is easier than it sounds! Quit your React app and restart with:
 HTTPS=true npm start
 ```
 
-**Note! When you do this you'll see a scary warning screen that reads something like: 
+<!-- > -->
+
+**Note!** When you do this you'll see a scary warning screen that reads something like: 
 
 > Your connection is not Private
 > Attackers might be trying to steal your information from localhost (for example, passwords, messages, or credit cards). Learn more
 > NET::ERR_CERT_AUTHORITY_INVALID
 
+<!-- > -->
+
 Normally we want to heed these warnings but in this it's your app running locally so it's okay! 
+
+<!-- > -->
 
 Depending on your browser you'll need to click through to your site. In Chrome there is an "Advanced" button followed by the link "Proceed to localhost (unsafe)". You can click that to vidsit your React site on HTTPS. 
 
-
+<!-- > -->
 
 
 

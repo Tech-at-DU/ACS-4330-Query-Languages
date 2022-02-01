@@ -71,13 +71,13 @@ addUser
 Define a mutation in your schema with type Mutation: 
 
 ```python
-# Schema
+# GraphQL Schema Language
 type Mutation {
 	...
 }
 ```
 
-<small>starts with `type Mutation`</small>
+<small>A mutation starts with `type Mutation`</small>
 
 <!-- > -->
 
@@ -88,10 +88,10 @@ Usually a Mutation will take some parameters and resolve to a type. For example 
 Here is an example in code.
 
 ```python
-# Schema
+# GraphQL Schema Language
 type Mutation {
 	createUser(name: String!): User!
-	post(url: String!, description: String!): Link!
+	createPost(url: String!, description: String!): Link!
 }
 ```
 
@@ -102,7 +102,7 @@ type Mutation {
 When making a mutation **query** you start with the word "mutation"
 
 ```python
-# Query 
+# GraphQL Query Language 
 mutation {
 	createUser(name: "Jo") {
 		name
@@ -140,7 +140,11 @@ Use the second homework assignment to complete the challenges below. You'll be a
 
 **Challenge 1 - Serve a list of things**
 
-You have a list of things, Pets were used in the examples. You need a mutation that adds a new pet. It should return the pet that was just created. You'll need to include all of the fields that make the type. 
+You have a list of things, Pets were used in the examples.
+
+Write a mutation that adds a new thing. 
+
+It should return the thing that was just created. You'll need to include all of the fields that make the type. 
 
 <!-- > -->
 
@@ -153,7 +157,7 @@ type Pet {
 }
 ```
 
-So the mutation might look like this: 
+The mutation might look like this: 
 
 ```python
 type Mutation {
@@ -163,7 +167,7 @@ type Mutation {
 
 <!-- > -->
 
-Now you need a resolver to return the array. For the petList it might look like:
+Now you need a resolver to update the array. For the petList it might look like:
 
 ```JS
 const root = {
@@ -194,9 +198,11 @@ Try test all of your things to see if the new was added to the list.
 
 **Challenge 2 - Update**
 
-We need full CRUD functionality! So far you have "Create". What about "Update"? Try that out.
+We need full CRUD functionality! 
 
-To do this you'll need to make a query that supports all of the field a type has.
+So far you have "Create" and "Read". What about "Update"?
+
+To do this you'll need to make a query that supports all of the field a type has, and a supply something to idententify the record to update.
 
 <!-- > -->
 
@@ -209,6 +215,8 @@ type Mutation {
 } 
 ```
 
+<small>Figure that a null value is a field that will not be updated.</small>
+
 <!-- > -->
 
 Add a resolver. Your resolver should look at the fields and update the values when the field is NOT undefined! 
@@ -217,15 +225,15 @@ Add a resolver. Your resolver should look at the fields and update the values wh
 const root = {
   ...
   updatePet: ({ id, name, species }) => {
-		const pet = petList[id]  // is there anything at this id? 
-		if (pet === undefined) { // Id not return null
-			return null 
-		}
+    const pet = petList[id]  // is there anything at this id? 
+    if (pet === undefined) { // Id not return null
+      return null 
+    }
     // if name or species was not included use the original
-		pet.name = name || pet.name 
-		pet.species = species || pet.species
-		return pet
-	}
+    pet.name = name || pet.name 
+    pet.species = species || pet.species
+    return pet
+  }
 }
 ```
 
@@ -249,7 +257,7 @@ Write a resolver to support the mutation.
 
 <!-- > -->
 
-Test your work. 
+**Test your work.**
 
 - Write a query that deletes an item from your list
   - You should get the deleted item and be able to display its fields
