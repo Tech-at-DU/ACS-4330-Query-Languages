@@ -512,8 +512,8 @@ Add the date and or time to a message. Would be good if the messages had a time 
 
 <!-- > -->
 
-- Finsih the challenges here and submit your work to GradeScope
-- Finish up the outstanding hoemwork projects and submit those to GradeScope.
+- Finish the challenges here and submit your work to GradeScope
+- Finish up the outstanding homework projects and submit those to GradeScope.
 
 <!-- > -->
 
