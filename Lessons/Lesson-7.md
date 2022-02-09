@@ -23,7 +23,7 @@ type Hand {
 
 <!-- > -->
 
-Write two GraphQL mutation *queries*: 
+Add two GraphQL *mutations* to the schema: 
 
 - Define a mutation that draws a card.
   - This is a mutation since it will remove a card from the deck and add it to your hand
@@ -47,9 +47,9 @@ Write two GraphQL mutation *queries*:
 
 <!-- > -->
 
-Subscriptions represent a real time presistent connection to a GraphQL server.
+Subscriptions represent a real time presistent connection to a GraphQL server. 🔌
 
-Use them to send push notifications and real time updates to connected GraphQL clients.
+Use them to send push notifications and real time updates to connected GraphQL clients. 🤝
 
 <!-- > -->
 
@@ -57,17 +57,23 @@ GraphQL *doesn't* implement the code that backs up subscriptions. This is handle
 
 <!-- > -->
 
-Most often you should *not* use subscriptions to stay up to date with your backend. 
-
-Instead poll intermittently or execute queries on user interaction. Sending out an intermittent request for an update is more efficient than maintaining a constant connection. 
+Most of the time you should *not* use subscriptions to stay up to date with your backend. ✋
 
 <!-- > -->
 
-Subscriptions are best used for small incremental changes. Loading large objects is expensive and doing this over a wesocket could waste resources. 
+Instead poll intermittently 🗳 or execute queries on user interaction. 
+
+Sending out an intermittent request for an update is more efficient than maintaining a constant connection. 😴
 
 <!-- > -->
 
-Best use of subscriptions: Low latency real time updates.
+Subscriptions are best used for small 🐁 incremental changes. Loading large objects is expensive and doing this over a wesocket could waste resources. 🙀
+
+<!-- > -->
+
+Best use of subscriptions: Low latency real time updates. 🙌
+
+<!-- > -->
 
 Think small amounts of data loaded in real time. 
 
@@ -82,23 +88,23 @@ Quick brainstorm:
 
 <!-- > -->
 
-Websockets represent a persistent connection. Which is different from the standard call and response cycle we use most often.
+Websockets represent a persistent connection. Which is different from the standard call and response cycle we use most often. ♽
 
 <!-- > -->
 
-Normally when we connect to a web server we make a temporary connection that sends a message, notes that the message was received and then closes down the connection. 
+Normally when we connect to a web server we make a temporary connection that sends a message, notes that the message was received and then closes down the connection. 📫
 
 <!-- > -->
 
-When you create a connection with a websocket the connection is persistent and allows for data to be passed back and forth without the overhead of opening and closing a connection with each transaction.
+When you create a connection with a websocket the connection is persistent and allows for data to be passed back and forth without the overhead of opening and closing a connection with each transaction. 🤝
 
 <!-- > -->
 
 What can you do with a websocket? 
 
-- Things that update in real time
-- Mapping
-- Games
+- ⏰ Things that update in real time
+- 🗺 Mapping
+- 👾 Games
 
 Brainstorm use cases for websockets?
 
@@ -112,22 +118,22 @@ This shows pretty good support.
 
 <!-- > -->
 
-### Try out Websockets
+### Try out Websockets 🔌
 
 <!-- > -->
 
-This example creates a simple server using Express.js and a web page that communicates with the server via a websocket.
+This example creates a simple server using Express.js 🚂 and a web page that communicates with the server via a websocket. 🔌
 
 <!-- > -->
 
-There two pieces to this example. 
+There two pieces to this example. ✌️
 
-- The server handles a websocket connections and broadcasts messages received to all connected clients. This portion, in `server.js`, is written with node and express. The code here is specific to that environment. 
-- The client code is written using the browser websocket API. This code is written in `index.js`. This client code opens a websocket connection with the server. It sends messages to the server and receives messages from the server.
+- The server 👩‍🍳 handles a websocket connections and broadcasts messages received to all connected clients. This portion, in `server.js`, is written with node and express. The code here is specific to that environment. 
+- The client 🍦 code is written using the browser websocket API. This code is written in `index.js`. This client code opens a websocket connection with the server. It sends messages to the server and receives messages from the server.
 
 <!-- > -->
 
-#### Create the Server
+#### Create the Server 👩‍🍳
 
 <!-- > -->
 
@@ -512,8 +518,8 @@ Add the date and or time to a message. Would be good if the messages had a time 
 
 <!-- > -->
 
-- Finsih the challenges here and submit your work to GradeScope
-- Finish up the outstanding hoemwork projects and submit those to GradeScope.
+- Finish the challenges here and submit your work to GradeScope
+- Finish up the outstanding homework projects and submit those to GradeScope.
 
 <!-- > -->
 

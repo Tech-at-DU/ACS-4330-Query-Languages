@@ -52,7 +52,7 @@ Students by the end of the course will be able to ...
 |  8  | Thu, Feb 10 | [Lesson 8 - Subscriptions]             | - |
 |  9  | Tue, Feb 15 | [Lesson 9 - Subscriptions Lab]         | GraphQL Hackernews |
 |  10 | Thu, Feb 17 | [Lesson 10 - Advanced Queries]         | - |
-|  11 | Tue, Feb 22 | [Lesson 11 - Lab]                      | - |
+|  11 | Tue, Feb 22 | [Lesson 11 - `Lab]                     | - |
 |  12 | Thu, Feb 24 | [Lesson 12 - GraphQL ORM]              | - |
 |  13 | Tue, Mar 1  | Final Presentations                    | - |
 |  14 | Thu, Mar 3  | Final Assessment                       | - |
