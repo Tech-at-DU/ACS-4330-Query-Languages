@@ -4,7 +4,11 @@
 
 ## Review 
 
+<!-- > -->
+
 Quick there's a couple of problems with this code you need to fix them! Remember that Kaiju battle schema? Someone started writing an implementation for it. But there are a few problems can you fix them? 
+
+<!-- > -->
 
 Read the code and try and solve as many problems as you can find. You can do this by eye just reading the code here, or you can run the code and read the error.
 
@@ -109,19 +113,21 @@ Subscriptions are described in the GraphQL docs but the implementation is left u
 
 There are several GraphQL libraries to choose from:
 
-- express-graphql
-- **apollo-server-express**
-- graphql-yoga
+- 🚂 express-graphql
+- 🏆 **apollo-server-express**
+- 🧘‍♂️ graphql-yoga
 
 <!-- > -->
 
-This example uses Apollo Server. This seems to be the most advanced GraphQL server available at this time. 
+This example uses 🏆 Apollo Server. This seems to be the most advanced GraphQL server available at this time. 
 
 <small>(I couldn't get subscriptions to work with express-graphql.)</small>
 
 <!-- > -->
 
 Implementing a server with Apollo is similar to implementing the express-graphql server but with a few differences.
+
+😎 🏆 🤔
 
 <!-- > -->
 
@@ -140,7 +146,7 @@ npm init -y
 Start by importing dependencies. For this project you'll use: 
 
 ```JS
-npm install apollo-server graphql
+npm install apollo-server@2 graphql
 ```
 
 For this project you are using Apollo Server you can read more about it here: 
@@ -364,7 +370,7 @@ const resolvers = {
 		}
 	},
 	Subscription: {
-		...
+		// Subscription types
 	}
 }
 ```
@@ -394,6 +400,12 @@ Note! The arguments for a resolver function in Apollo are different! A resolver 
 
 We need the `_` in place to get to the second argument, and we'll use the deconstruction syntax to turn the `args` into variables. 
 
+```JS
+addPost: (_, { message }) { ... }
+```
+
+<small>Here we destructure args to get message.</small>
+
 <!-- > -->
 
 Note! 
@@ -404,9 +416,20 @@ pubsub.publish('NEW_POST', { newPost: post })
 
 This line will publish a post to clients who subscribed. 
 
-Clients who are subscribed to "NEW_POST" will receive `{ newPost: post }`
+Clients who are subscribed to "NEW_POST" will receive 
 
-This has to match the return type of the subscription!
+```JS
+{ newPost: post }
+```
+
+<small>This has to match the return type of the subscription!</small>
+
+```JS
+// Schema
+type Subscription {
+	newPost: Post!
+}
+```
 
 <!-- > -->
 
@@ -422,7 +445,9 @@ const resolvers = {
 
 Read more about Apollo resolvers here: 
 
-https://www.apollographql.com/docs/apollo-server/data/resolvers/#gatsby-focus-wrapper
+[Read about Appollo Resolvers](https://www.apollographql.com/docs/apollo-server/data/resolvers/#gatsby-focus-wrapper)
+
+[Array.find()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find)
 
 <!-- > -->
 
@@ -430,7 +455,9 @@ https://www.apollographql.com/docs/apollo-server/data/resolvers/#gatsby-focus-wr
 
 <!-- > -->
 
-Resolvers for subscriptions work a little differently from other resolvers. Here is where you will use `pubsub`. 
+Resolvers for subscriptions work a little differently from other resolvers. 
+
+Here is where you will use `pubsub`. 
 
 <small>**Note!** The `PubSub` class is used for development. For production, the docs suggest using the `PubSubEngine` class.</small>
 
@@ -468,13 +495,15 @@ const resolvers = {
 }
 ```
 
+<small>Update your resolver!</small>
+
 <!-- > -->
 
-This subscribe method will add a subscription for `newPost`. Notice you're calling: `pubsub.asyncIterator('NEW_POST')` to generate the instance of `AsyncIterator`. The argument: `'NEW_POST'` is a "tag" that will identify this subscription from other subscriptions. 
+This subscribe method will add a subscription for `newPost`. 
 
-Read more about it here: 
+Notice you're calling: `pubsub.asyncIterator('NEW_POST')` to generate the instance of `AsyncIterator`. The argument: `'NEW_POST'` is a "tag" that will identify this subscription from other subscriptions. 
 
-https://www.apollographql.com/docs/apollo-server/data/subscriptions/#resolving-a-subscription
+Read about [Appollo Subscriptions](https://www.apollographql.com/docs/apollo-server/data/subscriptions/#resolving-a-subscription) 
 
 <!-- > -->
 
