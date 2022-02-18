@@ -155,7 +155,7 @@ You will likely need to adjust this to fit your server. The code snippets suppli
 Create the default project:
 
 ```
-npx creat-react-app slack-client
+npx create-react-app slack-client
 cd slack-client
 ```
 
