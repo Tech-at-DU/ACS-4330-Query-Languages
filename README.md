@@ -1,4 +1,10 @@
-# FEW 2.9 GraphQL
+# 4390 Query Languages
+
+ACS 4390 Query Languages explores modern alternatives to REST. In this class you will learn to use languages that facilitate communication between client and server applications, expand and improve on the tired and frustrating REST paradigm. 
+
+Query languages solve many of the problems of REST. Modern query languages such as GraphQL were made with the goal of solving all of the problems of REST. 
+
+Using Modern query languages, you will be able to define requests at your client and receive only the data you requested. Imagine making multiple nested requests with a single query and only receiving the data you asked for. Query languages are the future of web APIs and are currently used by hundreds of companies like: FaceBook/Meta, Twitter, GitHub, AirBnB, Coursera, Intuit, Lyft, Paypal, Pinterest, and more. 
 
 ## GraphQL
 
@@ -52,7 +58,7 @@ Students by the end of the course will be able to ...
 |  8  | Thu, Feb 10 | [Lesson 8 - Subscriptions]             | - |
 |  9  | Tue, Feb 15 | [Lesson 9 - Subscriptions Lab]         | GraphQL Hackernews |
 |  10 | Thu, Feb 17 | [Lesson 10 - Advanced Queries]         | - |
-|  11 | Tue, Feb 22 | [Lesson 11 - `Lab]                     | - |
+|  11 | Tue, Feb 22 | [Lesson 11 - Lab]                      | - |
 |  12 | Thu, Feb 24 | [Lesson 12 - GraphQL ORM]              | - |
 |  13 | Tue, Mar 1  | Final Presentations                    | - |
 |  14 | Thu, Mar 3  | Final Assessment                       | - |

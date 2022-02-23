@@ -12,6 +12,7 @@ GraphQL represents a new way to work with network transactions. It provides many
 
 <!-- > -->
 
+<!-- .slide: data-background="#087CB8" -->
 ## Class Learning Objectives
 
 1. Compare REST with GraphQL
@@ -20,7 +21,10 @@ GraphQL represents a new way to work with network transactions. It provides many
 1. Compare and contrast REST and GraphQL
 1. Write GraphQL Queries
 
+![Alt Text](https://c.tenor.com/jNgKSlUpmkEAAAAM/typing-laptop.gif)
+
 <!-- > -->
+
 ## Warm-Up (5 mins)
 
 ELI5 (Explain Like I'm 5). Choose one of these to explain (in groups)
