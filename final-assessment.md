@@ -6,42 +6,44 @@ Your goal is to build a GraphQL Todo application. For this assignment, you will 
 
 Your goal is to make a GraphQL todo app. It should be able to:
 
-- display a list of todos
-- create new todos
-- and mark a todo completed or not completed
+- Display a list of todos
+- Create new todos
+- Mark a todo completed or not completed
+
+You can store your list of todos in memory.
 
 ## Challenges
 
 ### Create a Server
 
-- Setup a GraphQL server
+- Setup a GraphQL server. Use your server of choice e.g. Express GraphQL
 - Enable Graphiql
 
 ### Create a Schema 
 
-Write a schema that defines the following types:
+Write a schema that defines the following types with fields listed:
 
-**Type Todo**
+**Todo type**
 - name 
 - completed
 - date 
 - id
 
-**Query**
+**Query type**
 - getAllTodos, should return a list of todos
 - getTodo, should return a single todo
 - getCompletedTodos, returns a list of completed todos
 	- Stretch: can return completed or not completed todos
 
-**Mutation**
-- addTodo, creates a new todo, and returns that todo
-- completeTodo, marks a todo complete and returns that todo
+**Mutation type**
+- addTodo, creates a new todo, and returns a Todo
+- completeTodo, marks a todo complete and returns a Todo
 
 ### Write a GraphQL Queries
 
-Write queries to perform the following operations. 
+Using the **GraphQL query language** write queries to perform the following operations. 
 
-**Test these in Graphiql and paste them into a readme in your project folder.** If I launch your project I should be able to test all of your queries. 
+**Test these in Graphiql and paste them into a readme in your project folder.** If I launch your project I should be able to test all of your queries in Graphiql when I test your project. 
 
 - List all todos
 - Add a new todo: name: "Complete the final assessment"
@@ -50,25 +52,7 @@ Write queries to perform the following operations.
 - Show all completed todos
 - Show all not completed todos
 
-### Stretch Challenge: Subscriptions
-
-Add subscriptions to your work. We need a subscriptions to tell us when a new todo is created and when a todo is completed.
-
-**Schema**
-
-**Subscription**
-- newTodo => todo
-- todoCompleted => todo
-
-**Resolver**
-
-Write a resolver to handle the two new query types.
-
-**Query**
-
-Write a query for each of the subscription types above. 
-
-#### Stretch Challenge: Enum
+### Stretch Challenge: Use Enum
 
 Add an enum to prioritize your todos. 
 
@@ -90,6 +74,12 @@ Test the following queries and add them to your readme:
 - Display the priority when you list todos
 - Set the "Complete final assessment" todo to "High" priority
 - Sort todos by priority
+
+### Stretch Challenge: Add Date type
+
+Add a Date type. The date type should store a date in UTC. 
+
+Add a Date field to the Todo type. 
 
 ## Submit your work 
 
