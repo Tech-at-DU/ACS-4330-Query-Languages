@@ -1,4 +1,4 @@
-# FEW 2.9 Final Assessment
+# ACS 4390 Final Assessment
 
 Your goal is to build a GraphQL Todo application. For this assignment, you will build a server that supports your GraphQL schema. You will write the schema, resolvers, and some queries that test query types in your schema. 
 
