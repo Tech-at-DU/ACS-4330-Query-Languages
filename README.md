@@ -42,26 +42,26 @@ Students by the end of the course will be able to ...
 
 ## Schedule
 
-**Course Dates:** Tuesday, January 18 – Thursday, Feb 3, 2022
+**Course Dates:** Tuesday, January 21 – Thursday, Mar 7, 2024
 
-**Class Times:** Tuesday and Thursday at 4:30 PM - 5:20 PM
+**Class Times:** Tuesday and Thursday at 4:00 PM - 6:45 PM
 
 | Class |    Date   |                Topics                  | Assignment |
 |:-----|:---------:|:--------------------------------------:|:-----------|
-|  1  | Tue, Jan 18 | [Lesson 1 - GraphQL Intro]             | SWAPI Query Challenges |
-|  2  | Thu, Jan 20 | [Lesson 2 - GraphQL Schemas and Types] | GraphQL Resolver Challenges |
-|  3  | Tue, Jan 25 | [Lesson 3 - GraphQL + Express]         | GraphQL OpenWeatherMap API |
-|  4  | Thu, Jan 27 | [Lesson 4 - React Intro]               | React GraphQL Weather |
-|  5  | Tue, Feb 1  | [Lesson 5 - React and GraphQL]         | - |
-|  6  | Thu, Feb 3  | [Lesson 6 - GraphQL Mutations]         | - |
-|  7  | Tue, Feb 8  | [Lesson 7 - Websockets]                | Subscriptions |
-|  8  | Thu, Feb 10 | [Lesson 8 - Subscriptions]             | - |
-|  9  | Tue, Feb 15 | [Lesson 9 - Subscriptions Lab]         | GraphQL Hackernews |
-|  10 | Thu, Feb 17 | [Lesson 10 - Advanced Queries]         | - |
-|  11 | Tue, Feb 22 | [Lesson 11 - Lab]                      | - |
-|  12 | Thu, Feb 24 | [Lesson 12 - GraphQL ORM]              | - |
-|  13 | Tue, Mar 1  | Final Presentations                    | - |
-|  14 | Thu, Mar 3  | Final Assessment                       | - |
+|  1  | Tue, Jan 21 | [Lesson 1 - GraphQL Intro]             | SWAPI Query Challenges |
+|  2  | Thu, Jan 23 | [Lesson 2 - GraphQL Schemas and Types] | GraphQL Resolver Challenges |
+|  3  | Tue, Jan 28 | [Lesson 3 - GraphQL + Express]         | GraphQL OpenWeatherMap API |
+|  4  | Thu, Jan 30 | [Lesson 4 - React Intro]               | React GraphQL Weather |
+|  5  | Tue, Feb  4  | [Lesson 5 - React and GraphQL]        | - |
+|  6  | Thu, Feb  6 | [Lesson 6 - GraphQL Mutations]         | - |
+|  7  | Tue, Feb 11 | [Lesson 7 - Websockets]                | Subscriptions |
+|  8  | Thu, Feb 13 | [Lesson 8 - Subscriptions]             | - |
+|  9  | Tue, Feb 18 | [Lesson 9 - Subscriptions Lab]         | GraphQL Hackernews |
+|  10 | Thu, Feb 20 | [Lesson 10 - Advanced Queries]         | - |
+|  11 | Tue, Feb 25 | [Lesson 11 - Lab]                      | - |
+|  12 | Thu, Feb 27 | [Lesson 12 - GraphQL ORM]              | - |
+|  13 | Tue, Mar  4 | Final Presentations                    | - |
+|  14 | Thu, Mar  6 | Final Assessment                       | - |
 
 [Lesson 1 - GraphQL Intro]: Lessons/Lesson-1.md
 [Lesson 2 - GraphQL Schemas and Types]: Lessons/Lesson-2.md
