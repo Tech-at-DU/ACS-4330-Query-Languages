@@ -78,28 +78,28 @@ Students by the end of the course will be able to ...
 
 ### Homework
 
-- Class 1 - Start: Tues Mar 30 Due: Tues Apr 6
+- Class 1 - Start: Tues. Jan 21 Due: Thurs. Jan 23
 	- Watch How To GraphQL (first 4 sections)
 	- Answer Questions on Gradescope
 	- Due Class 2
-- Class 2 - Start: Tues Apr 6 Due: Thurs Apr 8
+- Class 2 - Start: Thurs. Jan 23 Due: Tues. Jan 28
 	- Watch How to GraphQL (remaining videos)
 	- Complete challenges in Lesson-2 #challenges
 		- Submit to GradeScope
 		- Due Class 3
-- Class 3 - Start: Thurs Apr 8 Due: Tues Apr 13
+- Class 3 - Start: Tues. 28 Due: Thrus. Feb 14
 	- OpenWeatherMap graphQL API
 		- Complete the challenges in Lesson-3
 		- Submit to GradeScope
 		- Due Class 5
-- Class 4 - Start: Tues Apr 13 Due: Tues Apr 20
-	- **Could be a lab for assignment 3**
+- Class 4 - Start: Thurs. Jan 30 Due: Thurs. Feb 6
+	- **Lab for assignment 3**
 	- GraphQL Express server and Mutations
 	- Complete the challenges in Lesson-4
 		- Submit to Gradscope
 - Class 5 - **Lab day for assignment 3 and 4**
-- Class 6 - Start: Tue, Apr 20 Due: Tue, Apr 27
-	- How to GraphQL
+- Class 6 - Start: Thurs. Feb 6 Due: Thurs. Mar. 6
+	- How to GraphQL tutorial
 
 ## Evaluation
 To pass this course you must meet the following requirements:
@@ -123,9 +123,9 @@ Failure to meet these requirements will result in a PIP (Participation Improveme
 
 Any additional resources you may need (online books, etc.) can be found here. You can also find additional resources through the library linked below:
 
-- [make.sc/library](http://make.sc/library)
+<!-- - [make.sc/library](http://make.sc/library) -->
 
-## Make School Course Policies
+<!-- ## Make School Course Policies
 
 - [Program Learning Outcomes](https://make.sc/program-learning-outcomes) - What you will achieve after finishing Make School, all courses are designed around these outcomes.
 - [Grading System](https://make.sc/grading-system) - How grading is done at Make School
@@ -135,7 +135,7 @@ Any additional resources you may need (online books, etc.) can be found here. Yo
 - [Course Credit Policy](https://make.sc/course-credit-policy) - Our policy for how you obtain credit for your courses
 - [Disability Services (Academic Accommodations)](https://make.sc/disability-services) - Services and accommodations we provide for students
 - [Online Learning Tutorial](https://make.sc/online-learning-tutorial) - How to succeed in online learning at Make School
-- [Student Handbook](https://make.sc/student-handbook) - Guidelines, policies, and resources for all Make School students
+- [Student Handbook](https://make.sc/student-handbook) - Guidelines, policies, and resources for all Make School students -->
 
 # Resources 
 
