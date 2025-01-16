@@ -411,13 +411,11 @@ Along the way, you loaded *more* data than you needed <small>(over fetching 🗑
 1. Get Han's name, height, and homeworld
 1. Get the diameter of R2's homeworld
 
-http://graphql.org/swapi-graphql
-
 <!-- > -->
 
 **Compare REST with GraphQL**
 
-- REST 😴 - Often over fetches or under fetches
+- REST 😴 - over fetches, under fetches, or does both!
 - GraphQL 😎 - fetches only what you ask for with a single ☝️ query!
 
 <!-- > -->
@@ -454,11 +452,17 @@ Tell your partner everything that was just covered. Think about how this might i
 **GraphQL** 😎 provides other benefits!
  
 - Type safety 🛡
+  - GrapgQL is type safe. Every data element has an associated type. You can see this in the interface!
+  - Types are defined in the schema
 - Introspection 🔎
+  - Since GraphQL is backed by a schema it can predict the fields that are available and the type for each field. You can see this in the UI as it provides code hints.
+  - You can browser the structure of a GraphQL server via the docs (look for the tab on the right)
 
 <!-- > -->
 
 ## Core features of GraphQL
+
+GraphQL is a query language and a spec for a serverside application. 
 
 <!-- > -->
 
@@ -508,7 +512,7 @@ Consider a scenario where you need two people:
 
 <!-- > -->
 
-The results would have a problem
+The results would have a problem:
 
 ```JS
 {
