@@ -219,11 +219,11 @@ To do this you'll use GraphiQL. It's a web page that lets you write GraphQL quer
 
 <!-- > -->
 
-First, open the GraphiQL browser: 
+First, open the GraphiQL browser: https://swapi-graphql.eskerda.vercel.app
 
-http://graphql.org/swapi-graphql
+<!-- http://graphql.org/swapi-graphql -->
 
-NOTE! If the server above is not working try this url instead: https://studio.apollographql.com/public/star-wars-swapi/variant/current/explorer
+<!-- NOTE! If the server above is not working try this url instead: https://studio.apollographql.com/public/star-wars-swapi/variant/current/explorer -->
 
 - Type a Query on the left side
 - Click the ▶️ button at the top 
