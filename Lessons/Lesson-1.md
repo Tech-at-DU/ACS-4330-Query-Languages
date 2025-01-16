@@ -383,7 +383,7 @@ https://swapi.dev/api/people/5
 Each time you found a person, *you had to make a second request* to find their homeworld. <br> 
 <small>(under fetching 🥚)</small>
 
-Along the way, you loaded *more* data than you needed.<small>(over fetching 🗑)</small>
+Along the way, you loaded *more* data than you needed <small>(over fetching 🗑)</small>.
 
 <!-- > -->
 
