@@ -302,9 +302,17 @@ The REST API returns the following when you use the `/people` route:
 
 <!-- > -->
 
-With GraphQL 😎 we only received: 
+With GraphQL 😎 : 
 
-```JS 
+```JS
+# We used this: 
+{
+  person(personID: 1) {
+    name
+  }
+}
+
+# to get Luke:
 {
   "data": {
     "person": {
