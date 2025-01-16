@@ -263,7 +263,7 @@ Look at the results that are returned with <br> the REST response vs the GraphQL
 
 <!-- > -->
 
-The REST API returns the following when you use the /people route:
+The REST API returns the following when you use the `/people` route:
 
 ```JS
 {
