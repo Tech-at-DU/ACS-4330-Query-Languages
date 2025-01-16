@@ -149,7 +149,7 @@ Use the planets 🪐 endpoint.
 
 <!-- > -->
 
-## Try it with GraphQL 😎
+## GraphQL 😎
 
 <!-- > -->
 
@@ -223,7 +223,7 @@ First, open the GraphiQL browser:
 
 http://graphql.org/swapi-graphql
 
-NOTE! looks like the url above is no longer working. Try this url instead if tjhat is the case: https://studio.apollographql.com/public/star-wars-swapi/variant/current/explorer
+NOTE! If the server above is not working try this url instead: https://studio.apollographql.com/public/star-wars-swapi/variant/current/explorer
 
 - Type a Query on the left side
 - Click the ▶️ button at the top 
