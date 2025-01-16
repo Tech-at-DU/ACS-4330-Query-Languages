@@ -247,6 +247,8 @@ NOTE! If the server above is not working try this url instead: https://studio.ap
 
 <!-- > -->
 
+# Why use GraphQL?
+
 ## Over Fetching
 
 Over fetching occurs when you make a request and receive more 🗑 data than you need. 
