@@ -8,7 +8,7 @@ Use a schema to define what your <br> GraphQL API can provide.
 
 ## GraphQL 😎 Schemas and Types
 
-Today we will look at a simple example of implementing GraphQL with Express. This will give us a chance to look at GraphQL from the server-side.
+Today you will look at a simple example of implementing GraphQL with Express. This will give us a chance to look at GraphQL from the server-side.
 
 <!-- > -->
 
@@ -38,9 +38,7 @@ GraphQL and SQL are both Query languages. How do they differ?
 
 ### GraphQL Queries 😎
 
-**Use: https://graphql.org/swapi-graphql to answer the following questions...**
-
-<small>**HINT:** If you get stuck, refer back to the [examples from the previous lesson](https://github.com/Make-School-Courses/FEW-2.9-Technical-Seminar/blob/master/Lessons/Lesson-1.md#nested-types)</small> 
+**Use: https://swapi-graphql.eskerda.vercel.app to answer the following questions...**
 
 <!-- > -->
 
@@ -75,7 +73,7 @@ Schemas 🛠 are written in the GraphQL 😎 **Schema language** which is simila
 
 <!-- > -->
 
-SWAPI might define a person 💁 like this: 
+SWAPI GraphQL might define a person 💁 like this: 
 
 ```JS
 type Person {
@@ -104,7 +102,7 @@ You can use types like:
 
 - `Int`
 - `Float`
-- `[Type]` (a collection)
+- `[Type]` (collection of type)
 
 <!-- > -->
 
@@ -119,14 +117,14 @@ GraphQL includes these default types:
 
 <!-- > -->
 
-The elements in a collection are typed and they will all be the same type. 
+The elements in a collection are typed and must all be the same type. 
 
 ```python
 type MyType {
-  favNumbers: [Int!] # null, [], [1,4,7] No nulls [1,null,7]
-  favFoods: [String!]! # [], ["a", "b"] Not null, ["a", null]
+  favNumbers: [Int!] # null, [], [1,4,7] No nulls allowed [1,null,7]
+  favFoods: [String!]! # [], ["a", "b"] Not null, or ["a", null]
   favWebsites: [URL]! # [], ["http://", null], not null 
-  favFavs: [Favs] # null, [], [Fav1, null Fav2]
+  favFavs: [Favs] # null, [], [Fav1, null Fav2] (where Favs is a type)
 }
 ```
 
@@ -146,7 +144,7 @@ type Recipe {
 
 <!-- > -->
 
-A recipe 🍝 might have a list of ingredients. 
+A recipe 🍝 must have a list of ingredients.
 
 ```python
 type Recipe {
@@ -160,7 +158,7 @@ type Recipe {
 
 <!-- > -->
 
-The Recipe type needs some more information: 
+The Recipe type needs more information: 
 
 ```python
 type Recipe {
@@ -192,7 +190,7 @@ An **enumeration** ☎️ is a list of set values.
 
 🙁 😄 😊
 
-👽 👾 🤖
+👽 👾 🤖 
 
 <!-- > -->
 
@@ -246,7 +244,7 @@ type Recipe {
 
 <!-- > -->
 
-An **interface** 🔌 is a description (or contract) that describes types that conform to it. 
+An **interface** 🔌 is a description (like a contract) that describes types that conform to it. 
 
 <!-- > -->
 
@@ -302,6 +300,7 @@ Let's get started with GraphQL 😎 and Express 🚂.
 1. Create a new folder
 1. Initialize a new npm project: `npm init -y`
 1. Install dependencies: `npm install --save express express-graphql graphql`
+1. Install nodemon: `npm i nodemon -g`
 1. Create a new file: `server.js`
 
 <!-- > -->
@@ -533,13 +532,13 @@ type Query {
 
 <!-- > -->
 
-Imagine you're making an API for yourself. Imagine a query is like asking you a question. The response is like the answer you might provide. 
+Imagine you're making an API for yourself. Imagine a query is asking you a question. The response is the answer you might provide. 
 
 <!-- > -->
 
 Define a new type in your schema
 
-If someone asks what to eat? You would reply with a meal type. 
+If someone asks what to eat? You would reply with a meal type.
 
 ```python
 type Meal {
@@ -759,13 +758,13 @@ Now write a query. Notice you can choose fields to fetch.
 
 Your goal is to make a list of things, not unlike SWAPI. This could be a list of pets, songs, recipes, movies, anything. 
 
-You are going to make a GraphQL server that serves the things in your list.
+Make a GraphQL server that serves the things in your list.
 
 <!-- > -->
 
 **Challenge 1** 🐶
 
-Make an Array of objects. Each object should have at least three properties.
+Create an Array of objects. Each object should have at least three properties.
 
 *Examples*:
 
@@ -779,9 +778,9 @@ In code this might look something like:
 
 ```JS
 const petList = [
-  { name: 'Fluffy', species: 'Dog' },
-  { name: 'Sassy', species: 'Cat' },
-  { name: 'Goldberg', species: 'Frog' }
+  { name: 'Fluffy', species: 'Dog', age: 2 },
+  { name: 'Sassy', species: 'Cat', age: 4 },
+  { name: 'Goldberg', species: 'Frog', age: 1.3 }
 ]
 ```
 
@@ -909,7 +908,7 @@ Resolver:
 
 **Challenge 10** ⏰
 
-We need a type that represents time. 
+We need a type that represents time.
 
 - hour
 - minute
