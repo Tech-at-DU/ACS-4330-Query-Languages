@@ -503,7 +503,7 @@ npm install @apollo/client
 
 <!-- > -->
 
-In `index.js` - setup Apollo client
+In `src/index.js` - setup Apollo client
 
 ```js
 import { ApolloProvider, InMemoryCache, ApolloClient } from '@apollo/client'
