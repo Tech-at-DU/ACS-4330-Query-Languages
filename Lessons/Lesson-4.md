@@ -514,6 +514,8 @@ export const client = new ApolloClient({
 });
 ```
 
+Note! This assumes your server is running on `localhost:4000` at the route: `/graphql`. If you've used a different path you'll need to adjust the path above. 
+
 <!-- > -->
 
 Still, in index.js Wrap your app in the ApolloProvider:
