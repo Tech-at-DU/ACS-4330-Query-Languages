@@ -513,10 +513,20 @@ Try as many of these stretch goals as you can!
 
 - Expand the Weather API
   - Expand your the OpenWeatherMap other request parameters
+    - timezone
+    - name
+    - id
+    - visibility
+    - wind: speed, deg, gust
+    - coord: lat and lon
+    - clouds: all
+    - dt
+    - sys: type, country, id, sunrise, sunset
+    - main: sea_level, grnd_level
   - Currently, your API supports zip code but the current weather forecast supports
-  - city name
-  - city id
-  - latitude and longitude
+    - city name
+    - city id
+    - latitude and longitude
   - The example above uses the Current Weather API. OpenWeathermap also provides several other APIs that you can use. Make your GraphQL server support one of these: 
   - [Minute Forecast 1 hour*](https://openweathermap.org/api/one-call-api)
   - [Hourly Forecast 2 days*](https://openweathermap.org/api/one-call-api)
