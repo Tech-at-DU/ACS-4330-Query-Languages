@@ -47,6 +47,8 @@ Pair up and teach your partner GraphQL. Your partner will be your rubber duck. F
 
 <!-- > -->
 
+Example project: https://github.com/Tech-at-DU/class-6-nested-queries
+
 ## Mutations
 
 <!-- > -->
