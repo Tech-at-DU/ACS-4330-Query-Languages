@@ -54,10 +54,10 @@ Students by the end of the course will be able to ...
 |  4  | Thu, Jan 30 | [Lesson 4 - React Intro]               | React GraphQL Weather |
 |  5  | Tue, Feb  4  | [Lesson 5 - React and GraphQL]        | - |
 |  6  | Thu, Feb  6 | [Lesson 6 - GraphQL Mutations]         | - |
-|  7  | Tue, Feb 11 | [Lesson 7 - Websockets]                | Subscriptions |
-|  8  | Thu, Feb 13 | [Lesson 8 - Subscriptions]             | - |
-|  9  | Tue, Feb 18 | [Lesson 9 - Subscriptions Lab]         | GraphQL Hackernews |
-|  10 | Thu, Feb 20 | [Lesson 10 - Advanced Queries]         | - |
+|  7  | Tue, Feb 11 | [Query Variables]                      | - |
+|  8  | Thu, Feb 13 | [Nested resolvers]                     | - |
+|  9  | Tue, Feb 18 | -                                      | [Final Project] |
+|  10 | Thu, Feb 20 | [GraphQL Mongo]                        | - |
 |  11 | Tue, Feb 25 | [Lesson 11 - Lab]                      | - |
 |  12 | Thu, Feb 27 | [Lesson 12 - GraphQL ORM]              | - |
 |  13 | Tue, Mar  4 | Final Presentations                    | - |
@@ -75,6 +75,12 @@ Students by the end of the course will be able to ...
 [Lesson 10 - Advanced Queries]: Lessons/Lesson-10.md
 [Lesson 11 - Lab]: Lessons/Lesson-11.md
 [Lesson 12 - GraphQL ORM]: Lessons/Lesson-12.md
+
+[Query Variables]: Lessons/Lesson-useLazyQuery.md
+[Nested resolvers]: Lessons/Lesson-nested-resolvers.md
+[GraphQL Mongo]: Lesson/Lesson-graphql-mongo.md
+
+[Final Project]: Assignments/FinalProjectSpec.md
 
 ### Homework
 
