@@ -1,6 +1,6 @@
-# 4390 Query Languages
+# 4330 Query Languages
 
-ACS 4390 Query Languages explores modern alternatives to REST. In this class you will learn to use languages that facilitate communication between client and server applications, expand and improve on the tired and frustrating REST paradigm. 
+ACS 4330 Query Languages explores modern alternatives to REST. In this class you will learn to use languages that facilitate communication between client and server applications, expand and improve on the tired and frustrating REST paradigm. 
 
 Query languages solve many of the problems of REST. Modern query languages such as GraphQL were made with the goal of solving all of the problems of REST. 
 

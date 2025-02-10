@@ -503,7 +503,7 @@ npm install @apollo/client
 
 <!-- > -->
 
-In `index.js` - setup Apollo client
+In `src/index.js` - setup Apollo client
 
 ```js
 import { ApolloProvider, InMemoryCache, ApolloClient } from '@apollo/client'
@@ -514,24 +514,26 @@ export const client = new ApolloClient({
 });
 ```
 
+Note! This assumes your server is running on `localhost:4000` at the route: `/graphql`. If you've used a different path you'll need to adjust the path above. 
+
 <!-- > -->
 
-Still, in index.js Wrap your app in the ApolloProvider:
+Still, in `src/index.js` Wrap your app in the `<ApolloProvider>`:
 
 ```js
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <App />
     </ApolloProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
 ```
 
 <!-- > -->
 
-The following can be used in any component that is a child of App!
+The following can be used in any component that is a child of `<App>`!
 
 Import your `client` and `gql`
 ```js

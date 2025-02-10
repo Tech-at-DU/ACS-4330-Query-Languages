@@ -47,6 +47,8 @@ Pair up and teach your partner GraphQL. Your partner will be your rubber duck. F
 
 <!-- > -->
 
+Example project: https://github.com/Tech-at-DU/class-6-nested-queries
+
 ## Mutations
 
 <!-- > -->
@@ -282,13 +284,21 @@ Code review your work with another student. This is an important step in the dev
 
 <!-- > -->
 
-### Stretch Challenges
+**Challenge 6 - Book List**
 
-<!-- > -->
+Add a new list to your example. This will be a list of books. Each book should have the following fields: 
 
-**Challenge 6 - Other lists**
+- title
+- author
+- isbn
 
-If you've implemented a second list add CRUD operations for that list. 
+Add the following types to your schema: 
+
+- type Book - defines a book
+- books - a query that returns an array of Book
+- addBook - a mutation that creates a new book and returns that book
+- editBook - a mutation that updates an existing book and returns that book
+- deleteBook - a mutation that deletes an existing book
 
 <!-- > -->
 
