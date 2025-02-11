@@ -340,6 +340,13 @@ function ClearCacheButton() {
 ### **6️⃣ `useFragment` (Reading GraphQL Fragments)**
 Used to **read a fragment** from the Apollo cache.
 
+Read about Fragments here: https://graphql.org/learn/queries/#fragments. A Fragment is part of the GraphQL Query Language. 
+
+#### Challenge! 
+Using one of your GraphQL servers, in the Graphiql browser write a query that uses a fragment. 
+
+Alternatively, use the SWAPI GraphQL site: https://swapi-graphql.eskerda.vercel.app
+
 #### ✅ **Example:**
 ```jsx
 import { gql, useFragment } from '@apollo/client';
