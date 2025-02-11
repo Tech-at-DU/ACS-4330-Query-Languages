@@ -55,7 +55,9 @@ query GetWeather($zip: Int!) {
 
 ## Challenge! 
 
-Using your GraphQL Weather Server write a couple queries using variables. In the Graphiql browser you must define your variables in the "Variables" tab in the lower left of the window. When writing variables you might write them as JSON.
+Using your GraphQL Weather Server write a couple queries **using variables**. 
+- In the Graphiql browser you must define your variables in the **"Variables"** tab in the lower left of the window.
+- When writing variables you might write them as **JSON**.
 
 ---
 
