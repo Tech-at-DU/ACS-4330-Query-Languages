@@ -345,7 +345,24 @@ Read about Fragments here: https://graphql.org/learn/queries/#fragments. A Fragm
 #### Challenge! 
 Using one of your GraphQL servers, in the Graphiql browser write a query that uses a fragment. 
 
-Alternatively, use the SWAPI GraphQL site: https://swapi-graphql.eskerda.vercel.app
+Alternatively, use the SWAPI GraphQL site: https://swapi-graphql.eskerda.vercel.app. Try the query below to get started: 
+
+```JSX
+fragment character on Person {
+  name
+  eyeColor
+}
+
+query {
+  personA: person(personID: 1) {
+    ...character
+  }
+
+  personB: person(personID: 3) {
+    ...character
+  }
+}
+```
 
 #### ✅ **Example:**
 ```jsx
