@@ -172,19 +172,19 @@ Apollo Client provides a set of powerful **React hooks** to handle GraphQL queri
 ## **🔹 Hooks for Data Fetching**
 | Hook | Purpose |
 |------|---------|
-| [`useQuery`](#-usequery) | Fetches GraphQL queries when a component mounts and re-fetches on dependency updates. |
-| [`useLazyQuery`](#-uselazyquery) | Fetches queries **on demand**, instead of on component mount. |
-| [`useMutation`](#-usemutation) | Executes **mutations** to modify server data (e.g., create, update, delete). |
-| [`useSubscription`](#-usesubscription) | Subscribes to **real-time updates** from the GraphQL server. |
+| [`useQuery`](https://www.apollographql.com/docs/react/api/react/hooks#usequery) | Fetches GraphQL queries when a component mounts and re-fetches on dependency updates. |
+| [`useLazyQuery`](https://www.apollographql.com/docs/react/api/react/hooks#uselazyquery) | Fetches queries **on demand**, instead of on component mount. |
+| [`useMutation`](https://www.apollographql.com/docs/react/api/react/hooks#usemutation) | Executes **mutations** to modify server data (e.g., create, update, delete). |
+| [`useSubscription`](https://www.apollographql.com/docs/react/api/react/hooks#usesubscription) | Subscribes to **real-time updates** from the GraphQL server. |
 
 ---
 
 ## **🔹 Hooks for Apollo Cache & Client Interaction**
 | Hook | Purpose |
 |------|---------|
-| [`useApolloClient`](#-useapolloclient) | Access the **Apollo Client instance** directly to perform cache updates or execute raw queries. |
-| [`useFragment`](#-usefragment) | Reads a **GraphQL fragment** from the cache. |
-| [`useReactiveVar`](#-usereactivevar) | Reads a **reactive variable** for local state management. |
+| [`useApolloClient`](https://www.apollographql.com/docs/react/api/react/hooks#useapolloclient) | Access the **Apollo Client instance** directly to perform cache updates or execute raw queries. |
+| [`useFragment`](https://www.apollographql.com/docs/react/api/react/hooks#usefragment) | Reads a **GraphQL fragment** from the cache. |
+| [`useReactiveVar`](https://www.apollographql.com/docs/react/api/react/hooks#usereactivevar) | Reads a **reactive variable** for local state management. |
 
 ---
 
