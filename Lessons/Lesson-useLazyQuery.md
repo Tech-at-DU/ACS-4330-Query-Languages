@@ -53,7 +53,7 @@ query GetWeather($zip: Int!) {
 | `Type!` | Non-nullable type (required) | `Int!` |
 
 
-## Challenge! 
+## 💪 Challenge! 
 
 Using your GraphQL Weather Server write a couple queries **using variables**. 
 - In the Graphiql browser you must define your variables in the **"Variables"** tab in the lower left of the window.
@@ -185,6 +185,10 @@ Apollo Client provides a set of powerful **React hooks** to handle GraphQL queri
 | [`useApolloClient`](https://www.apollographql.com/docs/react/api/react/hooks#useapolloclient) | Access the **Apollo Client instance** directly to perform cache updates or execute raw queries. |
 | [`useFragment`](https://www.apollographql.com/docs/react/api/react/hooks#usefragment) | Reads a **GraphQL fragment** from the cache. |
 | [`useReactiveVar`](https://www.apollographql.com/docs/react/api/react/hooks#usereactivevar) | Reads a **reactive variable** for local state management. |
+
+## 🛸 Challenge! 
+
+Using your React Weather client, implement `useLazyQuery`. You can start by duplicating your existing weather component and updating it to use `useLazyQuery`.
 
 ---
 
