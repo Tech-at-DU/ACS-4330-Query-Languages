@@ -1,4 +1,4 @@
-# Starter Code: Apollo Server + MongoDB
+# Apollo Server + MongoDB
 This starter code sets up a **GraphQL server** using **Apollo Server** 
 and connects it to **MongoDB**. The server allows clients to query a collection 
 of "spaces" from the database. Let’s break it down step by step.
