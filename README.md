@@ -78,7 +78,7 @@ Students by the end of the course will be able to ...
 
 [Query Variables]: Lessons/Lesson-useLazyQuery.md
 [Nested resolvers]: Lessons/Lesson-nested-resolvers.md
-[GraphQL Mongo]: Lesson/Lesson-graphql-mongo.md
+[GraphQL Mongo]: Lessons/Lesson-graphql-mongo.md
 
 [Final Project]: Assignments/FinalProjectSpec.md
 
