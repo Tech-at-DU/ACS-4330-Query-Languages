@@ -53,9 +53,11 @@ query GetWeather($zip: Int!) {
 | `Type!` | Non-nullable type (required) | `Int!` |
 
 
-## Challenge! 
+## 💪 Challenge! 
 
-Using your GraphQL Weather Server write a couple queries using variables. In the Graphiql browser you must define your variables in the "Variables" tab in the lower left of the window. When writing variables you might write them as JSON.
+Using your GraphQL Weather Server write a couple queries **using variables**. 
+- In the Graphiql browser you must define your variables in the **"Variables"** tab in the lower left of the window.
+- When writing variables you might write them as **JSON**.
 
 ---
 
@@ -170,19 +172,23 @@ Apollo Client provides a set of powerful **React hooks** to handle GraphQL queri
 ## **🔹 Hooks for Data Fetching**
 | Hook | Purpose |
 |------|---------|
-| [`useQuery`](#-usequery) | Fetches GraphQL queries when a component mounts and re-fetches on dependency updates. |
-| [`useLazyQuery`](#-uselazyquery) | Fetches queries **on demand**, instead of on component mount. |
-| [`useMutation`](#-usemutation) | Executes **mutations** to modify server data (e.g., create, update, delete). |
-| [`useSubscription`](#-usesubscription) | Subscribes to **real-time updates** from the GraphQL server. |
+| [`useQuery`](https://www.apollographql.com/docs/react/api/react/hooks#usequery) | Fetches GraphQL queries when a component mounts and re-fetches on dependency updates. |
+| [`useLazyQuery`](https://www.apollographql.com/docs/react/api/react/hooks#uselazyquery) | Fetches queries **on demand**, instead of on component mount. |
+| [`useMutation`](https://www.apollographql.com/docs/react/api/react/hooks#usemutation) | Executes **mutations** to modify server data (e.g., create, update, delete). |
+| [`useSubscription`](https://www.apollographql.com/docs/react/api/react/hooks#usesubscription) | Subscribes to **real-time updates** from the GraphQL server. |
 
 ---
 
 ## **🔹 Hooks for Apollo Cache & Client Interaction**
 | Hook | Purpose |
 |------|---------|
-| [`useApolloClient`](#-useapolloclient) | Access the **Apollo Client instance** directly to perform cache updates or execute raw queries. |
-| [`useFragment`](#-usefragment) | Reads a **GraphQL fragment** from the cache. |
-| [`useReactiveVar`](#-usereactivevar) | Reads a **reactive variable** for local state management. |
+| [`useApolloClient`](https://www.apollographql.com/docs/react/api/react/hooks#useapolloclient) | Access the **Apollo Client instance** directly to perform cache updates or execute raw queries. |
+| [`useFragment`](https://www.apollographql.com/docs/react/api/react/hooks#usefragment) | Reads a **GraphQL fragment** from the cache. |
+| [`useReactiveVar`](https://www.apollographql.com/docs/react/api/react/hooks#usereactivevar) | Reads a **reactive variable** for local state management. |
+
+## 🛸 Challenge! 
+
+Using your React Weather client, implement `useLazyQuery`. You can start by duplicating your existing weather component and updating it to use `useLazyQuery`.
 
 ---
 
@@ -337,6 +343,30 @@ function ClearCacheButton() {
 
 ### **6️⃣ `useFragment` (Reading GraphQL Fragments)**
 Used to **read a fragment** from the Apollo cache.
+
+Read about Fragments here: https://graphql.org/learn/queries/#fragments. A Fragment is part of the GraphQL Query Language. 
+
+#### Challenge! 
+Using one of your GraphQL servers, in the Graphiql browser write a query that uses a fragment. 
+
+Alternatively, use the SWAPI GraphQL site: https://swapi-graphql.eskerda.vercel.app. Try the query below to get started: 
+
+```JSX
+fragment character on Person {
+  name
+  eyeColor
+}
+
+query {
+  personA: person(personID: 1) {
+    ...character
+  }
+
+  personB: person(personID: 3) {
+    ...character
+  }
+}
+```
 
 #### ✅ **Example:**
 ```jsx
