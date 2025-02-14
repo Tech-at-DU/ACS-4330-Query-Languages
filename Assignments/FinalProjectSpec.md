@@ -21,7 +21,7 @@ List out requirements for the project here
 
 You can build your own project from scratch or choose one or more of the tutorials here: https://www.howtographql.com
 
-The how to GraphQL tutorials inlcude front end and server projects. You can choose to make the front end backend or both!
+The how to GraphQL tutorials inlcude front end and server projects. You can choose to make the front end backend or both! There are projects using React, TypeScript, JavaScript, Elixir, Ruby, Python, and Go, choose your favorite!  
 
 ### Stretch Requirements/Challenges (Optional)
 
