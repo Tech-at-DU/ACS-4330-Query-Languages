@@ -1,200 +1,179 @@
 # Apollo Server + MongoDB
-This starter code sets up a **GraphQL server** using **Apollo Server** 
-and connects it to **MongoDB**. The server allows clients to query a collection 
-of "spaces" from the database. Let’s break it down step by step.
 
-"Spaces" in this example is a list of public spaces, it includes fields for title, 
-description, hours, address, etc. You will be creating your own collections and 
-defining your own fields on those collections.
+This starter code creates GraphQL server using Apollo. The server supports CRUD operations.
 
-**Download the project starter code here:** https://github.com/Tech-at-DU/apollo-mongo-graphql-starter
+Get the project files here: https://github.com/Tech-at-DU/apollo-mongo-graphql-starter
 
----
+The project uses `ts-node`, a TypeScript engine for Node.js. https://www.npmjs.com/package/ts-node
 
-## 1. Project Setup
-Before running this code, you need to:
-- Install dependencies:  
-  ```sh
-  npm install @apollo/server @apollo/server/standalone mongodb dotenv
-  ```
-- Create a `.env` file to store database credentials:
-  ```
-  MONGO_USER=yourUsername
-  MONGO_PASSWORD=yourPassword
-  ```
+It will run using `nodemon` without having to compile: https://www.npmjs.com/package/nodemon
+
+The Graphiql interface used by Apollo Server only seemed to work for me in Chrome! If you're having trouble, try Chrome. This seems to be a cors issue of some kind. 
+
+# Project Files 
+
+## `src/db.ts`
+### **📌 `db.ts` – Database Connection Module**
+
+This file is responsible for **connecting to the MongoDB database** using the **MongoDB Node.js driver**. It ensures that the connection is established once and reused across the application.
 
 ---
 
-## 2. Loading Environment Variables (`dotenv`)
-```ts
-import dotenv from 'dotenv';
-dotenv.config();
-```
-- Loads environment variables from a `.env` file.
-- These variables are used to store **sensitive information** (like database credentials) securely.
+### **🛠️ Key Features of `db.ts`**
+1. **Loads Environment Variables**  
+   - Uses `dotenv.config()` to load the `MONGO_URI` from the `.env` file.  
+   - Defaults to `"mongodb://127.0.0.1:27017/graphqlDB"` if no environment variable is set.
+
+2. **Creates a Singleton Database Connection**  
+   - Declares `client` (MongoDB client) and `db` (database instance) **outside the function** to maintain a **single connection**.
+   - If a connection already exists, it **reuses** it instead of creating a new one.
+
+3. **`connectToDB()` Function**
+   - **Creates and connects** to a MongoDB instance using `MongoClient`.
+   - **Enforces strict API rules** to catch deprecated methods early.
+   - Prints `"✅ Connected to MongoDB"` when the connection is successful.
+
+4. **Exports**
+   - The `connectToDB()` function allows other modules to connect when needed.
+   - `db` is exported directly for queries (but isn’t set until `connectToDB()` is called).
+
+
+## `src/server.ts`
+### **📌 `server.ts` – The Entry Point of the GraphQL Server**  
+
+This file is the **main entry point** of the backend. It initializes and starts an **Apollo Server**, which handles GraphQL queries and mutations.  
 
 ---
 
-## 3. Setting Up MongoDB Connection
-```ts
-import { MongoClient, ServerApiVersion, Db } from 'mongodb';
-```
-- The `MongoClient` is used to connect to a MongoDB database.
-- `Db` represents the database we will interact with.
+### **🛠️ Key Features of `server.ts`**
+1. **Loads Environment Variables**  
+   - Uses `dotenv.config()` to load any environment variables from a `.env` file.
 
-### **🔹 Creating the Connection**
-```ts
-const mongoUser = process.env.MONGO_USER;
-const mongoPassword = process.env.MONGO_PASSWORD;
+2. **Connects to MongoDB**  
+   - Calls `connectToDB()` **before starting the server** to ensure that the database connection is ready.
 
-if (!mongoUser || !mongoPassword) {
-  throw new Error("Missing MongoDB credentials in environment variables.");
-}
+3. **Creates an Apollo GraphQL Server**  
+   - Uses the `ApolloServer` class from `apollo-server`.  
+   - Loads **GraphQL schema (`typeDefs`)** and **resolvers (`resolvers`)** from the `graphql/` folder.
 
-const uri = `mongodb+srv://${mongoUser}:${mongoPassword}@cluster0.q7yehdv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-```
-- **Constructs the MongoDB connection string** using credentials stored in `.env`.
-- **Throws an error if credentials are missing**, preventing accidental misconfiguration.
+4. **Starts the Server**
+   - Calls `server.listen()`, which:
+     - Starts the server on a default port (**4000** unless otherwise specified).
+     - Logs `"🚀 Server ready at http://localhost:4000/"` when successful.
 
-### 🔹 Connecting to MongoDB (Singleton Pattern)
-```ts
-let client: MongoClient | null = null;
-let db: Db;
+## `src/graphql/schema.ts`
+### **📌 `schema.ts` – GraphQL Schema Definition**  
 
-async function connectToDB() {
-  if (!client) {
-    client = new MongoClient(uri, {
-      serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-      },
-    });
-
-    await client.connect();
-    db = client.db("test");
-    console.log("Connected to MongoDB");
-  }
-  return db;
-}
-```
-- **Ensures only one database connection is created (Singleton Pattern).**  
-- The function `connectToDB()` returns the database instance.
+This file defines the **GraphQL schema** for the application using `gql` from `apollo-server`. The schema specifies **what data can be queried and modified** in the API.
 
 ---
 
-## 4. Fetching Data from MongoDB
-```ts
-async function getSpaces() {
-  try {
-    const database = await connectToDB();
-    return await database.collection("datas").find().toArray();
-  } catch (error) {
-    console.error("Error fetching spaces:", error);
-    return [];
-  }
-}
-```
-- Connects to MongoDB and retrieves all documents from the `"datas"` collection.
-- **Returns an array of spaces** or an empty array if an error occurs.
+### **🛠️ Key Features of `schema.ts`**
+1. **Defines the `Character` Type**  
+   ```graphql
+   type Character {
+     id: ID!
+     name: String!
+     initiative: Int
+   }
+   ```
+   - Each character has:
+     - An **ID** (`id: ID!`) – Unique identifier.
+     - A **name** (`name: String!`) – Required.
+     - An **initiative score** (`initiative: Int`) – Optional.
+
+2. **Queries (`Query` Type)**
+   ```graphql
+   type Query {
+     characters: [Character!]!
+   }
+   ```
+   - **`characters`**: Fetches an array of all characters.
+
+3. **Mutations (`Mutation` Type)**
+   ```graphql
+   type Mutation {
+     createCharacter(name: String!, initiative: Int): Character!
+     updateCharacter(id: ID! name: String, initiative: Int): Character!
+     deleteCharacter(id: ID!): Boolean
+   }
+   ```
+   - **`createCharacter(name, initiative)`** → Creates a new character.
+   - **`updateCharacter(id, name, initiative)`** → Updates an existing character.
+   - **`deleteCharacter(id)`** → Deletes a character and returns `true` if successful.
 
 ---
 
-## 5. Defining the GraphQL Schema
-```ts
-const typeDefs = `
-  type Geo {
-    lat: Float
-    lon: Float
-  }
+### **🚀 How to Use It**
+1. **Expand the API**  
+   - Add new types (e.g., `Weapon`, `Spell`).  
+   - Modify queries to filter or sort characters.  
 
-  type Space {
-    _id: ID!  
-    title: String
-    desc: String
-    address: String
-    hours: String
-    geo: Geo
-    images: [String]
-    features: [String]
-  }
+2. **Test in GraphQL Playground**  
+   ```graphql
+   mutation {
+     createCharacter(name: "Aragorn", initiative: 5) {
+       id
+       name
+       initiative
+     }
+   }
+   ```
 
-  type Query {
-    spaces: [Space!]!
-  }
-`;
-```
-- Defines a **GraphQL schema** that describes the data structure:
-  - `Space` represents a physical location.
-  - `Geo` stores latitude and longitude.
-  - `Query.spaces` fetches a list of spaces.
+## `src/graphql/resolvers.ts`
+### **📌 `resolvers.ts` – GraphQL Resolvers**  
+
+This file contains **the logic** behind each GraphQL query and mutation. It connects the GraphQL API to **MongoDB**, allowing the application to fetch, create, update, and delete data.
 
 ---
 
-## 6. Implementing the Resolvers
-```ts
-const resolvers = {
-  Query: {
-    spaces: async () => {
-      try {
-        return await getSpaces();
-      } catch (error) {
-        console.error("GraphQL Resolver Error:", error);
-        throw new Error("Failed to fetch spaces.");
-      }
-    },
-  },
-};
-```
-- A **resolver** is a function that defines how GraphQL queries retrieve data.
-- The `spaces` query **calls `getSpaces()` to fetch data from MongoDB**.
+### **🛠️ Key Features of `resolvers.ts`**
+1. **Handles Queries (`Query`)**
+   ```ts
+   characters: async () => { ... }
+   ```
+   - Fetches all characters from MongoDB.
+   - Converts `_id` (MongoDB’s unique identifier) to a string for GraphQL compatibility.
+
+2. **Handles Mutations (`Mutation`)**
+   - **`createCharacter(name, initiative)`**
+     - Inserts a new character into the database.
+     - Returns the created character with its MongoDB-generated `id`.
+   - **`updateCharacter(id, name, initiative)`**
+     - Updates an existing character **only if the provided fields are non-null**.
+     - Ensures the character exists before updating.
+   - **`deleteCharacter(id)`**
+     - Deletes a character by ID.
+     - Returns `true` if deleted, `false` if no matching character was found.
+
+## `src/models/Characters.ts`
+### **📌 `Character.ts` – Mongoose Model for Characters**  
+
+This file defines the **MongoDB schema** for storing characters using **Mongoose**, an Object Data Modeling (ODM) library for MongoDB.
 
 ---
 
-## 7. Setting Up and Running the GraphQL Server
-```ts
-import { ApolloServer } from '@apollo/server';
-import { startStandaloneServer } from '@apollo/server/standalone';
+### **🛠️ Key Features of `Character.ts`**
+1. **Defines the Schema (`characterSchema`)**
+   ```ts
+   const characterSchema = new mongoose.Schema({
+     name: { type: String, required: true },
+     initiative: { type: Number, required: false },
+   });
+   ```
+   - **`name`**: Required field (every character must have a name).
+   - **`initiative`**: Optional number (default is `null` if not provided).
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-});
+2. **Creates the Model (`Character`)**
+   ```ts
+   const Character = mongoose.model("Character", characterSchema);
+   ```
+   - Converts the schema into a **model**, allowing database operations like:
+     ```ts
+     Character.find();       // Get all characters
+     Character.create({...}) // Add a new character
+     Character.findById(id)  // Get a specific character
+     ```
 
-const { url } = await startStandaloneServer(server, {
-  listen: { port: 4000 },
-});
-console.log(`🚀 Server ready at: ${url}`);
-```
-- **Creates an Apollo Server instance** with our schema and resolvers.
-- **Starts the server on port `4000`**.
-
----
-
-## 8. Graceful Shutdown (`SIGINT`)
-```ts
-process.on("SIGINT", async () => {
-  if (client) {
-    await client.close();
-    console.log("MongoDB connection closed.");
-    process.exit(0);
-  }
-});
-```
-- Ensures the database connection **closes properly when the server stops**.
-
----
-
-## ✨ Next Steps for Students
-Students can modify and expand the project by:
-1. **Adding New Collections** – Modify `connectToDB()` to connect to different MongoDB collections.
-2. **Creating New Queries** – Expand `typeDefs` and `resolvers` to support additional queries (e.g., fetching a single space by ID).
-3. **Adding Mutations** – Implement `Mutation` to allow inserting or updating data.
-4. **Deploying the Server** – Host the server on **Render, Railway, or Vercel**.
-
----
-
-### 🚀 Summary
-- **MongoDB stores "spaces" a collection describing public spaces in San Francisco.**
-- **Apollo Server provides a GraphQL API to retrieve data.**
-- **You can easily modify the schema and resolvers to build your own project.**
+3. **Exports the Model**
+   - `Character` is exported so that other files (like `resolvers.ts`) can interact with the database.
