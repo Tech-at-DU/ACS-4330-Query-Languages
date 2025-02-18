@@ -6,9 +6,11 @@ Get the project files here: https://github.com/Tech-at-DU/apollo-mongo-graphql-s
 
 The project uses `ts-node`, a TypeScript engine for Node.js. https://www.npmjs.com/package/ts-node
 
-It will run using `nodemon` without having to compile: https://www.npmjs.com/package/nodemon
+It will run using `nodemon` without having to compile TS: https://www.npmjs.com/package/nodemon
 
 The Graphiql interface used by Apollo Server only seemed to work for me in Chrome! If you're having trouble, try Chrome. This seems to be a cors issue of some kind. 
+
+This is a React Client for the server: https://github.com/Tech-at-DU/apollo-mongo-client
 
 # Project Files 
 
