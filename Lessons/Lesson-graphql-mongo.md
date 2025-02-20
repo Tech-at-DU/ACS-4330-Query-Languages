@@ -187,6 +187,8 @@ Read about the Apollo Client Cache here: https://www.apollographql.com/docs/reac
 ### TL;DR: Apollo Client Cache
 Apollo Client uses an **in-memory cache** to store GraphQL query results, reducing unnecessary network requests and improving performance.
 
+For more information on Apollo cache methods look here: https://www.apollographql.com/docs/react/caching/cache-interaction
+
 ---
 
 ### 🔹 Key Concepts
@@ -210,6 +212,8 @@ Apollo Client uses an **in-memory cache** to store GraphQL query results, reduci
      }
    });
    ```
+
+   Learn more about `cache.modify()` here: https://www.apollographql.com/docs/react/caching/cache-interaction#using-cachemodify
 
 3. **Automatic Cache Updates**
    - If a query uses `id` and `__typename`, Apollo **automatically updates cached data** after a mutation.
