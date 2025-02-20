@@ -177,3 +177,169 @@ This file defines the **MongoDB schema** for storing characters using **Mongoose
 
 3. **Exports the Model**
    - `Character` is exported so that other files (like `resolvers.ts`) can interact with the database.
+
+## Apollo Client cache
+
+Read about the Apollo Client Cache here: https://www.apollographql.com/docs/react/caching/overview
+
+### TL;DR: Apollo Client Cache
+Apollo Client uses an **in-memory cache** to store GraphQL query results, reducing unnecessary network requests and improving performance.
+
+---
+
+### 🔹 Key Concepts
+1. **Normalized Cache**  
+   - Apollo stores data in a normalized format, similar to a database.  
+   - Each object is stored by its `id`, preventing duplicate data.
+
+2. **`cache.modify()` for Manual Updates**  
+   - Used after mutations to **update specific fields** without refetching.  
+   - Example: Updating a list of characters after one is edited.
+   ```javascript
+   cache.modify({
+     fields: {
+       characters(existingCharacters = [], { readField }) {
+         return existingCharacters.map((characterRef) =>
+           readField("id", characterRef) === updatedCharacter.id
+             ? { ...characterRef, ...updatedCharacter }
+             : characterRef
+         );
+       }
+     }
+   });
+   ```
+
+3. **Automatic Cache Updates**
+   - If a query uses `id` and `__typename`, Apollo **automatically updates cached data** after a mutation.
+   - Works when the mutation response contains the updated object.
+
+4. **`refetchQueries` for Simplicity**
+   - Forces a re-fetch of specific queries after a mutation.
+   ```javascript
+   const [updateCharacter] = useMutation(UPDATE_CHARACTER, {
+     refetchQueries: ["GetCharacters"], // Name of query in cache
+   });
+   ```
+   - **Use this if manual cache updates are too complex.**
+
+5. **Evicting & Resetting Cache**
+   - `cache.evict({ id: "Character:123" })` → Removes specific object.
+   - `cache.reset()` → Clears everything (useful on logout).
+
+---
+
+### 🚀 TL;DR Summary
+| Feature | What It Does |
+|---------|-------------|
+| **Normalized Cache** | Stores GraphQL data like a database. |
+| **`cache.modify()`** | Manually updates cache after mutations. |
+| **Auto Updates** | Works if `id` & `__typename` exist in response. |
+| **`refetchQueries`** | Refetches specific queries instead of manual updates. |
+| **`cache.evict()`** | Removes specific items from the cache. |
+
+👉 **Use auto-updates when possible, `cache.modify()` for efficiency, and `refetchQueries` for simplicity!** 🚀🔥
+
+### 🔍 Understanding `update()` in Apollo Client's `useMutation` Hook
+The `update()` function in Apollo Client allows us to manually update the **Apollo cache** after a mutation runs. This prevents an unnecessary refetch from the server and ensures the UI reflects the most recent state.
+
+---
+
+### ✅ Breakdown of What’s Happening
+```javascript
+const [updateCharacter, { error: updateError }] = useMutation(UPDATE_CHARACTER, {
+  update(cache, { data: { updateCharacter } }) {
+    cache.modify({
+      fields: {
+        characters(existingCharacters = [], { readField }) {
+          return existingCharacters.map((characterRef) =>
+            readField("id", characterRef) === updateCharacter.id
+              ? { ...characterRef, ...updateCharacter }
+              : characterRef
+          );
+        }
+      }
+    });
+  }
+});
+```
+
+---
+
+### 🚀 Step-by-Step Execution
+
+#### 1️⃣ The Mutation Executes
+- When `updateCharacter()` is called, it sends a mutation request to the GraphQL server.
+- Once the server responds with updated data, **Apollo calls the `update()` function** to modify the cache.
+
+#### 2️⃣ The `update()` Function Runs
+```javascript
+update(cache, { data: { updateCharacter } }) {
+```
+- The `cache` object represents Apollo’s in-memory cache.
+- `{ data: { updateCharacter } }` extracts the updated character from the mutation response.
+
+#### 3️⃣ `cache.modify()` Updates the Cache
+```javascript
+cache.modify({
+  fields: {
+    characters(existingCharacters = [], { readField }) {
+```
+- **`cache.modify()`** is a built-in Apollo function that allows us to update **specific fields** in the cache.
+- **`characters`** is the name of the field in the Apollo cache storing the list of characters.
+- **`existingCharacters`** represents the array of character references currently stored in Apollo's cache.
+
+#### 4️⃣ Updating the Characters List
+```javascript
+return existingCharacters.map((characterRef) =>
+  readField("id", characterRef) === updateCharacter.id
+    ? { ...characterRef, ...updateCharacter }
+    : characterRef
+);
+```
+- **`readField("id", characterRef")`** extracts the `id` from each character stored in the cache.
+- It **checks if the `id` matches** the one from `updateCharacter` (the updated data).
+- **If it matches**, the character **is replaced with the updated data**.
+- **If it doesn’t match**, the character remains unchanged.
+
+---
+
+### 🔥 Why Is This Important?
+1. **Ensures UI Updates Immediately**  
+   - Without this, the UI might **not reflect the update** until the next refetch.
+   
+2. **Prevents Unnecessary Network Requests**  
+   - Since the cache is updated manually, **Apollo doesn’t need to fetch fresh data from the server**.
+
+3. **Efficient & Optimized Performance**  
+   - `cache.modify()` ensures that **only the affected character is updated**, instead of refetching the entire list.
+
+---
+
+### 🔧 Alternative: Using `refetchQueries` Instead
+If cache modification is too complex, you can **force a refetch**:
+```javascript
+const [updateCharacter] = useMutation(UPDATE_CHARACTER, {
+  refetchQueries: ["GetCharacters"], // Query name from Apollo's cache
+});
+```
+This will **refetch the entire `characters` list** from the server instead of modifying the cache manually.
+
+---
+
+### 🎯 Summary
+| Step | What Happens? |
+|------|--------------|
+| **1️⃣ Mutation Runs** | Sends `updateCharacter` mutation to the server. |
+| **2️⃣ Server Responds** | Server returns updated character data. |
+| **3️⃣ `update()` Runs** | Apollo calls `update()` to modify the cache. |
+| **4️⃣ `cache.modify()` Updates Characters List** | Replaces the old character in the cache with the updated one. |
+| **5️⃣ UI Updates Immediately** | React re-renders with the new character data. |
+
+---
+
+### 🚀 Final Thoughts
+- This approach **manually updates the cache** instead of relying on a full refetch.
+- It’s **efficient** but requires understanding Apollo’s cache structure.
+- **Alternative:** Use `refetchQueries` if manual cache updates feel too complex.
+
+Now, your app will **instantly update** the character list without an extra API request! 🚀🔥
