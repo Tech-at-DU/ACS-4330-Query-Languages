@@ -52,13 +52,13 @@ Students by the end of the course will be able to ...
 |  2  | Thu, Jan 23 | [Lesson 2 - GraphQL Schemas and Types] | GraphQL Resolver Challenges |
 |  3  | Tue, Jan 28 | [Lesson 3 - GraphQL + Express]         | GraphQL OpenWeatherMap API |
 |  4  | Thu, Jan 30 | [Lesson 4 - React Intro]               | React GraphQL Weather |
-|  5  | Tue, Feb  4  | [Lesson 5 - React and GraphQL]        | - |
+|  5  | Tue, Feb  4 | [Lesson 5 - React and GraphQL]         | - |
 |  6  | Thu, Feb  6 | [Lesson 6 - GraphQL Mutations]         | - |
 |  7  | Tue, Feb 11 | [Query Variables]                      | - |
 |  8  | Thu, Feb 13 | [Nested resolvers]                     | - |
 |  9  | Tue, Feb 18 | -                                      | [Final Project] |
 |  10 | Thu, Feb 20 | [GraphQL Mongo]                        | - |
-|  11 | Tue, Feb 25 | [Lesson 11 - Lab]                      | - |
+|  11 | Tue, Feb 25 | [Subscriptions]                        | - |
 |  12 | Thu, Feb 27 | [Lesson 12 - GraphQL ORM]              | - |
 |  13 | Tue, Mar  4 | Final Presentations                    | - |
 |  14 | Thu, Mar  6 | Final Assessment                       | - |
@@ -70,8 +70,8 @@ Students by the end of the course will be able to ...
 [Lesson 5 - React and GraphQL]: Lessons/Lesson-5.md
 [Lesson 6 - GraphQL Mutations]: Lessons/Lesson-6.md
 [Lesson 7 - Websockets]: Lessons/Lesson-7.md
-[Lesson 8 - Subscriptions]: Lessons/Lesson-8.md
-[Lesson 9 - Subscriptions Lab]: Lessons/Lesson-9.md
+<!-- [Lesson 8 - Subscriptions]: Lessons/Lesson-8.md -->
+<!-- [Lesson 9 - Subscriptions Lab]: Lessons/Lesson-9.md -->
 [Lesson 10 - Advanced Queries]: Lessons/Lesson-10.md
 [Lesson 11 - Lab]: Lessons/Lesson-11.md
 [Lesson 12 - GraphQL ORM]: Lessons/Lesson-12.md
@@ -79,6 +79,7 @@ Students by the end of the course will be able to ...
 [Query Variables]: Lessons/Lesson-useLazyQuery.md
 [Nested resolvers]: Lessons/Lesson-nested-resolvers.md
 [GraphQL Mongo]: Lessons/Lesson-graphql-mongo.md
+[Subscriptions]: Lessons/Lesson-websockets.md
 
 [Final Project]: Assignments/FinalProjectSpec.md
 
