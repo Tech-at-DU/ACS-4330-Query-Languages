@@ -285,21 +285,25 @@ Below is an example of a simple GraphQL server that implements a real-time chat 
   mkdir graphql-chat
   cd graphql-chat
   npm init -y
-  npm install apollo-server graphql
+  npm install apollo-server@^3.13.0 graphql@^16.10.0 graphql-subscriptions@^2.0.0 graphql-ws@^5.10.1 ws@^8.18.1
   ```
+
+  The versions of these packages seem to matter! Some of the packages are deprecated. It seems like the intent is to use a different, more complicated, setup for subscriptions. I'm using the packages here to keep this example simple! 
 
 2. **Create the Server Code**
 
   Create a file named `server.js` and paste the following code:
 
   ```javascript
-  const { ApolloServer, gql, PubSub } = require('apollo-server');
+  const { ApolloServer, gql } = require('apollo-server-express');
+  const express = require('express');
+  const { createServer } = require('http');
+  const { WebSocketServer } = require('ws');
+  // const { useServer } = require('graphql-ws/dist/use/ws.cjs'); 
+  const { useServer } = require('graphql-ws/lib/use/ws')
+  const { makeExecutableSchema } = require('@graphql-tools/schema');
+  const { PubSub } = require('graphql-subscriptions');
 
-  // Create an instance of PubSub for handling subscriptions
-  const pubsub = new PubSub();
-  const MESSAGE_ADDED = 'MESSAGE_ADDED';
-
-  // Define the GraphQL schema
   const typeDefs = gql`
     type Message {
       id: ID!
@@ -319,11 +323,11 @@ Below is an example of a simple GraphQL server that implements a real-time chat 
     }
   `;
 
-  // In-memory storage for messages
   let messages = [];
   let idCounter = 1;
 
-  // Define resolvers for queries, mutations, and subscriptions
+  const pubsub = new PubSub();
+
   const resolvers = {
     Query: {
       messages: () => messages,
@@ -332,29 +336,48 @@ Below is an example of a simple GraphQL server that implements a real-time chat 
       postMessage: (_, { content }) => {
         const message = { id: idCounter++, content };
         messages.push(message);
-        // Publish the new message to all subscribers
-        pubsub.publish(MESSAGE_ADDED, { messageAdded: message });
+        pubsub.publish('MESSAGE_ADDED', { messageAdded: message });
         return message;
       },
     },
     Subscription: {
       messageAdded: {
-        subscribe: () => pubsub.asyncIterator([MESSAGE_ADDED]),
+        subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('MESSAGE_ADDED'),
       },
     },
   };
 
-  // Create the Apollo Server instance
-  const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-  });
+  const schema = makeExecutableSchema({ typeDefs, resolvers });
+  const app = express();
+  const httpServer = createServer(app);
 
-  // Start the server
-  server.listen().then(({ url, subscriptionsUrl }) => {
-    console.log(`GraphQL Server ready at ${url}`);
-    console.log(`Subscriptions ready at ${subscriptionsUrl}`);
+  const server = new ApolloServer({
+    schema,
   });
+  (async () => {
+    await server.start();
+    server.applyMiddleware({ app });
+    
+    // Create a WebSocket server on the same HTTP server and at the same path
+    const wsServer = new WebSocketServer({
+      server: httpServer,
+      path: server.graphqlPath,
+    });
+
+    // Attach the graphql-ws server using the proper API
+    useServer(
+      {
+        schema,
+        context: () => ({ pubsub }), // This makes pubsub available in subscription resolvers
+      },
+      wsServer
+    );
+
+    const PORT = 4000;
+    httpServer.listen(PORT, () => {
+      console.log(`Server is now running on http://localhost:${PORT}${server.graphqlPath}`);
+    });
+  })();
   ```
 
 ### How It Works
