@@ -42,26 +42,26 @@ Students by the end of the course will be able to ...
 
 ## Schedule
 
-**Course Dates:** Tuesday, January 21 – Thursday, Mar 7, 2024
+**Course Dates:** August 24 – October 9, 2026
 
 **Class Times:** Tuesday and Thursday at 4:00 PM - 6:45 PM
 
 | Class |    Date   |                Topics                  | Assignment |
 |:-----|:---------:|:--------------------------------------:|:-----------|
-|  1  | Tue, Jan 21 | [Lesson 1 - GraphQL Intro]             | SWAPI Query Challenges |
-|  2  | Thu, Jan 23 | [Lesson 2 - GraphQL Schemas and Types] | GraphQL Resolver Challenges |
-|  3  | Tue, Jan 28 | [Lesson 3 - GraphQL + Express]         | GraphQL OpenWeatherMap API |
-|  4  | Thu, Jan 30 | [Lesson 4 - React Intro]               | React GraphQL Weather |
-|  5  | Tue, Feb  4 | [Lesson 5 - React and GraphQL]         | - |
-|  6  | Thu, Feb  6 | [Lesson 6 - GraphQL Mutations]         | - |
-|  7  | Tue, Feb 11 | [Query Variables]                      | - |
-|  8  | Thu, Feb 13 | [Nested resolvers]                     | - |
-|  9  | Tue, Feb 18 | -                                      | [Final Project] |
-|  10 | Thu, Feb 20 | [GraphQL Mongo]                        | - |
-|  11 | Tue, Feb 25 | [Subscriptions]                        | - |
-|  12 | Thu, Feb 27 | [Lesson 12 - GraphQL ORM]              | - |
-|  13 | Tue, Mar  4 | Final Presentations                    | - |
-|  14 | Thu, Mar  6 | Final Assessment                       | - |
+|  1  | Tue, Aug 25 | [Lesson 1 - GraphQL Intro]             | SWAPI Query Challenges |
+|  2  | Thu, Aug 27 | [Lesson 2 - GraphQL Schemas and Types] | GraphQL Resolver Challenges |
+|  3  | Tue, Sep  1 | [Lesson 3 - GraphQL + Express]         | GraphQL OpenWeatherMap API |
+|  4  | Thu, Sep  3 | [Lesson 4 - React Intro]               | React GraphQL Weather |
+|  5  | Tue, Feb  8 | [Lesson 5 - React and GraphQL]         | - |
+|  6  | Thu, Sep 10 | [Lesson 6 - GraphQL Mutations]         | - |
+|  7  | Tue, Sep 15 | [Query Variables]                      | - |
+|  8  | Thu, Sep 17 | [Nested resolvers]                     | - |
+|  9  | Tue, Sep 22 | -                                      | [Final Project] |
+|  10 | Thu, Sep 24 | [GraphQL Mongo]                        | - |
+|  11 | Tue, Sep 29 | [Subscriptions]                        | - |
+|  12 | Thu, Oct  1 | [Lesson 12 - GraphQL ORM]              | - |
+|  13 | Tue, Oct  6 | Final Presentations                    | - |
+|  14 | Thu, Oct  8 | Final Assessment                       | - |
 
 [Lesson 1 - GraphQL Intro]: Lessons/Lesson-1.md
 [Lesson 2 - GraphQL Schemas and Types]: Lessons/Lesson-2.md
