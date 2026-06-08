@@ -1,8 +1,8 @@
-# ACS 4390 - GraphQL
+# ACS 4330 - GraphQL Intro
 
-Welcome to ACS 4390
+**Estimated time:** 2–3 hours
 
-<small>Watch this video lecture here: https://youtu.be/nbwLpcngk_4</small>
+**Prerequisites:** Basic JavaScript and HTTP concepts (you know what a GET request is).
 
 <!-- > -->
 
@@ -13,7 +13,7 @@ GraphQL represents a new way to work with network transactions. It provides many
 <!-- > -->
 
 <!-- .slide: data-background="#087CB8" -->
-## Class Learning Objectives
+## Learning Objectives
 
 1. Compare REST with GraphQL
 1. Define RESTful routes
@@ -21,17 +21,15 @@ GraphQL represents a new way to work with network transactions. It provides many
 1. Compare and contrast REST and GraphQL
 1. Write GraphQL Queries
 
-![Alt Text](https://c.tenor.com/jNgKSlUpmkEAAAAM/typing-laptop.gif)
-
 <!-- > -->
 
-## Warm-Up (5 mins)
+## Before You Start
 
-ELI5 (Explain Like I'm 5). Choose one of these to explain (in groups)
+ELI5 (Explain Like I'm 5). Write a one-sentence answer to one of these in your own words before reading further:
 
-- How do Web Pages work?
+- How do web pages work?
 - How do web browsers work?
-- What are Web APIs?
+- What are web APIs?
 
 <!-- > -->
 ## What makes the web work? 
@@ -219,9 +217,9 @@ To do this you'll use GraphiQL. It's a web page that lets you write GraphQL quer
 
 <!-- > -->
 
-First, open the GraphiQL browser: https://swapi-graphql.eskerda.vercel.app
+First, open the GraphiQL browser: 
 
-<!-- http://graphql.org/swapi-graphql -->
+https://graphql.org/swapi-graphql/
 
 <!-- NOTE! If the server above is not working try this url instead: https://studio.apollographql.com/public/star-wars-swapi/variant/current/explorer -->
 
@@ -366,7 +364,7 @@ Under fetching 🥚 occurs when you don't get all of the data you need in a sing
 
 <!-- > -->
 
-### Challenge: 
+### Challenge:
 
 Use the REST API to find: 
 
@@ -422,9 +420,7 @@ Along the way, you loaded *more* data than you needed <small>(over fetching 🗑
 
 ## GraphQL vs REST
 
-**Pair and discuss the pros and cons of REST and GraphQL.**
-
-Tell your partner everything that was just covered. Think about how this might improve your work or where there might be problems. 
+**Reflect:** Before reading the comparison below, write down as many pros and cons of REST and GraphQL as you can from memory. Then compare with the list below — what did you miss?
 
 <!-- > -->
 
@@ -568,21 +564,21 @@ The result would look like this:
 
 <!-- > -->
 
-## After Class
+## After This Lesson
 
 - Watch the videos here: https://www.howtographql.com
   - Introduction
   - GraphQL is the better REST
   - Core Concepts
   - Big Picture (Architecture)
-- Answer the questions in assignment 1 on GradeScope.
-  - For each question provide the GraphQL query that would provide what was asked for. 
+- Complete the queries below and submit on GradeScope.
+  - For each question write the GraphQL query that returns the requested data.
 
 <!-- > -->
 
-### Evaluate your Work!
+### Evaluate your Work
 
-Answer the questions on Gradescope. Write the **query** that solves each question. 
+Submit on GradeScope. Write the **query** that solves each question.
 
 1. Fetch Boba Fet, get the name.
 1. Get Yoda's name, height, and eye color.
