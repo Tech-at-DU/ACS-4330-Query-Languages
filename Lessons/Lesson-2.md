@@ -1,63 +1,61 @@
-# ACS 4390 - GraphQL Schemas and Types
+# ACS 4330 - GraphQL Schemas and Types
+
+**Estimated time:** 3–4 hours
+
+**Prerequisites:** Completed Lesson 1. Basic JavaScript (functions, objects, arrays).
 
 <!-- > -->
 
-Use a schema to define what your <br> GraphQL API can provide.
+Use a schema to define what your GraphQL API can provide.
 
 <!-- > -->
 
-## GraphQL 😎 Schemas and Types
-
-Today you will look at a simple example of implementing GraphQL with Express. This will give us a chance to look at GraphQL from the server-side.
-
-<!-- > -->
-
-## Class Learning Objectives/Competencies
+## Learning Objectives
 
 1. Define a GraphQL Schema
 1. Use the GraphQL Schema Language
 1. Define a GraphQL Resolver
 1. Use GraphQL Queries
-1. Use GraphiQL
+1. Use Apollo Sandbox to test queries
 
 <!-- > -->
 
-## Warm-Up (5 mins)
+## Before You Start
 
-**Discuss** 🤼‍♀️
-
-GraphQL and SQL are both Query languages. How do they differ?
+**Reflect:** GraphQL and SQL are both query languages. Write down how you think they differ before reading on.
 
 <!-- > -->
 
-## Review 
+## Review
 
-**Name three advantages of GraphQL 😎 over REST 😴**
-
-<!-- > -->
-
-### GraphQL Queries 😎
-
-**Use: https://swapi-graphql.eskerda.vercel.app to answer the following questions...**
+**From memory:** write down three advantages of GraphQL over REST. Then verify your answers using Lesson 1.
 
 <!-- > -->
 
-- Who is person 10?
+### GraphQL Query Warm-Up
+
+**Use the Rick and Morty GraphQL API: https://rickandmortyapi.com/graphql**
+
+Write queries to answer the following:
+
+<!-- > -->
+
+- Who is character 10?
   - name?
-  - eyecolor?
-  - height?
+  - species?
+  - status?
 
 <!-- > -->
 
-- What movies did they appear in? 
-  - totalCount?
-  - titles?
+- What episodes did they appear in?
+  - How many total?
+  - What are the names of the first few?
 
 <!-- > -->
 
-- What about vehicles?
-  - totalCount?
-  - names?
+- What is their current location?
+  - location name?
+  - location type?
 
 <!-- > -->
 
@@ -73,28 +71,28 @@ Schemas 🛠 are written in the GraphQL 😎 **Schema language** which is simila
 
 <!-- > -->
 
-SWAPI GraphQL might define a person 💁 like this: 
+The Rick and Morty API defines a Character like this:
 
-```JS
-type Person {
+```graphql
+type Character {
   name: String!
-  eyeColor: String!
+  species: String!
   ...
 }
 ```
 
-- `name` is a field 
+- `name` is a field
 - `String` is its type
-- `!` means the field is non-nullable (it will always return a value.) 
+- `!` means the field is non-nullable (it will always return a value)
 
 <!-- > -->
 
-```JS
-type Person {
+```graphql
+type Character {
   name: String!
-  height: Int!
-  eyecolor: String!
-  films: [Film!]!
+  species: String!
+  status: String!
+  episode: [Episode!]!
 }
 ```
 
@@ -289,9 +287,9 @@ type Film {
 
 <!-- > -->
 
-Let's get started with GraphQL 😎 and Express 🚂. 
+Let's build a GraphQL server using **Apollo Server**.
 
-**The goal of this section is to create an Express server that implements GraphQL.**
+**The goal of this section is to create a GraphQL server and test queries against it.**
 
 <!-- > -->
 
@@ -299,136 +297,103 @@ Let's get started with GraphQL 😎 and Express 🚂.
 
 1. Create a new folder
 1. Initialize a new npm project: `npm init -y`
-1. Install dependencies: `npm install --save express express-graphql graphql`
-1. Install nodemon: `npm i nodemon -g`
+1. Add `"type": "module"` to `package.json` (enables ES module imports)
+1. Install Apollo Server: `npm install @apollo/server`
 1. Create a new file: `server.js`
 
 <!-- > -->
 
-**Important!** Be sure to include a `.gitignore`. You need to prevent uploading your `node_modules` folder to GradeScope!
+**Important!** Be sure to include a `.gitignore` to prevent uploading `node_modules`.
 
-**How to add a `.gitignore`:** https://www.toptal.com/developers/gitignore/api/node
+**Generate one here:** https://www.toptal.com/developers/gitignore/api/node
 
 <!-- > -->
 
-Edit `package.json`
+Edit `package.json` so it looks like this:
 
 ```json
-"scripts": {
-  "start": "nodemon server.js"
-}
-```
-
-<small>If you don't have nodemon use: "start": "node server.js"</small>
-
-You can now run your project with: 
-
-```bash
-npm start
-```
-
-<!-- > -->
-
-### GraphQL Express Server setup
-
-Add the following to `server.js`.
-
-```JS
-// Import dependancies
-const express = require('express')
-const { graphqlHTTP } = require('express-graphql')
-const { buildSchema } = require('graphql')
-```
-
-<small>Import dependancies</small>
-
-<!-- > -->
-
-Build a schema. Add the following to `server.js`. 
-
-```JS
-// Create a schema
-const schema = buildSchema(`
-type About {
-  message: String!
-}
-
-type Query {
-  getAbout: About
-}`)
-```
-
-<small>The schema is written in the GraphQL schema language, `buildSchema()` takes the schema as a string and returns a schema object</small>
-
-<!-- > -->
-
-Define a resolver:
-
-```JS
-// Define a resolver
-const root = {
-  getAbout: () => {
-    return { message: 'Hello World' }
+{
+  "type": "module",
+  "scripts": {
+    "start": "node --watch server.js"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.0.0"
   }
 }
 ```
 
-<small>A **resolver** is a function that's responsible for returning the results of a query. You might say a resolver *resolves a query.*</small>
+<small>`node --watch` auto-restarts the server when you save changes (built into Node 18+, no extra install needed)</small>
 
 <!-- > -->
 
-### Create an Express app
+### Apollo Server Setup
 
-Add this to `server.js`:
+Add the following to `server.js`:
 
-```JS
-// Create an express app
-const app = express()
+```js
+import { ApolloServer } from '@apollo/server'
+import { startStandaloneServer } from '@apollo/server/standalone'
 ```
 
-<small>Standard Express.</small>
+<small>Import the server and the standalone launcher</small>
 
 <!-- > -->
 
-Define a route. Use `graphqlHTTP` to handle requests to this route. 
+Define your schema using `typeDefs`:
 
-```JS
-// Define a route for GraphQL
-app.use('/graphql', graphqlHTTP({
-  schema,
-  rootValue: root,
-  graphiql: true
-}))
+```js
+const typeDefs = `#graphql
+  type About {
+    message: String!
+  }
+
+  type Query {
+    getAbout: About
+  }
+`
 ```
 
-<small>In the `use` function above, we supplied the schema, the root resolver, and activated the GraphiQL browser for our app.</small>
-
-<small>The endpoint will be: `/graphql`</small>
+<small>The `#graphql` comment enables syntax highlighting in most editors. The schema is written in the GraphQL Schema Language.</small>
 
 <!-- > -->
 
-Finally, start your app: 
+Define your resolvers:
 
-```JS
-// Start this app
-const port = 4000
-app.listen(port, () => {
-  console.log(`Running on port: ${port}`)
+```js
+const resolvers = {
+  Query: {
+    getAbout: () => {
+      return { message: 'Hello World' }
+    }
+  }
+}
+```
+
+<small>A **resolver** is a function responsible for returning the results of a query. Resolvers are grouped by type — `Query` resolvers live under `Query:`.</small>
+
+<!-- > -->
+
+Start the server:
+
+```js
+const server = new ApolloServer({ typeDefs, resolvers })
+
+const { url } = await startStandaloneServer(server, {
+  listen: { port: 4000 }
 })
-```
 
-<small>(Standard Express app)</small>
+console.log(`Server ready at: ${url}`)
+```
 
 <!-- > -->
 
-### Test your work! 
+### Test your work!
 
-- `npm start` run your app
-- http://localhost:4000/graphql
+- `npm start` — run your server
+- Open http://localhost:4000 in your browser
 
-This should open GraphiQL in your browser. 
-
-GraphiQL allows us to test our GraphQL Queries. It's the same tool you used in the last class. 
+This opens **Apollo Sandbox** — a GraphQL explorer built into Apollo Server. It works like GraphiQL: write queries on the left, see results on the right.
 
 <!-- > -->
 
@@ -466,25 +431,27 @@ Let's follow this backward. Starting with this query:
 
 <!-- > -->
 
-GraphQL handles with a resolver: 
+GraphQL handles it with a resolver:
 
-```JS
-const root = {
-  getAbout: () => {
-    return { message: 'Hello World' }
+```js
+const resolvers = {
+  Query: {
+    getAbout: () => {
+      return { message: 'Hello World' }
+    }
   }
 }
 ```
 
-<small>It returns an object with a `message` property that is type `String`.</small>
+<small>It returns an object with a `message` property of type `String`.</small>
 
-getAbout has to return something that looks the About type. 
+`getAbout` must return something that matches the `About` type.
 
 <!-- > -->
 
-The Resolver checked this against the schema. 
+The resolver is checked against the schema:
 
-```JS
+```graphql
 type About {
   message: String!
 }
@@ -494,7 +461,7 @@ type Query {
 }
 ```
 
-The `getAbout` query returns an `About` which always has a `message` of type `String`. 
+The `getAbout` query returns an `About`, which always has a `message` of type `String`.
 
 <!-- > -->
 
@@ -508,19 +475,21 @@ A resolver is responsible for resolving a query. Resolvers can be hierarchical a
 
 <!-- > -->
 
-This is the **root resolver**. <br> It maps queries to the schema.
+Resolvers are organized by type and map to the schema:
 
-```JS
-const root = {
-  getAbout: () => {
-    return { message: 'Hello World' }
+```js
+const resolvers = {
+  Query: {
+    getAbout: () => {
+      return { message: 'Hello World' }
+    }
   }
 }
 ```
 
-<small>(`getAbout` maps to the query type with the same name)</small>
+<small>(`getAbout` inside `Query:` maps to the `getAbout` field in `type Query`)</small>
 
-```python
+```graphql
 type Query {
   getAbout: About
 }
@@ -563,15 +532,17 @@ type Query {
 
 <!-- > -->
 
-**Add a resolver function**. This function returns something that must match the Meal type (has description field of type string)
+**Add a resolver function**. This function returns something that must match the Meal type (has `description` of type string).
 
-```JS
-const root = {
-  getAbout: () => {
-    return { message: 'Hello World' }
-  },
-  getmeal: () => {
-    return { description: 'Noodles' }
+```js
+const resolvers = {
+  Query: {
+    getAbout: () => {
+      return { message: 'Hello World' }
+    },
+    getmeal: () => {
+      return { description: 'Noodles' }
+    }
   }
 }
 ```
@@ -582,7 +553,7 @@ Sometimes it takes some information to get some information. Often you'll need t
 
 <!-- > -->
 
-Queries can take parameters. You saw this in SWAPI. You can add arguments to your queries. 
+Queries can take parameters — you saw this in Lesson 1 with `character(id: 1)`. You can add arguments to your own queries too.
 
 <!-- > -->
 
@@ -607,20 +578,21 @@ type Query {
 
 **Modify the resolver to work with this argument.**
 
-```JS
-const root = {
-  getAbout: () => {
-    return { message: 'Hello World' }
-  },
-  getmeal: ({ time }) => {
-    const allMeals = { breakfast: 'toast', lunch: 'noodles', dinner: 'pizza' }
-    const meal = allMeals[time]
-    return { description: meal }
+```js
+const resolvers = {
+  Query: {
+    getAbout: () => {
+      return { message: 'Hello World' }
+    },
+    getmeal: (_, { time }) => {
+      const allMeals = { breakfast: 'toast', lunch: 'noodles', dinner: 'pizza' }
+      return { description: allMeals[time] }
+    }
   }
 }
 ```
 
-<small>(The resolver receives an args object with all of the parameters defined in the query type)</small>
+<small>Apollo resolvers receive `(parent, args, context, info)`. The `_` is a convention for ignoring `parent`. Query arguments are in the second parameter — destructure them with `{ time }`.</small>
 
 <!-- > -->
 
@@ -698,22 +670,23 @@ Imagine you have an array of pets. A query type might look like this:
 
 <!-- > -->
 
-Now set up a resolver for each of the new queries. 
+Now set up a resolver for each of the new queries.
 
-```JS 
-const root = {
-  ...
-  getPet: ({ id }) => { 
-    return petList[id]
-  },
-  allPets: () => { 
-    return petList
-  },
-  ...
+```js
+const resolvers = {
+  Query: {
+    ...
+    getPet: (_, { id }) => {
+      return petList[id]
+    },
+    allPets: () => {
+      return petList
+    }
+  }
 }
 ```
 
-<small>`getPet(id)` takes the `id` and returns the pet at that index, `allPets` returns an array of all pets</small>
+<small>`getPet` receives the `id` argument and returns the pet at that index. `allPets` returns the full array.</small>
 
 <!-- > -->
 
@@ -756,7 +729,7 @@ Now write a query. Notice you can choose fields to fetch.
 
 <!-- > -->
 
-Your goal is to make a list of things, not unlike SWAPI. This could be a list of pets, songs, recipes, movies, anything. 
+Your goal is to build a GraphQL server that serves a list of things — pets, songs, recipes, movies, anything you choose.
 
 Make a GraphQL server that serves the things in your list.
 
@@ -1038,17 +1011,16 @@ Returns: "Cat", "Dog", "Frog"
 
 <!-- > -->
 
-## After Class
+## After This Lesson
 
 - Complete the challenges here. Submit them on GradeScope.
-- Watch https://www.howtographql.com videos up to the GraphQL Node Tutorial:
+- Watch the following sections at https://www.howtographql.com:
   - Clients
   - Servers
   - More GraphQL Concepts
   - Tooling and Ecosystem
   - Security
   - Common Questions
-- Submit your work to GradeScope.
 
 <!-- > -->
 
@@ -1057,7 +1029,7 @@ Returns: "Cat", "Dog", "Frog"
 1. Define a GraphQL Schema
 1. Define a GraphQL Resolver
 1. Use GraphQL Queries
-1. Use GraphiQL
+1. Use Apollo Sandbox to test queries
 
 | - | Does not meet expectations | Meets Expectations | Exceeds Expectations |
 |:---:|:---:|:---:|:---:|
@@ -1071,7 +1043,8 @@ Returns: "Cat", "Dog", "Frog"
 ## Resources
 
 - https://www.howtographql.com
-- https://medium.com/codingthesmartway-com-blog/creating-a-graphql-server-with-node-js-and-express-f6dddc5320e1
+- https://www.apollographql.com/docs/apollo-server/getting-started
+- https://graphql.org/learn/schema/
 
 
 <!-- 

@@ -12,7 +12,6 @@ GraphQL represents a new way to work with network transactions. It provides many
 
 <!-- > -->
 
-<!-- .slide: data-background="#087CB8" -->
 ## Learning Objectives
 
 1. Compare REST with GraphQL
@@ -91,15 +90,13 @@ These conventions are common rules around the type of **HTTP request** and the *
 
 <!-- > -->
 
-Here's a real API. 
+Here's a real API.
 
-The Star Wars API (SWAPI) uses the following routes: 
+The Rick and Morty API uses the following routes:
 
-- https://swapi.dev/api/people/<id>
-- https://swapi.dev/api/films/<id>
-- https://swapi.dev/api/species/<id>
-- https://swapi.dev/api/vehicles/<id>
-- https://swapi.dev/api/starships/<id>
+- https://rickandmortyapi.com/api/character/\<id\>
+- https://rickandmortyapi.com/api/location/\<id\>
+- https://rickandmortyapi.com/api/episode/\<id\>
 
 <small>Notice: There is one endpoint for each resource type.</small>
 
@@ -111,7 +108,7 @@ The Star Wars API (SWAPI) uses the following routes:
 
 Unlike REST 😴 a GraphQL 😎 server would use a single ☝️ endpoint to serve all of its resources. 
 
-<small>The SWAPI (REST) had 5 endpoints!</small> 
+<small>The Rick and Morty REST API had 3 endpoints!</small> 
 
 <!-- > -->
 
@@ -122,28 +119,28 @@ Unlike REST 😴 a GraphQL 😎 server would use a single ☝️ endpoint to ser
 
 <!-- > -->
 
-### Try out REST 😴 with the SWAPI server (REST).
+### Try out REST 😴 with the Rick and Morty API.
 
 <!-- > -->
 
-Try the people 👯‍♀️ endpoint.
+Try the character endpoint. Open these URLs in your browser:
 
-- https://swapi.dev/api/people/1 - Luke
-- https://swapi.dev/api/people/3 - R2D2
-- https://swapi.dev/api/people/4 - Vader
-- https://swapi.dev/api/people/5 - Leia
+- https://rickandmortyapi.com/api/character/1 - Rick Sanchez
+- https://rickandmortyapi.com/api/character/2 - Morty Smith
+- https://rickandmortyapi.com/api/character/3 - Summer Smith
+- https://rickandmortyapi.com/api/character/4 - Beth Smith
 
-**Challenge:** find C-3PO, Han Solo, Chewbacca, and Boba Fett
+**Challenge:** find Jerry Smith, Birdperson, and Mr. Meeseeks
 
 <!-- > -->
 
-Use the planets 🪐 endpoint.
+Try the location endpoint.
 
-- https://swapi.dev/api/planets/1 - Tatooine
-- https://swapi.dev/api/planets/3 - Yavin VI
-- https://swapi.dev/api/planets/4 - Hoth
-- https://swapi.dev/api/planets/5 - Dagobah
-- **Challenge:** find Alderaan, Bespin, and Endor
+- https://rickandmortyapi.com/api/location/1 - Earth (C-137)
+- https://rickandmortyapi.com/api/location/2 - Abadango
+- https://rickandmortyapi.com/api/location/3 - Citadel of Ricks
+
+**Challenge:** find the Anatomy Park location and the Immortality Field Resort
 
 <!-- > -->
 
@@ -183,13 +180,13 @@ A query begins with brackets `{}`:
 
 <!-- > -->
 
-Next, add a type and any parameters for that type. 
+Next, add a type and any parameters for that type.
 
-In this case, `person` is our type and `personID` is the parameter
+In this case, `character` is our type and `id` is the parameter
 
 ```js
 {
-  person(personID: 5) {
+  character(id: 1) {
     ...
   }
 }
@@ -197,13 +194,13 @@ In this case, `person` is our type and `personID` is the parameter
 
 <!-- > -->
 
-Add fields that you want. Note that person() returns a Person type and we can only include fields that exist on Person!
+Add fields that you want. Note that `character()` returns a Character type and we can only include fields that exist on Character!
 
 ```js
 {
-  person(personID: 5) {
-  name
-    eyeColor
+  character(id: 1) {
+    name
+    species
     ...
   }
 }
@@ -211,20 +208,20 @@ Add fields that you want. Note that person() returns a Person type and we can on
 
 <!-- > -->
 
-### Try out GraphQL 😎 with SWAPI! 
+### Try out GraphQL 😎 with the Rick and Morty API!
 
-To do this you'll use GraphiQL. It's a web page that lets you write GraphQL queries and see the results.
+To do this you'll use the built-in GraphiQL explorer. It's a web page that lets you write GraphQL queries and see the results.
+
+> GraphiQL is a GraphQL graphical explorer. Write a query in the left pane, click run, view results on the right.
 
 <!-- > -->
 
-First, open the GraphiQL browser: 
+Open the GraphiQL browser:
 
-https://graphql.org/swapi-graphql/
+https://rickandmortyapi.com/graphql
 
-<!-- NOTE! If the server above is not working try this url instead: https://studio.apollographql.com/public/star-wars-swapi/variant/current/explorer -->
-
-- Type a Query on the left side
-- Click the ▶️ button at the top 
+- Type a query on the left side
+- Click the ▶️ button at the top
 - Look 👁 at the results on the right
 - Try the following queries...
 
@@ -232,16 +229,16 @@ https://graphql.org/swapi-graphql/
 
 ### Challenge: Get characters with GraphQL 😎
 
-```JS
-# Leia 
+```graphql
+# Rick Sanchez
 {
-  person(personID: 5) {
+  character(id: 1) {
     name
   }
 }
 ```
 
-<small>Challenge: change the id to find Luke, Han, R2, C3PO, and Vader</small>
+<small>Challenge: change the id to find Morty (2), Summer (3), Beth (4), and Jerry (5)</small>
 
 <!-- > -->
 
@@ -261,60 +258,52 @@ Look at the results that are returned with <br> the REST response vs the GraphQL
 
 <!-- > -->
 
-The REST API returns the following when you use the `/people` route:
+The REST API returns the following when you request `https://rickandmortyapi.com/api/character/1`:
 
 ```JS
 {
-  "name": "Luke Skywalker",
-  "height": "172",
-  "mass": "77",
-  "hair_color": "blond",
-  "skin_color": "fair",
-  "eye_color": "blue",
-  "birth_year": "19BBY",
-  "gender": "male",
-  "homeworld": "https://swapi.dev/api/planets/1/",
-  "films": [
-    "https://swapi.dev/api/films/2/",
-    "https://swapi.dev/api/films/6/",
-    "https://swapi.dev/api/films/3/",
-    "https://swapi.dev/api/films/1/",
-    "https://swapi.dev/api/films/7/"
+  "id": 1,
+  "name": "Rick Sanchez",
+  "status": "Alive",
+  "species": "Human",
+  "type": "",
+  "gender": "Male",
+  "origin": {
+    "name": "Earth (C-137)",
+    "url": "https://rickandmortyapi.com/api/location/1"
+  },
+  "location": {
+    "name": "Citadel of Ricks",
+    "url": "https://rickandmortyapi.com/api/location/3"
+  },
+  "image": "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+  "episode": [
+    "https://rickandmortyapi.com/api/episode/1",
+    "https://rickandmortyapi.com/api/episode/2",
+    "... 49 more episode URLs"
   ],
-  "species": [
-    "https://swapi.dev/api/species/1/"
-  ],
-  "vehicles": [
-    "https://swapi.dev/api/vehicles/14/",
-    "https://swapi.dev/api/vehicles/30/"
-  ],
-  "starships": [
-    "https://swapi.dev/api/starships/12/",
-    "https://swapi.dev/api/starships/22/"
-  ],
-  "created": "2014-12-09T13:50:51.644000Z",
-  "edited": "2014-12-20T21:17:56.891000Z",
-  "url": "https://swapi.dev/api/people/1/"
-} 
+  "url": "https://rickandmortyapi.com/api/character/1",
+  "created": "2017-11-04T18:48:46.250Z"
+}
 ```
 
 <!-- > -->
 
-With GraphQL 😎 : 
+With GraphQL 😎 :
 
-```JS
-# We used this: 
+```graphql
+# We used this:
 {
-  person(personID: 1) {
+  character(id: 1) {
     name
   }
 }
 
-# to get Luke:
+# to get:
 {
   "data": {
-    "person": {
-      "name": "Luke Skywalker"
+    "character": {
+      "name": "Rick Sanchez"
     }
   }
 }
@@ -324,22 +313,22 @@ With GraphQL 😎 :
 
 <!-- > -->
 
-If we *only* wanted the `name` field the GraphQL 😎 <br> query would have saved some bandwidth! 🗜
+If we *only* wanted the `name` field the GraphQL 😎 query would have saved a lot of bandwidth! 🗜
 
 <!-- > -->
 
-Describe the fields you want in the query: 
+Describe the fields you want in the query:
 
-```JS
+```graphql
 {
-  person(personID: 4) {
+  character(id: 2) {
     name
-    eyeColor # includes eye color
+    species  # includes species
   }
 }
 ```
 
-<small>Challenge: Get Vader's, height, and eyeColor</small>
+<small>Challenge: Get Morty's name and status. Get Summer's name and gender.</small>
 
 <!-- > -->
 
@@ -356,29 +345,28 @@ Under fetching 🥚 occurs when you don't get all of the data you need in a sing
 
 <!-- > -->
 
-**Challenge:** Use REST to find Leia's homeworld. 🌍
+**Challenge:** Use REST to find Rick's origin location name. 🌍
 
-- https://swapi.dev/api/people/5
-- Get the people results find the homeworld 
-- Call the homeworld endpoint to get the homeworld
+- Step 1: https://rickandmortyapi.com/api/character/1 — find the `origin.url`
+- Step 2: open that URL to get the location details
 
 <!-- > -->
 
 ### Challenge:
 
-Use the REST API to find: 
+Use the REST API to find the origin location of:
 
-1. Find Chewbacca's homeworld. 
-1. Find R2-D2's homeworld
-1. Find Han's homeworld
+1. Morty Smith (id: 2)
+1. Summer Smith (id: 3)
+1. Beth Smith (id: 4)
 
-https://swapi.dev/api/people/5
+https://rickandmortyapi.com/api/character/2
 
 <!-- > -->
 
 **What happened? 🧐**
 
-Each time you found a person, *you had to make a second request* to find their homeworld. <br> 
+Each time you found a character, *you had to make a second request* to find their origin location. <br>
 <small>(under fetching 🥚)</small>
 
 Along the way, you loaded *more* data than you needed <small>(over fetching 🗑)</small>.
@@ -387,27 +375,27 @@ Along the way, you loaded *more* data than you needed <small>(over fetching 🗑
 
 **Try it with GraphQL 😎**
 
-```JS
+```graphql
 {
-  person(personID: 4) {
+  character(id: 1) {
     name
-    homeworld {
+    origin {
       name
     }
   }
 }
 ```
 
-<small>Here in a single query we get the character's name and the name of the homeworld.</small>
+<small>In a single query we get the character's name and their origin location — no second request needed.</small>
 
 <!-- > -->
 
-### Challenge: 
+### Challenge:
 
-1. Get R2-D2's name and homeworld
-1. Get Leia's name and homeworld
-1. Get Han's name, height, and homeworld
-1. Get the diameter of R2's homeworld
+1. Get Morty's name and origin location name
+1. Get Summer's name and current location name
+1. Get Rick's name, species, and origin location name
+1. Get the dimension of Rick's origin location
 
 <!-- > -->
 
@@ -490,15 +478,15 @@ Since the query describes the structure of what is returned sometimes you need t
 
 <!-- > -->
 
-Consider a scenario where you need two people: 
+Consider a scenario where you need two characters:
 
-```JS 
+```graphql
 {
-  person(personID:2) {
-    name 
+  character(id: 1) {
+    name
   }
 
-  person(personID:3) {
+  character(id: 2) {
     name
   }
 }
@@ -513,11 +501,11 @@ The results would have a problem:
 ```JS
 {
   "data": {
-    "person": { <-- Duplicate field!
-      "name": "C-3PO"
+    "character": { // <-- Duplicate field!
+      "name": "Rick Sanchez"
     },
-    "person": { <-- Duplicate field!
-      "name": "R2-D2"
+    "character": { // <-- Duplicate field!
+      "name": "Morty Smith"
     }
   }
 }
@@ -529,32 +517,32 @@ The results would have a problem:
 
 Use an **alias** to solve the problem!
 
-```JS 
+```graphql
 {
-  personA: person(personID:2) {
-    name 
+  rick: character(id: 1) {
+    name
   }
 
-  personB: person(personID:3) {
+  morty: character(id: 2) {
     name
   }
 }
 ```
 
-<small>(personA and personB are aliases, you could use any name for these!)</small>
+<small>(rick and morty are aliases — you could use any name!)</small>
 
 <!-- > -->
 
-The result would look like this: 
+The result would look like this:
 
 ```JS
 {
   "data": {
-    "personA": {
-      "name": "C-3PO"
+    "rick": {
+      "name": "Rick Sanchez"
     },
-    "personB": {
-      "name": "R2-D2"
+    "morty": {
+      "name": "Morty Smith"
     }
   }
 }
@@ -578,23 +566,23 @@ The result would look like this:
 
 ### Evaluate your Work
 
-Submit on GradeScope. Write the **query** that solves each question.
+Submit on GradeScope. Write the **query** that solves each question. Use the Rick and Morty GraphQL API at https://rickandmortyapi.com/graphql.
 
-1. Fetch Boba Fet, get the name.
-1. Get Yoda's name, height, and eye color.
-1. Get Obi-Wan Kenobi, include the name and name of the homeworld.
-1. Get the total count of all species.
-1. Get the name of all vehicles.
-1. List all of Lukes's vehicles.
-1. List the name of all of Vaders starships including the maxAtmospheringSpeed.
-1. Get both R2-D2 and C-3PO's names and eye colors. Use a single query to get both characters!
-1. Get the name of Han and Chewbacca's homeworld. Use a single query to get the names of both worlds.
-1. List the title of all films with Leia, including the title and director.
+1. Get Rick Sanchez's name and status.
+1. Get Morty Smith's name, species, and gender.
+1. Get Summer Smith's name and the name of her current location.
+1. Get the total count of all characters. (Hint: try `characters { info { count } }`)
+1. Get the name and air date of episode 1.
+1. Get Rick's name and the name of his origin location.
+1. Get the dimension of Rick's origin location.
+1. Get both Rick and Morty's names and species using a **single query**. Use aliases!
+1. Get both Rick's origin location name and Morty's origin location name using a single query. Use aliases!
+1. Get the names of the first 3 residents of the Citadel of Ricks. (Hint: try `location(id: 3) { residents { name } }`)
 
 <!-- > -->
 
 ## Additional Resources
 
 - https://www.howtographql.com
-- https://swapi.dev/
-- http://graphql.org/swapi-graphql
+- https://rickandmortyapi.com/graphql
+- https://rickandmortyapi.com/documentation
