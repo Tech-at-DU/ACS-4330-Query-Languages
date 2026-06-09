@@ -1,33 +1,30 @@
-# ACS 4390 - React Review
+# ACS 4330 - React + Apollo Client
+
+**Estimated time:** 4–5 hours
+
+**Prerequisites:** Completed Lesson 3. Your GraphQL weather server is working. Basic JavaScript (ES modules, async/await).
 
 <!-- > -->
 
-Your GraphQL Projects need a frontend!
+Your GraphQL server needs a frontend!
 
 <!-- > -->
 
-Any type of front-end client can connect to a GraphQL backend server. We will be using React.
+Any front-end client can connect to a GraphQL server. This course uses React.
 
 <!-- > -->
 
-React is a library for creating user interfaces. It is one of the most popular web frameworks.
+React is a library for building user interfaces — one of the most widely used in industry.
 
 <!-- > -->
 
-Why use React?
+## Learning Objectives
 
-<!-- > -->
-
-It's efficient and has a great workflow, developer experience, and community.
-
-<!-- > -->
-
-## Class Learning Objectives/Competencies
-
-1. Build a React app
+1. Build a React app with Vite
 2. Create reusable components
 3. Use JSX, State, and Props
 4. Use Hooks
+5. Connect React to a GraphQL server with Apollo Client
 
 <!-- > -->
 
@@ -47,24 +44,27 @@ The React library has several core features let's take a look at those:
 
 <!-- > -->
 
-Creat a React using: 
+Create a React app using Vite:
 
 ```bash
-npx create-react-app <app-name>
+npm create vite@latest weather-client -- --template react
+cd weather-client
+npm install
+npm run dev
 ```
 
-This creates a new folder containing a complete React project. 
+This creates a new folder with a complete React project and starts a dev server at `http://localhost:5173`.
 
 <!-- > -->
 
-Let's tour the project.
+Tour the project:
 
-- public/
-- src/
-  - index.js
-  - index.css
-  - App.js
-  - App.css
+- `public/`
+- `src/`
+  - `main.jsx` — entry point
+  - `App.jsx` — root component
+  - `index.css`
+  - `App.css`
 
 <!-- > -->
 
@@ -448,13 +448,13 @@ The goal of this project is to create a client built with React that connects to
 
 <!-- > -->
 
-The server will run at locahost:4000 and the client will run on localhost:3000. 
+The server runs at `localhost:4000` and the React client runs at `localhost:5173`.
 
-You need to start **both** for the project to work locally. 
+You need to start **both** for the project to work locally — open two terminals.
 
 <!-- > -->
 
-I find it easier to keep both projects in separate folders.
+Keep the two projects in separate folders.
 
 <!-- > -->
 
@@ -470,75 +470,67 @@ You will use Apollo Client in this project to handle transactions between your R
 
 <!-- > -->
 
-Your Server needs to support CORS. Follow these steps to enable CORS for your Express server. 
-
-- `npm install cors`
-- In `server.js`
-  - `const cors = require('cors')`
-  - `app.use(cors())`
+**CORS Note:** Apollo Server 4 standalone mode allows all origins by default in development. No separate CORS configuration needed for local development.
 
 <!-- > -->
 
-What's CORS?
+**What's CORS?**
 
-Cross-Origin Resource Sharing is a mechanism that uses additional HTTP headers.
-
-CORS defines the rules that allow or deny permissions to use resources from a different origin. 
+Cross-Origin Resource Sharing — HTTP headers that control which origins can access a server. Your React app runs on `localhost:5173` and your GraphQL server on `localhost:4000`, so they're different origins.
 
 <!-- > -->
 
 Follow these steps to set up Apollo Client with React.
 
-Create a new React project: 
+The React project was already created in the React setup above. Now install Apollo Client:
 
-```
-npx create-react-app weather-client
-```
-
-Install dependencies: 
-
-```
-npm install @apollo/client
+```bash
+npm install @apollo/client graphql
 ```
 
 <!-- > -->
 
-In `src/index.js` - setup Apollo client
+Create a dedicated file `src/apolloClient.js` for the Apollo Client instance:
 
 ```js
-import { ApolloProvider, InMemoryCache, ApolloClient } from '@apollo/client'
-// make an instance of the Apollo client
+import { ApolloClient, InMemoryCache } from '@apollo/client'
+
 export const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql',
+  uri: 'http://localhost:4000/',
   cache: new InMemoryCache()
-});
+})
 ```
 
-Note! This assumes your server is running on `localhost:4000` at the route: `/graphql`. If you've used a different path you'll need to adjust the path above. 
+<small>Apollo Server 4 standalone serves GraphQL at the root `/` — not `/graphql`.</small>
 
 <!-- > -->
 
-Still, in `src/index.js` Wrap your app in the `<ApolloProvider>`:
+In `src/main.jsx`, wrap your app in `<ApolloProvider>`:
 
 ```js
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { ApolloProvider } from '@apollo/client'
+import { client } from './apolloClient'
+import App from './App'
+import './index.css'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <App />
     </ApolloProvider>
   </React.StrictMode>
-);
+)
 ```
 
 <!-- > -->
 
-The following can be used in any component that is a child of `<App>`!
+Now you can use Apollo in any component under `<App>`. Import `client` and `gql`:
 
-Import your `client` and `gql`
 ```js
 import { gql } from '@apollo/client'
-import { client } from './index'
+import { client } from './apolloClient'
 ```
 
 <!-- > -->
@@ -554,10 +546,10 @@ Now you're ready to make requests to your GraphQL server from your React project
 
 Make a component to handle a request to the weather server. 
 
-```JS
+```jsx
 import { useState } from 'react'
 import { gql } from '@apollo/client'
-import { client } from './index'
+import { client } from './apolloClient'
 
 function Weather() {
   return (
@@ -566,7 +558,7 @@ function Weather() {
         ...
       </form>
     </div>
-  );
+  )
 }
 
 export default Weather
@@ -609,7 +601,7 @@ Add an input and submit button.
 
 <!-- > -->
 
-Add a function to handle requests to your GraphQL server. 
+Add a function to handle requests to your GraphQL server.
 
 ```js
 function Weather() {
@@ -617,14 +609,15 @@ function Weather() {
   async function getWeather() {
     try {
       const json = await client.query({
-      query: gql`
-        query {
-          getWeather(zip:${zip}) {
-          temperature
-          description
-        }
-      }
-      `
+        query: gql`
+          query GetWeather($zip: Int!) {
+            getWeather(zip: $zip) {
+              temperature
+              description
+            }
+          }
+        `,
+        variables: { zip: parseInt(zip, 10) }
       })
       setWeather(json)
     } catch(err) {
@@ -634,6 +627,8 @@ function Weather() {
   ...
 }
 ```
+
+<small>Use query variables (`$zip`) instead of string interpolation — cleaner and avoids injection issues.</small>
 
 <!-- > -->
 
@@ -688,32 +683,31 @@ You will build a React App that fetches weather data from your GraphQL Weather s
 
 **Challenge 0 - Weather Server**
 
-Complete your GraphQL Express Weather server. 
+Complete your GraphQL Apollo weather server from Lesson 3.
 
-- Be sure to add cors (see the instructions above)
+- Apollo Server 4 standalone handles CORS automatically — no extra setup needed.
 
 <!-- > -->
 
 **Challenge 1 - Create your React Project**
 
-Follow the instructions above and get your React Project running. 
+Follow the Vite instructions above and confirm the app loads at `http://localhost:5173`.
 
 <!-- > -->
 
-**Challenge 2 - Run your GraphQL Express Server**
+**Challenge 2 - Run your GraphQL Server**
 
-Your Express project will run on port 4000 (or another port check!) and the React project will run on port 3000. 
+Your Apollo server runs on port 4000, the React client on port 5173.
 
-- React and GraphQL servers need to be running on different ports.
+- Start both: open two terminal tabs and run `npm start` in each project folder.
 
 <!-- > -->
 
 **Challenge 3 - Add Apollo Client**
 
-Add Apollo Client to your React Project. Follow the instructions above.
+Add Apollo Client to your React project and create `src/apolloClient.js`. Follow the instructions above.
 
-- Check the port! and the endpoint.
-- The `URI: 'http://localhost:4000/graphql'` must match the port and endpoint that your server uses! 
+- URI must be `'http://localhost:4000/'` — Apollo Server 4 serves GraphQL at root, not `/graphql`.
 
 <!-- > -->
 
@@ -805,20 +799,18 @@ This is an open-ended stretch challenge. Substitute another API for the OpenWeat
 
 <!-- > -->
 
-## After Class
+## After This Lesson
 
-Complete the challenges above and submit your work to GradeScope. 
+Complete the challenges above and submit your work to GradeScope.
 
 <!-- > -->
 
 ## Resources
 
-- <https://reactjs.org/tutorial/tutorial.html>
-- [Component Lifecycle](https://reactjs.org/docs/react-component.html)
-- [Hooks](https://reactjs.org/docs/hooks-intro.html)
+- [React Docs](https://react.dev)
+- [Hooks](https://react.dev/reference/react)
 - [Async/await](https://javascript.info/async-await)
-- [Using Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
-- [Array Destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
-- <https://www.apollographql.com/docs/react/get-started/>
+- [Apollo Client React Docs](https://www.apollographql.com/docs/react/get-started/)
+- [Vite Getting Started](https://vitejs.dev/guide/)
 
 <!-- > -->
