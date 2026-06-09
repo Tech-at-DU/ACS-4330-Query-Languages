@@ -303,7 +303,7 @@ Let's build a GraphQL server using **Apollo Server**.
 
 <!-- > -->
 
-**Important!** Be sure to include a `.gitignore` to prevent uploading `node_modules`.
+**Important!** Be sure to include a `.gitignore` to prevent pushing `node_modules`.
 
 **Generate one here:** https://www.toptal.com/developers/gitignore/api/node
 
