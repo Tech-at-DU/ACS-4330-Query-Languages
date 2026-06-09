@@ -1,225 +1,187 @@
-# ACS 4390 - GraphQL + Express
+# ACS 4330 - GraphQL + Apollo Server
 
-<!-- ![banner_image](./assets/public_api_banner.jpg) -->
+**Estimated time:** 3–4 hours
+
+**Prerequisites:** Completed Lesson 2. You have a working Apollo Server with a schema and resolvers.
 
 <!-- > -->
 
 ## Learning Outcomes
 
-By the end of today's lesson, you should be able to...
+By the end of this lesson, you should be able to:
 
-1. Build a GraphQL API over a Public API
-1. Use GraphQL and Express
-1. Define Resolvers for types
-1. Use Resolvers to handle queries
+1. Build a GraphQL API that wraps a public REST API
+1. Use Apollo Server with async resolvers
+1. Define resolvers that fetch external data
+1. Handle resolver arguments
 
 <!-- > -->
 
 ## Review
 
-<!-- > -->
-
-Pop Quiz!
-
-<!-- > -->
-
-Write a GraphQL schema for these types
+Before starting, write out schema definitions for these types from memory. Check your work against your Lesson 2 server.
 
 <!-- > -->
 
 **Monster Battle**
 
-- Write the following in the GraphQL Schema language
-  - Kaiju type, this is a giant monster like Godzilla
-  - City type, what fields does a city have?
-  - Battle type should include two monsters and a city
-  - Query type that returns a battle
-- Write the following in the graphql Query language!
-  - Write a query that summons Godzilla and Mothra to battle in Tokyo
-  - print the monsters name, and power
-  - print a city's name and population
+Write the schema in the GraphQL Schema Language:
+- `Kaiju` type — a giant monster (name, power)
+- `City` type — (name, population)
+- `Battle` type — includes two monsters and a city
+- `Query` type — returns a battle
+
+Then write a GraphQL query that fetches a battle result, printing monster names, powers, and the city name and population.
 
 <!-- > -->
 
 **Card Game**
 
-- Use the GraphQL Schema language
-  - Card type for a playing card
-  - Hand type for a hand of cards
-  - Query type that returns a hand of cards
-- Write a query in the graphql query language
-  - Write a query that gets a hand of cards 
-  - print the value and suit of each card
+Write the schema:
+- `Card` type — playing card (value, suit)
+- `Hand` type — a hand of cards
+- `Query` type — returns a hand
+
+Then write a query that gets a hand and prints the value and suit of each card.
 
 <!-- > -->
 
 **Users and Images**
 
-- Use the GraphQL Schema language to generate these types
-  - Image type should know the URL and size of an image
-  - Location type needs latitude and longitude
-  - Image type should include a location
-  - User Type
-  - User type needs a list of images
-  - Query type that returns a User
-- Use the graphQL Query language to query: 
-  - Write a query that gets users images
-  - Display the user name
-  - Display the image URL
+Write the schema:
+- `Location` type — latitude and longitude
+- `Image` type — URL, size, and a location
+- `User` type — includes a list of images
+- `Query` type — returns a user
+
+Then write a query that gets a user's images and prints the user name and image URLs.
 
 <!-- > -->
 
 ## Overview 🌏
 
-Today you will make a GraphQL service for a public API.
+This lesson: build a GraphQL server that wraps a public REST API.
 
-*Why?* This will give you a chance to practice the ideas from the previous class in a different context.
-
-<!-- > -->
-
-## GraphQL 😎 and Express 🚂
-
-GraphQL is a specification and a language. It's not a framework or library of prewritten code. 
-
-This means we are free to write libraries or frameworks that implement the GraphQL spec. 
+*Why?* A GraphQL layer over a REST API is a common real-world pattern. It lets clients query exactly what they need, even when the underlying data source is a REST API they don't control.
 
 <!-- > -->
 
-You'll find GraphQL libraries written for the most popular frameworks. Today you will use Express.js 🚂 and GraphQL 😎. 
+## GraphQL 😎 and Apollo Server
+
+GraphQL is a specification and language — not a library. Libraries implement it.
+
+**Apollo Server** is the most widely used GraphQL server library for Node.js.
 
 <!-- > -->
 
-### What's needed 🤔
+### What's needed
 
-- express-graphql npm package
-- graphql npm package
-- express npm package
+- `@apollo/server` npm package
+- `dotenv` npm package (for API keys)
 
 <!-- > -->
 
-### How do you set this up? 
+### How do you set this up?
 
-- import the npm packages
-  - express, graphql, express-graphql
-- define your schema
-- define your resolvers
-- define a route to act as the GraphQL endpoint
-  - Use graphqlHTTP to handle requests at this route
-  - configure graphqlHTTP with your schema and resolvers
+- Import Apollo Server
+- Define your schema (`typeDefs`)
+- Define your resolvers
+- Start the server with `startStandaloneServer`
 
 <!-- > -->
 
 ## Challenge
 
-The challenge today is to build a GraphQL front end for a public API. 
+Build a GraphQL API that wraps the OpenWeatherMap REST API.
 
-<small>Think of this as an interview question practice.</small> 
-
-<!-- > -->
-
-For this example, you'll use https://openweathermap.org. 
-
-<small>Q: Why are using OpenWeatherMap.org? <br>A: It's free and easy. It's a good choice for a 2-hour assignment.</small>
+<small>Think of this as interview question practice — wrapping a REST API with GraphQL is a common task.</small>
 
 <!-- > -->
 
-**Challenge 1 - Setup Express and GraphQL**
+You'll use https://openweathermap.org.
 
-Follow these steps to set up Express and GraphQL.
+<small>Free, easy, good for a short assignment.</small>
+
+<!-- > -->
+
+**Challenge 1 - Setup Apollo Server**
 
 <!-- > -->
 
 1. Create a new folder
-1. Initialize a new npm project: `npm init -y`
-1. Install dependencies: `npm install --save express express-graphql graphql`
-1. Create a new file: `server.js`
-1. Add `"start": "nodemon server.js"` to package.json
+1. Initialize: `npm init -y`
+1. Add `"type": "module"` to `package.json`
+1. Install dependencies: `npm install @apollo/server dotenv`
+1. Create `server.js`
+1. Add `"start": "node --watch server.js"` to the `scripts` section of `package.json`
 
 <!-- > -->
 
-**Important!** Be sure to include a `.gitignore`. 
+**Important!** Add a `.gitignore` — never commit `node_modules` or your `.env` file.
 
 https://www.toptal.com/developers/gitignore/api/node
 
 <!-- > -->
 
-In `server.js` import your dependancies: 
-
-```JS
-// Import dependancies
-const express = require('express')
-const { graphqlHTTP } = require('express-graphql')
-const { buildSchema } = require('graphql')
-```
-
-<!-- > -->
-
-Start your schema: 
-
-```JS 
-const schema = buildSchema(`
-# schema here
-type Test {
-  message: String!
-}
-`)
-```
-
-<!-- > -->
-
-Set up your resolver
-
-```JS
-const root = {
-  // resolvers here
-}
-```
-
-<!-- > -->
-
-Create an express app
+In `server.js` import your dependencies:
 
 ```js
-// Create an express app
-const app = express()
+import { ApolloServer } from '@apollo/server'
+import { startStandaloneServer } from '@apollo/server/standalone'
+import 'dotenv/config'
 ```
 
 <!-- > -->
 
-Define a route/endpoint for your GraphQL API
+Start your schema:
 
 ```js
-// Define a route for GraphQL
-app.use('/graphql', graphqlHTTP({
-  schema,
-  rootValue: root,
-  graphiql: true
-}))
-```
+const typeDefs = `#graphql
+  type Test {
+    message: String!
+  }
 
-<small>Be sure to set `graphiql` to true since this will enable the graphiql browser that you will be using.</small>
+  type Query {
+    test: Test
+  }
+`
+```
 
 <!-- > -->
 
-Start your App 
+Set up your resolvers:
 
-```JS 
-// Start this app
-const port = 4000
-app.listen(port, () => {
-  console.log('Running on port:'+port)
+```js
+const resolvers = {
+  Query: {
+    // resolvers here
+  }
+}
+```
+
+<!-- > -->
+
+Start your server:
+
+```js
+const server = new ApolloServer({ typeDefs, resolvers })
+
+const { url } = await startStandaloneServer(server, {
+  listen: { port: 4000 }
 })
+
+console.log(`Server ready at: ${url}`)
 ```
 
 <!-- > -->
 
-Start your GraphQL server: 
+Run your server:
 
-`npm start`
+```bash
+npm start
+```
 
-Open graphiql: 
-
-`http://localhost:4000/graphql`
+Open Apollo Sandbox: `http://localhost:4000`
 
 <!-- > -->
 
@@ -234,41 +196,26 @@ Go to https://openweathermap.org
 
 <!-- > -->
 
-**Quick Side Note for `.env` files**
+**Quick Note on `.env` files**
 
-Having a `.env` file allows us to store our secrets (like an API Key) without it being exposed to the public on GitHub. Let's create that now so we can use our API Key in our project without exposing it!
-
-<!-- > -->
-
-Install dotenv: 
-
-```
-npm install dotenv
-```
+A `.env` file stores secrets like API keys without exposing them on GitHub. You already installed `dotenv` in Challenge 1 and imported it with `import 'dotenv/config'`.
 
 <!-- > -->
 
-1. In the folder containing the sample project, run `touch .env` in the terminal
-1. Open the .env file, and place the following in it, replacing `MY_API_KEY` with your actual API Key:
+1. Create a `.env` file in your project folder
+1. Add your API key (replace the placeholder):
 
 ```
 OPENWEATHERMAP_API_KEY=__MY_API_KEY__
 ```
 
-Save it when you're done. Alright, now we're ready to continue!
+**Important:** Add `.env` to your `.gitignore` — never commit API keys.
 
 <!-- > -->
 
-Be sure to initialize dotenv in `server.js`:
+Access your API key anywhere in `server.js` with:
 
-```JS
-// require dotenv and call cofig
-require('dotenv').config()
-```
-
-Use your API key in your code with: 
-
-```JS
+```js
 const apikey = process.env.OPENWEATHERMAP_API_KEY
 ```
 
@@ -293,41 +240,33 @@ type Query {
 
 <!-- > -->
 
-**Challenge 4 - Import node-fetch**
+**Challenge 4 - Define your Resolver**
 
-Import node-fetch to make network calls. You can also use Axios or another library of your choice. You need something to make network requests.
+Node 18+ includes `fetch` built-in — no package needed.
 
-`npm install node-fetch@2`
+Define your resolver inside the `Query` object:
 
-Add import to server.js
-
-`const fetch = require('node-fetch')`
-
-<!-- > -->
-
-**Challenge 5 - Define your Resolver**
-
-Define your resolver: 
-
-```JS
-const root = {
-  getWeather: async ({ zip }) => {
-    const apikey = process.env.OPENWEATHERMAP_API_KEY
-    const url = `https://api.openweathermap.org/data/2.5/weather?zip=${zip}&appid=${apikey}`
-    const res = await fetch(url)
-    const json = await res.json()
-    const temperature = json.main.temp
-    const description = json.weather[0].description
-    return { temperature, description }
+```js
+const resolvers = {
+  Query: {
+    getWeather: async (_, { zip }) => {
+      const apikey = process.env.OPENWEATHERMAP_API_KEY
+      const url = `https://api.openweathermap.org/data/2.5/weather?zip=${zip}&appid=${apikey}`
+      const res = await fetch(url)
+      const json = await res.json()
+      const temperature = json.main.temp
+      const description = json.weather[0].description
+      return { temperature, description }
+    }
   }
 }
 ```
 
-<small>I used `fetch` here you substitute your HTTP client of choice here</small>
+<small>Apollo resolvers receive `(parent, args, context, info)`. Arguments from the query (like `zip`) come in the second parameter.</small>
 
 <!-- > -->
 
-**Challenge 6 - Test your work in GraphiQL**
+**Challenge 5 - Test your work in Apollo Sandbox**
 
 Try out a query and solve any errors that might pop up.
 
@@ -342,7 +281,7 @@ Try out a query and solve any errors that might pop up.
 
 <!-- > -->
 
-**Challenge 7 - Add units**
+**Challenge 6 - Add units**
 
 The weather API supports a unit of `standard`, `metric`, or `imperial`. Currently, you should be getting the weather in Kelvin (standard) this is hard to understand better to allow a request to include the unit. 
 
@@ -370,19 +309,23 @@ type Query {
 
 <!-- > -->
 
-Handle the unit in your resolver.
+Handle the unit in your resolver:
 
-```JS
-const root = {
-  getWeather: async ({ zip, units = 'imperial' }) => {
-    ...
-    const url = `https://api.openweathermap.org/data/2.5/weather?zip=${zip}&appid=${apikey}&units=${units}`
-    ...
+```js
+const resolvers = {
+  Query: {
+    getWeather: async (_, { zip, units = 'imperial' }) => {
+      const apikey = process.env.OPENWEATHERMAP_API_KEY
+      const url = `https://api.openweathermap.org/data/2.5/weather?zip=${zip}&appid=${apikey}&units=${units}`
+      const res = await fetch(url)
+      const json = await res.json()
+      return { temperature: json.main.temp, description: json.weather[0].description }
+    }
   }
 }
 ```
 
-<small>Be sure add `units` to the query string!</small>
+<small>Be sure to add `units` to the query string!</small>
 
 <!-- > -->
 
@@ -401,7 +344,7 @@ Test your work! Write a query:
 
 <!-- > -->
 
-**Challenge 8 - Expand the API**
+**Challenge 7 - Expand the API**
 
 If you followed all of the instructions here your API should allow fetching the temperature and description. The OpenWeatherMap response provides a lot more information. The goal of this challenge is to expand the `getWeather` query type. 
 
@@ -417,7 +360,7 @@ Challenge, expand your query to include the following properties:
 
 <!-- > -->
 
-**Challenge 9 - Handle Errors**
+**Challenge 8 - Handle Errors**
 
 The OpenWeatherMap API provides a cod property that includes an error code. If you provide a zipcode that doesn't exist you'll get a JSON object with a code of 404 and a message property with a message string. It might look something like: 
 
@@ -537,30 +480,31 @@ Try as many of these stretch goals as you can!
 
 <!-- > -->
 
-## After Class
+## After This Lesson
 
-- Submit your answers to the Schema Pop Quiz to GradeScope
-- Submit your completed GraphQL + Express API project to GradeScope. 
-  - Solve as many of the challenges as you can! 
-  - If you have completed all of the challenges try the stretch challenges! 
+- Submit your completed GraphQL Weather API to GradeScope.
+  - Solve as many challenges as you can!
+  - If you finish all challenges, try the stretch challenges.
 
 <!-- > -->
 
-### Evaluate your work 
+### Evaluate your work
 
-1. Build a GraphQL API over a Public API
-1. Use GraphQL and Express
-1. Define Resolvers for types
+1. Build a GraphQL API over a public REST API
+1. Use Apollo Server with async resolvers
+1. Define resolvers that fetch external data
 
-| - | Does not meet expectations | Meets Expectation | Exceeds Expectations | 
+| - | Does not meet expectations | Meets Expectations | Exceeds Expectations |
 |:---:|:---:|:---:|:---:|
-| Comprehension of Resolvers | Can't explain what a resolver is | Can describe a resolver | Could teach another student what a resolver is |
-| Using express-graphql | Can't set up a simple server with express-graphql | Could set up a simple server using express-graphql | Could teach a new student how to set up a simple express-graphql server |
-| Using Resolvers | Can't write a simple resolver | Could write a simple resolver | Could expand on the resolvers from the homework solution to add new features and functionality |
+| Comprehension of Resolvers | Can't explain what a resolver is | Can describe what a resolver does and find it in the code | Could describe how resolvers could be used beyond this example |
+| Apollo Server setup | Can't set up a basic Apollo Server | Could set up Apollo Server with a schema and resolvers | Could teach another student how to set up Apollo Server |
+| Async Resolvers | Can't write an async resolver | Can write an async resolver using native `fetch` | Could expand the resolver to handle errors and additional fields |
 
 <!-- > -->
 
 ## Resources
 
 - https://www.toptal.com/developers/gitignore/api/node
+- https://www.apollographql.com/docs/apollo-server/getting-started
+- https://openweathermap.org/api
 
