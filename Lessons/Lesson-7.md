@@ -1,34 +1,38 @@
-# ACS 4390 - Websockets
+# ACS 4330 - WebSockets and Subscriptions
+
+**Estimated time:** 3–4 hours
+
+**Prerequisites:** Completed Lessons 2–6. Comfortable with Apollo Server schemas, resolvers, and mutations.
 
 <!-- > -->
 
-## Review 
+## Review
 
-Imagine you are working on a GraphQL card game. 
+Before reading on, write out the schema for this card game from memory:
 
-```JS
+```graphql
 enum Suit {
-	...
+  # fill in the suits
 }
 
 type Card {
-	value: Int!
-	suit: Suit!
+  value: Int!
+  suit: Suit!
 }
 
 type Hand {
-	cards: [Card!]!
+  cards: [Card!]!
 }
 ```
 
 <!-- > -->
 
-Add two GraphQL *mutations* to the schema: 
+Now add two mutations to the schema:
 
-- Define a mutation that draws a card.
-  - This is a mutation since it will remove a card from the deck and add it to your hand
-- Define a mutation that discards a card. 
-  - This is a mutation since it will add a card to the discard pile and remove it from your hand
+- `drawCard` — removes a card from the deck and adds it to the hand
+- `discardCard` — removes a card from the hand and adds it to the discard pile
+
+Write both in the GraphQL Schema Language. What arguments does each need? What do they return?
 
 <!-- > -->
 
@@ -77,10 +81,10 @@ Best use of subscriptions: Low latency real time updates. 🙌
 
 Think small amounts of data loaded in real time. 
 
-Quick brainstorm: 
+**Write down your answers before reading on:**
 
-- What do you think would be good use of subscriptions?
-- What do you think would be a bad use of subscriptions?
+- What would be a good use of subscriptions?
+- What would be a bad use of subscriptions?
 
 <!-- > -->
 
@@ -106,7 +110,7 @@ What can you do with a websocket?
 - 🗺 Mapping
 - 👾 Games
 
-Brainstorm use cases for websockets?
+**Write down 3 use cases for WebSockets before reading on.**
 
 <!-- > -->
 
@@ -128,7 +132,7 @@ This example creates a simple server using Express.js 🚂 and a web page that c
 
 There two pieces to this example. ✌️
 
-- The server 👩‍🍳 handles a websocket connections and broadcasts messages received to all connected clients. This portion, in `server.js`, is written with node and express. The code here is specific to that environment. 
+- The server 👩‍🍳 handles WebSocket connections and broadcasts messages received to all connected clients. This is in `server.js`, written with Node.js and the `ws` library.
 - The client 🍦 code is written using the browser websocket API. This code is written in `index.js`. This client code opens a websocket connection with the server. It sends messages to the server and receives messages from the server.
 
 <!-- > -->
@@ -137,83 +141,62 @@ There two pieces to this example. ✌️
 
 <!-- > -->
 
-Start by making a new Node project: 
+Create a new Node project:
 
-- `npm init -y`
-- `npm install ws express`
+```bash
+mkdir websocket-chat
+cd websocket-chat
+npm init -y
+```
 
-<!-- > -->
+Add `"type": "module"` to `package.json`, then install the `ws` library:
 
-Create a server: 
-
-- Create: `server.js`
-
-<!-- > -->
-
-Import your dependencies:
-
-```JS
-// Import dependencies
-const express = require('express');
-const http = require('http');
-const WebSocket = require('ws');
+```bash
+npm install ws
 ```
 
 <!-- > -->
 
-```JS
-// Define a port
-const port = 6969;
-// create a server
-const server = http.createServer(express);
-// Create a web socket server
-const wss = new WebSocket.Server({ server })
+Create `server.js`:
+
+<!-- > -->
+
+Import the WebSocket server:
+
+```js
+import { WebSocketServer } from 'ws'
 ```
 
 <!-- > -->
 
-The `http` is used to create an HTTP server. This will be used to listen for and emit messages to the server. 
+Create the server and listen for connections:
 
-`Websocket` is used to create server that will handle websocket connections. 
+```js
+const wss = new WebSocketServer({ port: 6969 })
 
-<!-- > -->
-
-```JS
-// Handle a web socket connection
 wss.on('connection', (ws) => {
-	// After making a connection start listening for messages
-	console.log('client connecting')
+  console.log('client connected')
 
-  // Handle 
   ws.on('message', (data) => {
-		// For each client broadcast the data
+    // Broadcast to all other connected clients
     wss.clients.forEach((client) => {
-      if (client !== ws && client.readyState === WebSocket.OPEN) {
-        client.send(data);
+      if (client !== ws && client.readyState === ws.OPEN) {
+        client.send(data)
       }
     })
   })
+
+  ws.on('close', () => {
+    console.log('client disconnected')
+  })
 })
+
+console.log('WebSocket server running on ws://localhost:6969')
 ```
 
 <!-- > -->
 
-Here the code listens for a `connection` event. When this occurs we start listening for `message` events. Any client can send these. 
-
-The code handles a message by sending the data received from the message to all connected clients. Before broadcasting the message we check that the message didn't come from this `ws` and that the client has an open websocket connection. 
-
-<!-- > -->
-
-```JS
-// Start the server
-server.listen(port, () => {
-  console.log(`Server is listening on ${port}!`)
-})
-```
-
-<!-- > -->
-
-This is more or less stadnard express code to start the server. 
+When a client connects, the server listens for `message` events from that socket. Each message is broadcast to all *other* connected clients — the sender is excluded (`client !== ws`), and only open connections receive it (`client.readyState === ws.OPEN`).
 
 <!-- > -->
 
@@ -335,12 +318,14 @@ Define some variables. Get references to the DOM elements that will be used by t
 // Display messages from the websocket
 function showMessage(message) {
   messages.innerHTML += `${message}\n\n` // display the message
-  messages.scrollTop = messages.scrollHeight // scroll to the top
+  messages.scrollTop = messages.scrollHeight // scroll to bottom
   messageInput.value = '' // clear the input field
 }
 ```
 
-This function will be used to display messages that come in from the websocket connection. 
+<small>Note: using `innerHTML` is fine for a learning exercise. In production you'd use `textContent` or a safe DOM method to prevent XSS.</small>
+
+This function will be used to display messages received from the WebSocket connection.
 
 <!-- > -->
 
@@ -453,8 +438,8 @@ Currently the text displayed is just added to the `innerHTML` of the `messages` 
 Let's mod the client and include a name with each message. 
 
 - Add a input field to add a name. 
-	- `<input type="text" id="input-name">`
-- Create a reference to the new element
+	- `<input type="text" id="name-input">`
+- Create a reference to the new element:
 	`const nameInput = document.querySelector('#name-input')`
 - When sending the message you need to send both the name and the message. You can do this one of two ways. In both cases you'll be modifying the data that is sent to the websocket. This appears on the last line. 
 	1. Combine both the name and message into a single string. 
@@ -514,12 +499,9 @@ Add the date and or time to a message. Would be good if the messages had a time 
 
 <!-- > -->
 
-## After Class 
+## After This Lesson
 
-<!-- > -->
-
-- Finish the challenges here and submit your work to GradeScope
-- Finish up the outstanding homework projects and submit those to GradeScope.
+- Finish the challenges here and submit your work to GradeScope.
 
 <!-- > -->
 
@@ -532,7 +514,7 @@ Add the date and or time to a message. Would be good if the messages had a time 
 
 | - | Does not meet expectations | Meets expectations | Exceeds expectations | 
 |:---:|:---:|:---:|:---:|
-| Conprension of Subscriptions | Can't explain GraphQL subscriptions | Can explain GraphQL subscriptions | Could teach the basics of GraphQL subscriptions to another student |
+| Comprehension of Subscriptions | Can't explain GraphQL subscriptions | Can explain GraphQL subscriptions | Could teach the basics of GraphQL subscriptions to another student |
 | Websockets | Can't describe websockets | Can describe websockets | Could describe uses cases for websockets |
 | Implementing websocket server | Can't implement a simple web socket | Can implement a websocket server | Could expand upon the challenge solution server |
 | Create a Websocket client | Can't create a simple websocket client | Can create a simple websocket client | Could expand on the challenge solution |
