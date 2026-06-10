@@ -1,53 +1,37 @@
-# ACS 4390 - GraphQL Mutations 
+# ACS 4330 - GraphQL Mutations
 
-Mutations are queries that make changes or you could say mutate data.
+**Estimated time:** 3–4 hours
+
+**Prerequisites:** Completed Lesson 2. You have a working Apollo Server with a list of things (pets, songs, etc.) and can query them.
+
+Mutations are queries that make changes — they mutate data.
 
 <!-- > -->
 
 ## Learning Objectives
 
 1. Describe mutations
-1. Define mutation queries
-1. Use Mutations
-1. Describe Resolvers
-1. Write resolvers
+1. Define mutation types in a schema
+1. Write mutation queries
+1. Write mutation resolvers
 
 <!-- > -->
 
-## Warm up - What do you really know?
+## Before You Start — Self-Check
 
-Want to really learning something? Try this: https://fs.blog/2021/02/feynman-learning-technique/
-
-<!-- > -->
-
-Richard Feynman's learning technique breaks down into 4 steps: 
-
-1. Pretend to teach a concept you want to learn about to a student in the sixth grade.
-2. Identify gaps in your explanation. Go back to the source material to better understand it.
-3. Organize and simplify.
-4. Transmit (optional).
-
-<!-- > -->
-
-Pair up and teach your partner GraphQL. Your partner will be your rubber duck. Follow steps 1 and 2. Try and explain these ideas: 
+Use the Feynman technique solo: write down your answers to these questions in plain language, as if explaining to someone who has never heard of GraphQL. Where you can't explain it clearly, that's the gap to fix before continuing.
 
 1. What is GraphQL?
-2. How is different from REST?
-3. The GraphQL query language
-4. The GraphQL schema language
+2. How is it different from REST?
+3. What is the GraphQL query language?
+4. What is the GraphQL schema language?
 5. What is a resolver?
 
-<!-- > -->
-
-**Step 1:** Explain GraphQL to your partner as if they were in sixth grade. No big words or jargon. Break the ideas down to plain language anyone could understand. 
+Go back to Lessons 1–2 for anything you can't explain clearly.
 
 <!-- > -->
 
-**Step 2:** Identify what you know and where the gaps in your knowledge are. The gaps will be in the areas where you struggle to explain a concept. 
-
-<!-- > -->
-
-Example project: https://github.com/Tech-at-DU/class-6-nested-queries
+Example reference project: https://github.com/Tech-at-DU/class-6-nested-queries
 
 ## Mutations
 
@@ -132,11 +116,9 @@ query {
 
 <!-- > -->
 
-Using your code from assignment 2, solve the following challenges.
+Using your Apollo Server from Lesson 2 (the list of pets, songs, etc.), add mutations to support full CRUD.
 
-Note! The challenges here will use an "in memory" data source so the data will only exist while the server is running.
-
-Use the second homework assignment to complete the challenges below. You'll be adding new features that existing code. 
+The data source is in-memory — changes only persist while the server is running. That's fine for now; persistence is covered later when we add a database.
 
 <!-- > -->
 
@@ -169,16 +151,20 @@ type Mutation {
 
 <!-- > -->
 
-Now you need a resolver to update the array. For the petList it might look like:
+Add a `Mutation` resolver. In Apollo Server, mutations live under `Mutation:` in your resolvers object — separate from `Query:`:
 
-```JS
-const root = {
-  ...
-	addPet: ({ name, species }) => {
-		const pet = { name, species }
-		petList.push(pet)
-		return pet
-	}
+```js
+const resolvers = {
+  Query: {
+    // ... your existing queries
+  },
+  Mutation: {
+    addPet: (_, { name, species }) => {
+      const pet = { name, species }
+      petList.push(pet)
+      return pet
+    }
+  }
 }
 ```
 
@@ -221,20 +207,22 @@ type Mutation {
 
 <!-- > -->
 
-Add a resolver. Your resolver should look at the fields and update the values when the field is NOT undefined! 
+Add a resolver under `Mutation:`. Update only fields that were provided:
 
-```JS
-const root = {
-  ...
-  updatePet: ({ id, name, species }) => {
-    const pet = petList[id]  // is there anything at this id? 
-    if (pet === undefined) { // Id not return null
-      return null 
+```js
+const resolvers = {
+  Query: { /* ... */ },
+  Mutation: {
+    // ... addPet,
+    updatePet: (_, { id, name, species }) => {
+      const pet = petList[id]
+      if (pet === undefined) {
+        return null
+      }
+      pet.name = name || pet.name
+      pet.species = species || pet.species
+      return pet
     }
-    // if name or species was not included use the original
-    pet.name = name || pet.name 
-    pet.species = species || pet.species
-    return pet
   }
 }
 ```
@@ -278,9 +266,17 @@ Write queries that cover all of the CRUD operations you have implemented. Includ
 
 <!-- > -->
 
-**Challenge 5 - Code Review**
+**Challenge 5 - Self Code Review**
 
-Code review your work with another student. This is an important step in the development process. Code is not pushed to the master branch unless it's been reviewed! 
+Before moving on, review your own code against this checklist:
+
+- [ ] Schema has `type Mutation { ... }` separate from `type Query { ... }`
+- [ ] Resolvers object has both `Query: { ... }` and `Mutation: { ... }` keys
+- [ ] Each mutation resolver takes `(_, { ...args })` — not just `({ ...args })`
+- [ ] `addPet` returns the created pet
+- [ ] `updatePet` returns null for an out-of-range id
+- [ ] `deletePet` returns the deleted pet (or null if not found)
+- [ ] All three mutations tested in Apollo Sandbox with valid and invalid inputs
 
 <!-- > -->
 
@@ -302,11 +298,9 @@ Add the following types to your schema:
 
 <!-- > -->
 
-## After Class
+## After This Lesson
 
-<!-- > -->
-
-Compelete the challenges above and submit them to GradeScope. 
+Complete the challenges above and submit to GradeScope.
 
 <!-- > -->
 
