@@ -70,14 +70,11 @@ Students by the end of the course will be able to ...
 [Lesson 5 - React and GraphQL]: Lessons/Lesson-5.md
 [Lesson 6 - GraphQL Mutations]: Lessons/Lesson-6.md
 [Lesson 7 - Websockets]: Lessons/Lesson-7.md
-<!-- [Lesson 8 - Subscriptions]: Lessons/Lesson-8.md -->
-<!-- [Lesson 9 - Subscriptions Lab]: Lessons/Lesson-9.md -->
-[Lesson 10 - Advanced Queries]: Lessons/Lesson-10.md
-[Lesson 11 - Lab]: Lessons/Lesson-11.md
+[Lesson 8 - Nested Resolvers]: Lessons/Lesson-8.md
 [Lesson 12 - GraphQL ORM]: Lessons/Lesson-12.md
 
 [Query Variables]: Lessons/Lesson-useLazyQuery.md
-[Nested resolvers]: Lessons/Lesson-nested-resolvers.md
+[Nested resolvers]: Lessons/Lesson-8.md
 [GraphQL Mongo]: Lessons/Lesson-graphql-mongo.md
 [Subscriptions]: Lessons/Lesson-websockets.md
 

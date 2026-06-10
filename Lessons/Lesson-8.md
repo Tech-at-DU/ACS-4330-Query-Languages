@@ -1,909 +1,438 @@
-# ACS 4390 - Subscriptions
+# ACS 4330 - Nested Resolvers
+
+**Estimated time:** 3–4 hours
+
+**Prerequisites:** Completed Lessons 2 and 6. Comfortable with Apollo Server schemas, resolvers, and mutations.
 
 <!-- > -->
 
-## Review 
+## Learning Objectives
+
+1. Explain what a nested resolver is and why it's needed
+2. Use the `parent` argument in a resolver
+3. Write type-level resolvers that resolve relationship fields
+4. Build a schema with connected types
 
 <!-- > -->
 
-Quick there's a couple of problems with this code you need to fix them! Remember that Kaiju battle schema? Someone started writing an implementation for it. But there are a few problems can you fix them? 
+## Before You Start
+
+In Lesson 1 you ran this query against the Rick and Morty API:
+
+```graphql
+{
+  character(id: 1) {
+    name
+    origin {
+      name
+    }
+  }
+}
+```
+
+A single query returned a character *and* their origin location — a nested type.
+
+**Write down:** how do you think the server resolved the `origin` field? What had to happen between fetching the character and returning the location?
 
 <!-- > -->
 
-Read the code and try and solve as many problems as you can find. You can do this by eye just reading the code here, or you can run the code and read the error.
+## What is a Nested Resolver?
 
-```JS
-const express = require('express')
-const { graphqlHTTP } = require('express-graphql')
-const { buildSchema } = require('graphql')
+<!-- > -->
 
-// Create a schema
-const schema = buildSchema(`
-type Kaiju {
-	name: String!
-	power: Int!
+So far every resolver you've written handles a top-level query:
+
+```js
+const resolvers = {
+  Query: {
+    character: (_, { id }) => characters.find(c => c.id === id),
+  }
 }
+```
 
-type City {
-	name: String!
-	population: Int!
+This works when all the data needed lives on the object you return. But what about a field that points to *another type*?
+
+<!-- > -->
+
+```graphql
+type Character {
+  id: ID!
+  name: String!
+  origin: Location   # <-- this is another type, not a scalar
 }
+```
 
-type Battle {
-	fighter1: Kaiju!
-	fighter2: Kaiju!
-	city: City!
+The character object in your data might store a `locationId` number — not a full `Location` object. GraphQL needs to resolve that `origin` field separately.
+
+<!-- > -->
+
+That's what a **nested resolver** (also called a **field resolver**) does — it resolves a specific field on a type, receiving the parent object as its first argument.
+
+```js
+const resolvers = {
+  Query: {
+    character: (_, { id }) => characters.find(c => c.id === id)
+  },
+  Character: {                                    // <-- type name
+    origin: (parent) => {                         // <-- field name
+      return locations.find(l => l.id === parent.originId)
+    }
+  }
 }
-
-type Query {
-	getKaiju(id: Int!): Kaiju!
-	allKaiju: [Kaiju!]!
-	getCity(id: Int!): City!
-	allCities: [City!]!
-	getBattle(fighter1: String!, fighter2: String!, arena: String!): Battle! 
-}`)
-
-const fighters = [
-	{ name: 'Godzilla', power: 72 },
-	{ name: 'Mothra', power: 89 },
-	{ name: 'Kong', power: 68 },
-	{ name: 'Predator', power: 98 }
-]
-
-const cities = [
-	{ name: 'Tokyo', population: 37260000 },
-	{ name: 'Shanghai', population: 234800000 },
-	{ name: 'Såo Paulo', population: 208800000 },
-	{ name: 'New York City', population: 18650000 } 
-]
-
-// Define a resolver
-const root = {
-	getKaiju: ({id}) => {
-		return fighters[id]
-	},
-	allKaiju: () => {
-		return fighters 
-	},
-	getCity: ({id}) => {
-		return cities[id]
-	},
-	allCities: () => {
-		return cities
-	},
-	getBattle: ({ fighter1, fighter2 ,arena }) => {
-		return { fighter1, fighter2, city }
-	}
-}
-// Create an express app
-const app = express()
-
-// Define a route for GraphQL
-app.use('/graphql', graphqlHTTP({
-	schema,
-	rootValue: root,
-	graphiql: true
-}))
- 
-// Start this app
-const port = 4000
-app.listen(port, () => {
-	console.log(`Running on port: ${port}`)
-})
 ```
 
 <!-- > -->
 
-# Learning Objectives
+### The `parent` Argument
 
-- Use Apollo Server
-- Create GraphQL Schema
-- Use GraphQL Subscriptions
-- Use advanced features of the Graphiql browser
+Every resolver receives `(parent, args, context, info)`.
 
-<!-- > -->
+At the `Query` level, `parent` is usually ignored (`_`). At the type level, **`parent` is the object returned by the parent resolver** — in this case, the character object.
 
-## Subscriptions with GraphQL
-
-<!-- > -->
-
-Subscriptions are described in the GraphQL docs but the implementation is left up to developers. Usually, these would be implemented with a websocket.
-
-<!-- > -->
-
-There are several GraphQL libraries to choose from:
-
-- 🚂 express-graphql
-- 🏆 **apollo-server-express**
-- 🧘‍♂️ graphql-yoga
-
-<!-- > -->
-
-This example uses 🏆 Apollo Server. This seems to be the most advanced GraphQL server available at this time. 
-
-<small>(I couldn't get subscriptions to work with express-graphql.)</small>
-
-<!-- > -->
-
-Implementing a server with Apollo is similar to implementing the express-graphql server but with a few differences.
-
-😎 🏆 🤔
-
-<!-- > -->
-
-## Build a GraphQL chat with Subscriptions
-
-<!-- > -->
-
-Start a new npm project: 
-
+```js
+Character: {
+  origin: (parent) => {
+    // parent = { id: '1', name: 'Rick Sanchez', originId: '1', locationId: '3' }
+    return locations.find(l => l.id === parent.originId)
+  }
+}
 ```
+
+<!-- > -->
+
+### When does GraphQL call a field resolver?
+
+Only when the client asks for that field. If the query is:
+
+```graphql
+{ character(id: 1) { name } }
+```
+
+The `origin` resolver is **never called** — GraphQL only resolves what was requested. This is one of the key efficiency wins of GraphQL.
+
+<!-- > -->
+
+## Building It
+
+<!-- > -->
+
+### Setup
+
+Create a new Apollo Server project (same setup as Lesson 2):
+
+```bash
+mkdir nested-resolvers
+cd nested-resolvers
 npm init -y
 ```
 
-<!-- > -->
-
-Start by importing dependencies. For this project you'll use: 
-
-```JS
-npm install apollo-server@2 graphql
-```
-
-For this project you are using Apollo Server you can read more about it here: 
-
-https://www.apollographql.com/docs/
-
-<!-- > -->
-
-Set up your server by creating:
-
-```
-touch server.js
-```
-
-<!-- > -->
-
-Add a start script to your package.json: 
-
-```
-"scripts": {
-	...
-	"start": "nodemon server.js"
- },
-```
-
-<!-- > -->
-
-### Setup the server
-
-<!-- > -->
-
-In server.js start working on your server. 
-
-Import your dependencies:
-
-```JS
-const { ApolloServer, gql, PubSub } = require('apollo-server');
-```
-
-<!-- > -->
-
-This project will use Subscriptions. To handle events associated with subscriptions you'll use the PubSub class. Make an instance of PubSub
-
-```JS
-const pubsub = new PubSub();
-```
-
-<!-- > -->
-
-You'll come back to this later. We need to put some things in place first before we make use of this pubsub instance. 
-
-The listening for and publishing subscriptions will be handled with PubSub. Read more about it here: 
-
-https://www.apollographql.com/docs/apollo-server/data/subscriptions/#the-pubsub-class
-
-<!-- > -->
-
-### Add a Schema
-
-<!-- > -->
-
-Add some type definitions. This is where your GraphQL schema will live for this project: 
-
-```JS
-const typeDefs = gql`
-	type Post {
-		message: String!
-		date: String!
-	}
-
-	type Query {
-		posts: [Post!]!
-	}
-
-	type Mutation {
-		addPost(message: String!): Post!
-	}
-
-	type Subscription {
-		newPost: Post!
-	}
-`
-```
-
-<!-- > -->
-
-This defines an object type: Post, a Query type: posts, a Mutation type: `addPost`, and a Subscription type: `newPost`.
-
-Read more about the gql function here: 
-
-https://www.apollographql.com/docs/resources/graphql-glossary/#gql-function
-
-<!-- > -->
-
-**Aside: JS Template Strings**
-
-The syntax here looks a little strange: 
-
-```JS
-const typeDefs = gql`
-	...
-`
-```
-
-<!-- > -->
-
-Following `gql` with the backquotes looks weird, what is going on? 
-
-**tl;dr** gql is a function and the JS allows us to follow a function with a template string and omit the parenthesis. read the notes below there is more to this feature! 
-
-<!-- > -->
-
-Why? Using this syntax makes it include a multiline string value as a parameter to the `gql` function. 
-
-Read more here:
-
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates
-
-<!-- > -->
-
-### Mockup some Data
-
-<!-- > -->
-
-Define an array of post objects. Each message will have a message and date field. This matches the Post type defined in the schema. 
-
-```JS
-const data = [
-	{ message: 'hello world', date: new Date() }
-]
-```
-
-<small>You'll expand on this in the challenges later.</small> 
-
-<!-- > -->
-
-### Define your resolvers
-
-<!-- > -->
-
-Now define your resolvers. Apollo resolvers work the same but have a little different structure from the resolvers used with express-graphql. 
-
-Let's build the resolvers in stages.
-
-<!-- > -->
-
-Start with the root level properties:
-
-```JS
-const resolvers = {
-	Query: {
-		// Query types
-	},
-	Mutation: {
-		// Mutation types
-	},
-	Subscription: {
-		// Subscription types
-	}
+Add to `package.json`:
+```json
+{
+  "type": "module",
+  "scripts": {
+    "start": "node --watch server.js"
+  }
 }
 ```
 
-Notice the root level properties here match the GraphQL query types: Query, Mutation, and Subscription. When you define resolvers for your query types you'll match your schema to this. 
-
-<!-- > -->
-
-For example, the schema shows our posts query: 
-
-```
-type Query {
-	posts: [Post!]!
-}
+Install:
+```bash
+npm install @apollo/server
 ```
 
-<!-- > -->
-
-#### Query Resolver
+Create `server.js`.
 
 <!-- > -->
 
-You'll define the resolver for this `Query`:
+### The Data
 
-```JS
-const resolvers = {
-	Query: {
-		posts: () => {
-			return data
-		}
-	},
-	Mutation: {
-		// Mutation types
-	},
-	Subscription: {
-		// Subscription types
-	}
-}
-```
-
-That was an easy one. Let's try that again...
-
-<!-- > -->
-
-#### Mutation Resolver
-
-<!-- > -->
-
-Add the `addPost` mutation. This will go under `Mutation`:
-
-```JS
-// Resolvers 
-const resolvers = {
-	Query: {
-		...
-	},
-	Mutation: {
-		addPost: (_, { message }) => {
-			const post = { message, date: new Date() }
-			data.push(post)
-			pubsub.publish('NEW_POST', { newPost: post }) // Publish!
-			return post
-		}
-	},
-	Subscription: {
-		// Subscription types
-	}
-}
-```
-
-<!-- > -->
-
-```JS
-const resolvers = {
-	Mutation: {
-		addPost: (parent, args, context, info) => {
-			...
-		}
-	}
-}
-```
-
-Note! The arguments for a resolver function in Apollo are different! A resolver takes 4 arguments: 
-
-- `parent`
-- `args` 
-- `context`
-- `info`
-
-<small>You'll be looking at the other arguments later, now let's focus on args.</small>
-
-<!-- > -->
-
-We need the `_` in place to get to the second argument, and we'll use the deconstruction syntax to turn the `args` into variables. 
-
-```JS
-addPost: (_, { message }) { ... }
-```
-
-<small>Here we destructure args to get message.</small>
-
-<!-- > -->
-
-Note! 
+You'll build a small subset of the Rick and Morty schema with in-memory data. Add this to `server.js`:
 
 ```js
-pubsub.publish('NEW_POST', { newPost: post })
-```
-
-This line will publish a post to clients who subscribed. 
-
-Clients who are subscribed to "NEW_POST" will receive 
-
-```JS
-{ newPost: post }
-```
-
-<small>This has to match the return type of the subscription!</small>
-
-```JS
-// Schema
-type Subscription {
-	newPost: Post!
-}
-```
-
-<!-- > -->
-
-```JS
-const resolvers = {
-	Query: {
-		user(parent, args, context, info) {
-			return users.find(user => user.id === args.id);
-		}
-	}
-}
-```
-
-Read more about Apollo resolvers here: 
-
-[Read about Appollo Resolvers](https://www.apollographql.com/docs/apollo-server/data/resolvers/#gatsby-focus-wrapper)
-
-[Array.find()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find)
-
-<!-- > -->
-
-#### Subscription Resolvers
-
-<!-- > -->
-
-Resolvers for subscriptions work a little differently from other resolvers. 
-
-Here is where you will use `pubsub`. 
-
-<small>**Note!** The `PubSub` class is used for development. For production, the docs suggest using the `PubSubEngine` class.</small>
-
-<!-- > -->
-
-A subscription uses a `subscribe` method. This method must return an instance of `AsyncIterator`. 
-
-<!-- > -->
-
-#### Adding a subscription
-
-<!-- > -->
-
-Your schema defines `newPost` subscription, so you'll resolve it with a method at: `Subscription.newPost.subscribe`
-
-```
-# Schema
-type Subscription {
-	newPost: Post!
-}
-```
-
-<!-- > -->
-
-So our resolver will be:
-
-```JS
-const resolvers = {
-		...
-	Subscription: {
-		newPost: {
-			subscribe: () => pubsub.asyncIterator('NEW_POST')
-		}
-	}
-}
-```
-
-<small>Update your resolver!</small>
-
-<!-- > -->
-
-This subscribe method will add a subscription for `newPost`. 
-
-Notice you're calling: `pubsub.asyncIterator('NEW_POST')` to generate the instance of `AsyncIterator`. The argument: `'NEW_POST'` is a "tag" that will identify this subscription from other subscriptions. 
-
-Read about [Appollo Subscriptions](https://www.apollographql.com/docs/apollo-server/data/subscriptions/#resolving-a-subscription) 
-
-<!-- > -->
-
-### Create and Start the Server
-
-<!-- > -->
-
-Create an instance of ApolloServer and include the typedefs and resolvers. 
-
-```JS
-const server = new ApolloServer({ 
-	typeDefs, 
-	resolvers 
-});
-```
-
-<!-- > -->
-
-Start the server:
-
-```JS
-// The `listen` method launches a web server.
-server.listen().then(({ url }) => {
-	console.log(`🚀 Server ready at ${url}`);
-});
-```
-
-<!-- > -->
-
-### Testing your work! 
-
-<!-- > -->
-
-The next step will be to test the server and test subscriptions. You do this with Graphiql browser for now since you haven't created a client application yet. 
-
-<!-- > -->
-
-So far the system supports the following features: 
-
-- Returns a list of posts: `posts`
-	- Each post has a message and date
-- Adds a new post to the list: `addPost`
-- Subscribes to new posts: `newPost`
-	- This should display a post whenever a post is added
-
-<!-- > -->
-
-We need to test all of these features now! 
-
-Open: http://localhost:4000/graphql? In your browser. 
-
-The interface looks a little different but the function is the same. 
-
-<!-- > -->
-
-#### Aside: Operation names
-
-<!-- > -->
-
-When you run a query you can give it an "Operation Name". This allows you to identify and describe a query with a name. 
-
-```
-# Operation name: Luke
-Query GetLuke {
-	person(personID: 1) {
-		name
-	}
-}
-```
-
-<small>You must include the query type before the Operation name!</small> 
-
-<!-- > -->
-
-Read more about operation names: https://graphql.org/learn/queries/#operation-name
-
-<!-- > -->
-
-#### Test posts Query
-
-<!-- > -->
-
-Test your posts: 
-
-```
-# Operation name: Posts
-query Posts {
-	posts {
-		message
-		date
-	}
-}
-```
-
-Click the ▶️ button. You should see a list of posts. 
-
-<!-- > -->
-
-#### Test addPost Mutation
-
-<!-- > -->
-
-Add this new query below the existing query:
-
-``` 
-# Operation name: AddPost
-mutation AddPost {
-	addPost(message:"Foo Bar") {
-		message
-		date
-	}
-}
-```
-
-Clicking the ▶️ button should show a menu listing your named operations! Choose "AddPost". 
-
-<!-- > -->
-
-Now click ▶️ and choose "Posts". This should list your posts and the new post should be in the list! 
-
-Debug any errors you have here at this step. 
-
-<!-- > -->
-
-#### test newPost Subscription
-
-<!-- > -->
-
-If you can list your posts and add new posts you can register a subscription for posts. Registering a subscription will display the new post when a new post is created. 
-
-<!-- > -->
-
-To make this work you'll need to dedicate a new tab inside the Graphiql interface. Notice at the top there are tabs. make a new one by clicking ✚.
-
-<small>**Pro tip:** double click to name your tabs!</small> 
-
-<!-- > -->
-
-In the new tab add a subscription query: 
-
-```
-subscription NewPost {
-	newPost {
-		message
-		date
-	}
-}
-```
-
-Click the ▶️ button. This should run constantly. Notice the run button now looks like a stop button. This tab is now dedicated to watching for subscriptions. 
-
-This should register a subscription that will display the message and date of the new post when it is created. 
-
-<!-- > -->
-
-Switch the first tab and run the `AddPost` operation again. You can change the message for fun. 
-
-Switch to the subscription tab and if everything is work you should see the new post! 
-
-<!-- > -->
-
-### Review 
-
-<!-- > -->
-
-Review your work. Answer these questions for your self: 
-
-- What are your types? 
-- Which resolver handles subscriptions? 
-- Which resolver publishes the subscription? 
-
-<!-- > -->
-
-### Challenges!
-
-<!-- > -->
-
-The goal of these challenges is to make a Slack-like server. To do this you need to create channels, post messages to channels, subscribe to a channel, and subscribe to new channels. 
-
-Slack would require a user object and authentication. We are going to leave this project to scope it to the core functionality. You could add these features later if you wanted to continue working on this!
-
-<!-- > -->
-
-**Challenge 1 - managing Channels**
-
-The first step is to look at your data and ask yourself where you would store channels? Here are a couple of options:
-
-<!-- > -->
-
-Option 1: Use an object. Imagine your data storage as an object. 
-
-```JS
-{
-	channel1: [ {}, {}, ... ],
-	channel2: [ {}, {}, ... ]
-}
-```
-
-Each property is the channel name and the value is an array of posts. Pros you can be sure that channels are unique! Cons there isn't any room for channel metadata. 
-
-<!-- > -->
-
-Option 2: As above but you use an object for the value of each channel property. 
-
-```JS
-{
-	channel1: { name: 'Cats!', posts: [ {}, {}, ... ] },
-	channel2: { name: 'Dogs', posts: [ {}, {}, ... ] }
-}
-```
-
-Here you could add metadata to each channel. But your structure is more complex. 
-
-<!-- > -->
-
-Option 3: Use an array of objects with a channel name and posts property. 
-
-```JS
-[
-	{ channel: 'channel1', posts: [ {}, {}, ... ] },
-	{ channel: 'channel2', posts: [ {}, {}, ... ] }
+const characters = [
+  { id: '1', name: 'Rick Sanchez',  status: 'Alive', originId: '1', locationId: '3' },
+  { id: '2', name: 'Morty Smith',   status: 'Alive', originId: '2', locationId: '3' },
+  { id: '3', name: 'Summer Smith',  status: 'Alive', originId: '20', locationId: '20' },
+  { id: '4', name: 'Beth Smith',    status: 'Alive', originId: '20', locationId: '20' },
+  { id: '5', name: 'Jerry Smith',   status: 'Alive', originId: '20', locationId: '20' },
+]
+
+const locations = [
+  { id: '1',  name: 'Earth (C-137)',                dimension: 'Dimension C-137' },
+  { id: '2',  name: 'Abadango',                     dimension: 'unknown' },
+  { id: '3',  name: 'Citadel of Ricks',             dimension: 'unknown' },
+  { id: '20', name: 'Earth (Replacement Dimension)', dimension: 'Replacement Dimension' },
 ]
 ```
 
-This works but you will need to keep the channel names unique. 
-
-There are other options. You can think of your ideas. What's important now is to understand your solution since it will affect how you answer the challenges coming up. 
+Notice: characters store `originId` and `locationId` — just IDs, not full objects. The nested resolvers will look up the actual Location.
 
 <!-- > -->
 
-Refactor your code to support channels. Include at least one channel in the refactored code! 
+### The Schema
 
-<!-- > -->
+```js
+const typeDefs = `#graphql
+  type Character {
+    id: ID!
+    name: String!
+    status: String!
+    origin: Location
+    location: Location
+  }
 
-**Challenge 2 - Channels Query**
+  type Location {
+    id: ID!
+    name: String!
+    dimension: String
+    residents: [Character!]!
+  }
 
-Slack has channels and messages can be posted to a channel. To start you'll need to define a schema for a channel type.
-
-Create a Query type for `channels`. It should return an array of channel names. 
-
-<!-- > -->
-
-**Challenge 3 - addChannel Mutation**
-
-Now that we can get a list of the channels it's time to make new channels. 
-
-Add a Mutation that creates a new channel. 
-
-<!-- > -->
-
-**Challenge 4 - newChannel Subscription**
-
-Now that you can make new channels you might want to be notified when a new channel was created. 
-
-Add a Subscription for newChannel.
-
-<!-- > -->
-
-**Challenge 5 - Posts need a channel**
-
-Now that posts are stored when with a channel you'll need to supply a channel when asking for posts!
-
-The `posts` Query might look like this now: 
-
-```
-posts(channel: String!): [Post!]
+  type Query {
+    character(id: ID!): Character
+    characters: [Character!]!
+    location(id: ID!): Location
+    locations: [Location!]!
+  }
+`
 ```
 
 <!-- > -->
 
-**Challenge 6 - Add Post to channel**
+### Query Resolvers
 
-All posts need to be associated with a channel. You need to make sure when a post is created that it is assigned to a channel. How you do this depends on the arrangement of your data. 
+Start with the top-level Query resolvers:
 
-Here is a suggestion. You probably want to modify the `addPost` Mutation to look something like:
-
-```
-posts(channel: String!, message: String!): Post!
-```
-
-<!-- > -->
-
-**Challenge 9 - New Posts Subscription**
-
-Posts are now added to a channel we probably only want to be notified when a post is added to a channel we are interested in. 
-
-Modify the `newPost` Subscription to support a channel. 
-
-```
-newPost(channel: String!): Post
+```js
+const resolvers = {
+  Query: {
+    character: (_, { id }) => characters.find(c => c.id === id),
+    characters: () => characters,
+    location: (_, { id }) => locations.find(l => l.id === id),
+    locations: () => locations,
+  }
+}
 ```
 
-<!-- > -->
-
-**Challenge 8 - Test your work**
-
-Build some queries in Graphiql to test your work. 
+At this point, querying `character(id: "1") { name status }` works — but `origin { name }` would return `null` because the Character object only has `originId`, not a full Location.
 
 <!-- > -->
 
-Write a query for each of the following: 
+### Character Field Resolvers
 
-- channels - Display a list of channels
-- addChannel - adds a new channel
-- newChannel - subscribe to new channels
-- Test new channels are added by chowing the list after you add a channel
-- Test a new channel is published via subscription
-- posts - show posts for a channel
-- addPost - adds a new post to a channel
-- Test posts added to the correct channel
-- newPost - Check the subscription is showing new posts.
+Add a `Character` block to your resolvers:
 
-<!-- > -->
+```js
+const resolvers = {
+  Query: {
+    // ... existing queries
+  },
+  Character: {
+    origin: (parent) => {
+      return locations.find(l => l.id === parent.originId) || null
+    },
+    location: (parent) => {
+      return locations.find(l => l.id === parent.locationId) || null
+    }
+  }
+}
+```
 
-## Final Project
-
-<!-- > -->
-
-Complete the challenges here. Submit them to GradeScope. 
-
-Start working on the final assignment. Choose one: 
-
-- GraphQL Node Tutorial - https://www.howtographql.com/graphql-js/0-introduction/
-- React + Apollo Tutorial - https://www.howtographql.com/react-apollo/0-introduction/
-- Your Project idea 
-- Stretch Challenge - Do both tutorials!
+`parent` here is the character object returned by the Query resolver. The field resolver looks up the matching Location by ID.
 
 <!-- > -->
 
-### React + Apollo Tutorial 
+### Location Field Resolvers
+
+A Location can also resolve back to its residents (the characters currently there):
+
+```js
+const resolvers = {
+  Query: { /* ... */ },
+  Character: { /* ... */ },
+  Location: {
+    residents: (parent) => {
+      return characters.filter(c => c.locationId === parent.id)
+    }
+  }
+}
+```
 
 <!-- > -->
 
-Following this tutorial, you will be building a Hackernews clone with React using a GraphQL server. This tutorial focuses on the React Front end that connects to the GraphQL backend built using Node. The backend is provided you will building the client. 
+### Start the Server
 
-Do this tutorial if you want to focus on React and client-side projects. 
+```js
+import { ApolloServer } from '@apollo/server'
+import { startStandaloneServer } from '@apollo/server/standalone'
 
-<!-- > -->
+const server = new ApolloServer({ typeDefs, resolvers })
 
-### GraphQL Node Tutorial
+const { url } = await startStandaloneServer(server, {
+  listen: { port: 4000 }
+})
 
-<!-- > -->
-
-In this tutorial, you will be building a Hackernews clone using Apollo server. This a Node project and focuses on building the server. You won't be building a client. 
-
-Do this project if you want to focus on server-side projects. 
-
-<!-- > -->
-
-### Your Custom project
+console.log(`Server ready at: ${url}`)
+```
 
 <!-- > -->
 
-If you have an idea for a project that uses GraphQL you can do this! It can focus on the server-side or the client-side or can be a mix of both. 
+### Test Your Work
+
+Open Apollo Sandbox at `http://localhost:4000` and try these queries:
+
+```graphql
+# Should resolve Rick's origin location
+{
+  character(id: "1") {
+    name
+    origin {
+      name
+      dimension
+    }
+  }
+}
+```
+
+```graphql
+# Should resolve all residents of the Citadel of Ricks
+{
+  location(id: "3") {
+    name
+    residents {
+      name
+      status
+    }
+  }
+}
+```
+
+```graphql
+# Multi-level nesting: location → residents → their origin
+{
+  location(id: "3") {
+    name
+    residents {
+      name
+      origin {
+        name
+      }
+    }
+  }
+}
+```
 
 <!-- > -->
 
-Your project should include the following: 
+## The N+1 Problem
 
-- Uses all three Query types: Query, Mutation, and Subscription
-- Uses Apollo Server
-- If your project is client-focused it should use React. Your server can use a simple in-memory data store. 
-- If your project is server-focused it should use Apollo Server. Your server should use a database or other persistent storage type. 
+Brief heads-up for when you work with databases: if you query all characters and each needs to resolve its location, GraphQL calls the `location` resolver **once per character**. With 100 characters that's 100 database queries — the N+1 problem.
 
-<!-- > -->
-
-### Stretch Challenge!
+For now with in-memory data this doesn't matter. When you connect to a database (Lesson 10), tools like **DataLoader** solve this by batching multiple lookups into one. Just something to be aware of.
 
 <!-- > -->
 
-Do both tutorials! The GraphQL Node tutorial builds a HackerNews clone server and the React + Apollo tutorial builds a React client for the HackerNews backend. By doing both projects you would be building the entire system! 
+## Challenges
 
 <!-- > -->
 
-## After Class 
+**Challenge 1 — Verify the Setup**
+
+Get the following queries working in Apollo Sandbox:
+
+1. `character(id: "1") { name origin { name } }`
+2. `character(id: "2") { name location { name dimension } }`
+3. `location(id: "3") { name residents { name } }`
 
 <!-- > -->
 
-You should decide an what you are going to do for the final project
+**Challenge 2 — Add Episodes**
 
-- React + Apollo Tutorial - You should complete the first two chapters of the tutorial
-	- [Introduction](https://www.howtographql.com/react-apollo/0-introduction/)
-	- [Getting started](https://www.howtographql.com/react-apollo/1-getting-started/)
-- GraphQL Node Tutorial - You should complete the first two chapters of the tutorial 
-	- [Introduction](https://www.howtographql.com/graphql-js/0-introduction/)
-	- [Getting Started](https://www.howtographql.com/graphql-js/1-getting-started/)
-- Your Custom project - have your server stubbed in and schema started
-	- Setup Apollo - Follow the guide from Lesson 7
-	- Write your Schema
-- Stretch Challenge - Start with the GraphQL Node tutorial and complete the first four chapters (do half the tutorial, five chapters, if you can!)
-	- [Introduction](https://www.howtographql.com/graphql-js/0-introduction/)
-	- [Getting Started](https://www.howtographql.com/graphql-js/1-getting-started/)
-	- [A simple query](https://www.howtographql.com/graphql-js/2-a-simple-query/)
-	- [A simple mutation](https://www.howtographql.com/graphql-js/3-a-simple-mutation/)
-	- [Adding a database](https://www.howtographql.com/graphql-js/4-adding-a-database/)
+Add an `Episode` type and connect it to characters.
 
-## Resources 
+```graphql
+type Episode {
+  id: ID!
+  name: String!
+  episode: String!    # e.g. "S01E01"
+  characters: [Character!]!
+}
+```
 
-- Apollo Docs - https://www.apollographql.com/docs/
-- GraphQL - https://graphql.org
-- https://www.howtographql.com
+Add episode data (you can use real R&M episode names or make them up):
 
+```js
+const episodes = [
+  { id: '1', name: 'Pilot', episode: 'S01E01', characterIds: ['1', '2', '3', '4', '5'] },
+  { id: '2', name: 'Lawnmower Dog', episode: 'S01E02', characterIds: ['1', '2'] },
+]
+```
 
+Write the resolver: `Episode.characters` should look up each character by id from `characterIds`.
+
+<!-- > -->
+
+**Challenge 3 — Characters Know Their Episodes**
+
+Add an `episodes` field to `Character`:
+
+```graphql
+type Character {
+  # ... existing fields
+  episodes: [Episode!]!
+}
+```
+
+Write the resolver: `Character.episodes` should return all episodes that include this character's id in `characterIds`.
+
+<!-- > -->
+
+**Challenge 4 — Query Deep Nesting**
+
+Write a query in Apollo Sandbox that:
+
+1. Gets all characters
+2. For each character, gets their current location
+3. For each location, gets the other residents
+
+This exercises 3 levels of nesting in a single query.
+
+<!-- > -->
+
+**Challenge 5 — Add a Character**
+
+Add a mutation `addCharacter` that creates a new character. The new character should accept `name`, `status`, `originId`, and `locationId`.
+
+After adding a character, verify that:
+- `location(id: <originId>) { residents { name } }` shows the new character
+
+<!-- > -->
+
+**Challenge 6 — Null Safety**
+
+What happens if you query a character with a `locationId` that doesn't exist in your locations array?
+
+Test it: change one character's `locationId` to `'999'` and query their location.
+
+Handle this gracefully in your resolver so it returns `null` instead of throwing.
+
+<!-- > -->
+
+## After This Lesson
+
+Submit your completed nested resolvers project to GradeScope.
+
+Before moving on, you should be able to:
+- [ ] Explain what the `parent` argument is and when it's used
+- [ ] Write a resolver under a type name (e.g. `Character:`, `Location:`)
+- [ ] Build a bidirectional relationship (Character ↔ Location) with resolvers
+- [ ] Query 3 levels deep in Apollo Sandbox
+
+<!-- > -->
+
+## Resources
+
+- [Apollo Server — Resolvers](https://www.apollographql.com/docs/apollo-server/data/resolvers/)
+- [GraphQL — Execution](https://graphql.org/learn/execution/)
+- [DataLoader (N+1 solution)](https://github.com/graphql/dataloader)
