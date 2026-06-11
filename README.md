@@ -65,7 +65,7 @@ Students by the end of the course will be able to ...
 
 [Lesson 1 - GraphQL Intro]: Lessons/Lesson-1.md
 [Lesson 2 - GraphQL Schemas and Types]: Lessons/Lesson-2.md
-[Lesson 3 - GraphQL + Express]: Lessons/Lesson-3.md
+[Lesson 3 - GraphQL + Apollo]: Lessons/Lesson-3.md
 [Lesson 4 - React Intro]: Lessons/Lesson-4.md
 [Lesson 5 - React and GraphQL]: Lessons/Lesson-5.md
 [Lesson 6 - GraphQL Mutations]: Lessons/Lesson-6.md
