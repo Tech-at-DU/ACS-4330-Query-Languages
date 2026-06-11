@@ -73,11 +73,13 @@ A REST API is an API that follows REST-ful Routing. REST-ful routing is a set of
 
 <!-- > -->
 
-These conventions are common rules around the type of **HTTP request** and the **URLS** that are used for Creating, Reading, Updating, or Deleting data on a server.
+These conventions are common rules around the type of **HTTP request** and the **URLS** that are used to Create, Read, Update, or Delete data on a server.
 
 <!-- > -->
 
-| URL | HTTP Method/Type | Operation |
+Fill in the CRUD operation for each route in the table below:
+
+| URL | HTTP Method/Type | CRUD Operation |
 | ----------- | ----------- |----------- |
 | /posts | POST | ??? <!--Create new post-->|
 | /posts| GET | ??? <!--Read all posts--> |
@@ -94,9 +96,9 @@ Here's a real API.
 
 The Rick and Morty API uses the following routes:
 
-- https://rickandmortyapi.com/api/character/\<id\>
-- https://rickandmortyapi.com/api/location/\<id\>
-- https://rickandmortyapi.com/api/episode/\<id\>
+- https://rickandmortyapi.com/api/character/`<id\>`
+- https://rickandmortyapi.com/api/location/`<id\>`
+- https://rickandmortyapi.com/api/episode/`<id\>`
 
 <small>Notice: There is one endpoint for each resource type.</small>
 
@@ -440,7 +442,7 @@ Along the way, you loaded *more* data than you needed <small>(over fetching 🗑
   - Types are defined in the schema
 - Introspection 🔎
   - Since GraphQL is backed by a schema it can predict the fields that are available and the type for each field. You can see this in the UI as it provides code hints.
-  - You can browser the structure of a GraphQL server via the docs (look for the tab on the right)
+  - You can browser the structure of a GraphQL server via the docs (look for the docs tab)
 
 <!-- > -->
 
