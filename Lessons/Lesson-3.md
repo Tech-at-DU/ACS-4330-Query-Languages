@@ -68,7 +68,7 @@ This lesson: build a GraphQL server that wraps a public REST API.
 
 ## GraphQL 😎 and Apollo Server
 
-GraphQL is a specification and language — not a library. Libraries implement it.
+GraphQL is a specification and language — not a library. Libraries implement GraphQL.
 
 **Apollo Server** is the most widely used GraphQL server library for Node.js.
 
