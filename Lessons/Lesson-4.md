@@ -493,10 +493,10 @@ npm install @apollo/client graphql
 Create a dedicated file `src/apolloClient.js` for the Apollo Client instance:
 
 ```js
-import { ApolloClient, InMemoryCache } from '@apollo/client'
+import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client'
 
 export const client = new ApolloClient({
-  uri: 'http://localhost:4000/',
+  link: new HttpLink({ uri: 'http://localhost:4000/' }),
   cache: new InMemoryCache()
 })
 ```
@@ -510,7 +510,7 @@ In `src/main.jsx`, wrap your app in `<ApolloProvider>`:
 ```js
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { ApolloProvider } from '@apollo/client'
+import { ApolloProvider } from '@apollo/client/react'
 import { client } from './apolloClient'
 import App from './App'
 import './index.css'
