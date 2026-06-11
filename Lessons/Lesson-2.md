@@ -549,7 +549,7 @@ const resolvers = {
 
 <!-- > -->
 
-Sometimes it takes some information to get some information. Often you'll need to provide parameters to the data that you need. 
+Sometimes it takes information to get information. Often you'll need to provide parameters to get the data that you need. 
 
 <!-- > -->
 
@@ -841,9 +841,9 @@ Add the new query to your Query types in your schema.
 Add a new resolver. The parameters from the query will be received in the resolver function: 
 
 ```JS
-const root = {
+const resolvers = {
   ...
-  getPet: ({ index }) => { // index is a param from the query
+  getPet: (_, { index }) => { // index is a param from the query
     return petList[index]
   }
 }
