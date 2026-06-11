@@ -50,7 +50,7 @@ Students by the end of the course will be able to ...
 |:-----|:---------:|:--------------------------------------:|:-----------|
 |  1  | Tue, Aug 25 | [Lesson 1 - GraphQL Intro]             | Query Challenges |
 |  2  | Thu, Aug 27 | [Lesson 2 - GraphQL Schemas and Types] | GraphQL Resolver Challenges |
-|  3  | Tue, Sep  1 | [Lesson 3 - GraphQL + Express]         | GraphQL OpenWeatherMap API |
+|  3  | Tue, Sep  1 | [Lesson 3 - GraphQL + Apollo]          | GraphQL OpenWeatherMap API |
 |  4  | Thu, Sep  3 | [Lesson 4 - React Intro]               | React GraphQL Weather |
 |  5  | Tue, Feb  8 | [Lesson 5 - React and GraphQL]         | - |
 |  6  | Thu, Sep 10 | [Lesson 6 - GraphQL Mutations]         | - |

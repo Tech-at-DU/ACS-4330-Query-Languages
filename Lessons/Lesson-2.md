@@ -283,7 +283,7 @@ type Film {
 
 <!-- > -->
 
-## GraphQL 😎 and Express 🚂
+## GraphQL 😎 and ApolloServer 🚂
 
 <!-- > -->
 
