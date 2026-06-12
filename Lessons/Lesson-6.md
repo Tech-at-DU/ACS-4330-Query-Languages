@@ -99,7 +99,7 @@ mutation {
 
 <!-- > -->
 
-Note! Queries start with the key word Query. But we've been omitting it. 
+Note! Query is the default query type and can be omitted but, other query types require the type name. We ommitted the type name Query in earlier examples. 
 
 ```python
 # Query
@@ -194,7 +194,7 @@ To do this you'll need to make a query that supports all of the field a type has
 
 <!-- > -->
 
-Add a new mutation to your scema. It should include all of the fields but they can be null except the id. It should return the type. 
+Add a new mutation to your schema. It should include all of the fields but they can be null except the id. It should return the type. 
 
 ```python
 type Mutation {
@@ -203,7 +203,7 @@ type Mutation {
 } 
 ```
 
-<small>Figure that a null value is a field that will not be updated.</small>
+<small>Assume that a null value is a field that will not be updated.</small>
 
 <!-- > -->
 
@@ -250,7 +250,7 @@ Write a resolver to support the mutation.
 **Test your work.**
 
 - Write a query that deletes an item from your list
-  - You should get the deleted item and be able to display its fields
+  - You should get the deleted item from the query
 - Try deleting an id that doesn't exist it should return null
 
 <!-- > -->
