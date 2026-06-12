@@ -54,7 +54,7 @@ Students by the end of the course will be able to ...
 |  4  | Thu, Sep  3 | [Lesson 4 - React Intro]               | React GraphQL Weather |
 |  5  | Tue, Feb  8 | [Lesson 5 - React and GraphQL]         | - |
 |  6  | Thu, Sep 10 | [Lesson 6 - GraphQL Mutations]         | - |
-|  7  | Tue, Sep 15 | [Query Variables]                      | - |
+|  7  | Tue, Sep 15 | [Lesson 7 - Query Variables]                      | - |
 |  8  | Thu, Sep 17 | [Nested resolvers]                     | - |
 |  9  | Tue, Sep 22 | -                                      | [Final Project] |
 |  10 | Thu, Sep 24 | [GraphQL Mongo]                        | - |
@@ -69,11 +69,11 @@ Students by the end of the course will be able to ...
 [Lesson 4 - React Intro]: Lessons/Lesson-4.md
 [Lesson 5 - React and GraphQL]: Lessons/Lesson-5.md
 [Lesson 6 - GraphQL Mutations]: Lessons/Lesson-6.md
-[Lesson 7 - Websockets]: Lessons/Lesson-7.md
+[Lesson 7 - Query Variables]: Lessons/Lesson-useLazyQuery.md
 [Lesson 8 - Nested Resolvers]: Lessons/Lesson-8.md
 [Lesson 12 - GraphQL ORM]: Lessons/Lesson-12.md
 
-[Query Variables]: Lessons/Lesson-useLazyQuery.md
+
 [Nested resolvers]: Lessons/Lesson-8.md
 [GraphQL Mongo]: Lessons/Lesson-graphql-mongo.md
 [Subscriptions]: Lessons/Lesson-websockets.md

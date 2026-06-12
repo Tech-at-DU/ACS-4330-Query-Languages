@@ -1,134 +1,222 @@
-# Variables in GraphQL
+# ACS 4330 - Query Variables and Apollo Hooks
 
-## 📌 Variables in GraphQL Query Language
-Variables in GraphQL are placeholders that allow queries to be **dynamic** and **reusable**, instead of hardcoding values directly into queries. This makes GraphQL queries **more flexible, efficient, and secure**.
+**Estimated time:** 3–4 hours
 
----
+**Prerequisites:** Completed Lessons 4 and 6. Working React + Apollo Client weather app with a form and mutations.
 
-## 🔹 Why Use Variables?
-1. **Reusability** – Run the same query with different values.
-2. **Security** – Prevents hardcoding user inputs, reducing injection risks.
-3. **Performance** – Allows GraphQL engines to cache query structures and only change values.
-4. **Readability** – Keeps queries clean and easy to maintain.
+<!-- > -->
 
----
+## Learning Outcomes
 
-## 🔹 Defining Variables in a Query
-A GraphQL query with variables consists of **three parts**:
-1. **Declare the variable in the query definition** (`$variableName: Type`).
-2. **Use the variable in the query**.
-3. **Pass values into the query** when executing it.
+By the end of this lesson, you should be able to:
 
-### Example 1: Query with a Variable
-#### 🔸 GraphQL Query (Client-Side)
+1. Write GraphQL queries using variables instead of hardcoded values
+2. Pass variables to queries in Apollo Sandbox
+3. Refactor a React component from `useQuery` to `useLazyQuery`
+4. Identify the right Apollo hook for a given use case
+
+<!-- > -->
+
+## Review
+
+Before starting, write answers from memory:
+
+- What is the difference between a query and a mutation?
+- What arguments does a resolver receive? What's in the second argument?
+- In Apollo Client, what does `useQuery` return?
+
+<!-- > -->
+
+## 📦 Variables in GraphQL
+
+So far your queries have hardcoded values:
+
 ```graphql
-query GetWeather($zip: Int!) {
-  getWeather(zip: $zip, units: "imperial") {
+{
+  getWeather(zip: 94122, units: imperial) {
     temperature
     description
   }
 }
 ```
-- `$zip` is a **variable** of type `Int!` (a required integer).
-- It is passed to the `getWeather` query.
 
-#### 🔸 Variables Passed to the Query
+Variables make queries **dynamic** — the query structure stays the same, the values change.
+
+<!-- > -->
+
+### 💡 Why Use Variables?
+
+- **Reusability** — same query, different values
+- **Security** — user input is passed separately, not embedded in the query string
+- **Performance** — GraphQL engines can cache the query structure when variables are separate
+- **Readability** — query logic stays clean
+
+<!-- > -->
+
+### Syntax
+
+A query with variables has three parts:
+
+**1. Declare the variable in the operation name**
+
+```graphql
+query GetWeather($zip: Int!, $units: Units) {
+```
+
+**2. Use the variable in the query**
+
+```graphql
+  getWeather(zip: $zip, units: $units) {
+```
+
+**3. Pass values as a JSON object**
+
 ```json
 {
-  "zip": 90210
+  "zip": 94122,
+  "units": "imperial"
 }
 ```
 
----
+<!-- > -->
 
-## 🔹 Variable Types in GraphQL
-| Type  | Description | Example |
-|--------|------------|---------|
-| `Int`  | Integer (whole number) | `42` |
+Full example:
+
+```graphql
+query GetWeather($zip: Int!, $units: Units) {
+  getWeather(zip: $zip, units: $units) {
+    temperature
+    description
+  }
+}
+```
+
+Variables:
+```json
+{
+  "zip": 94122,
+  "units": "imperial"
+}
+```
+
+<!-- > -->
+
+### 🏷️ Variable Types
+
+| Type | Description | Example |
+|------|-------------|---------|
+| `Int` | Whole number | `42` |
 | `Float` | Decimal number | `3.14` |
 | `String` | Text | `"Hello"` |
-| `Boolean` | `true` or `false` | `true` |
+| `Boolean` | True or false | `true` |
 | `ID` | Unique identifier | `"a1234"` |
-| `[Type]` | List (array) | `[1, 2, 3]` |
-| `Type!` | Non-nullable type (required) | `Int!` |
+| `[Type]` | List | `[1, 2, 3]` |
+| `Type!` | Required (non-nullable) | `Int!` |
 
+<!-- > -->
 
-## 💪 Challenge! 
+## Challenge 1 — Variables in Apollo Sandbox
 
-Using your GraphQL Weather Server write a couple queries **using variables**. 
-- In the Graphiql browser you must define your variables in the **"Variables"** tab in the lower left of the window.
-- When writing variables you might write them as **JSON**.
+Open Apollo Sandbox at `http://localhost:4000` with your weather server running.
 
----
+1. Write a `query` with an operation name and `$zip` and `$units` variables
+2. Open the **Variables** panel (bottom of the editor)
+3. Paste your variables as JSON
+4. Run the query and verify results
 
-## 🔹 Passing Variables in Apollo Client (`useQuery` and `useLazyQuery`)
-In a React app using Apollo Client, you pass variables when executing the query.
+Try changing the zip and units without editing the query — just change the JSON variables.
 
-### 🔸 Example in Apollo Client (`useQuery`)
+<!-- > -->
+
+## 🪝 Variables in Apollo Client
+
+### `useQuery` with Variables
+
+Pass variables as the second argument to `useQuery`:
+
 ```jsx
-import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client'
 
 const GET_WEATHER = gql`
-  query GetWeather($zip: Int!) {
-    getWeather(zip: $zip, units: "imperial") {
+  query GetWeather($zip: Int!, $units: Units) {
+    getWeather(zip: $zip, units: $units) {
       temperature
       description
     }
   }
-`;
+`
 
-const WeatherComponent = ({ zip }) => {
+function WeatherComponent({ zip }) {
   const { loading, error, data } = useQuery(GET_WEATHER, {
-    variables: { zip }, // Pass the variable here
-  });
+    variables: { zip, units: 'imperial' },
+  })
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error: {error.message}</p>
 
   return (
     <div>
       <p>Temperature: {data.getWeather.temperature}°F</p>
       <p>Description: {data.getWeather.description}</p>
     </div>
-  );
-};
+  )
+}
 ```
 
----
+`useQuery` fires immediately when the component mounts and re-runs when `variables` change.
 
-### 🔸 Example with `useLazyQuery` (Fetching on Demand)
+<!-- > -->
+
+### 🦥 `useLazyQuery` — Fetch on Demand
+
+`useLazyQuery` is identical to `useQuery` except it **does not fire on mount**. You trigger it manually — perfect for a form where the user types a zip and clicks a button.
+
 ```jsx
-import { gql, useLazyQuery } from '@apollo/client';
-import { useState } from 'react';
+const [executeQuery, { loading, error, data }] = useLazyQuery(QUERY)
+```
+
+Compare:
+
+| | `useQuery` | `useLazyQuery` |
+|---|---|---|
+| When it runs | On mount, and when variables change | Only when you call it |
+| Return value | `{ loading, error, data }` | `[executeFn, { loading, error, data }]` |
+| Use case | Data always needed | Data fetched on user action |
+
+<!-- > -->
+
+Full `useLazyQuery` weather example:
+
+```jsx
+import { gql, useLazyQuery } from '@apollo/client'
+import { useState } from 'react'
 
 const GET_WEATHER = gql`
-  query GetWeather($zip: Int!) {
-    getWeather(zip: $zip, units: "imperial") {
+  query GetWeather($zip: Int!, $units: Units) {
+    getWeather(zip: $zip, units: $units) {
       temperature
       description
     }
   }
-`;
+`
 
 function WeatherComponent() {
-  const [zip, setZip] = useState('');
-  const [getWeather, { loading, error, data }] = useLazyQuery(GET_WEATHER);
+  const [zip, setZip] = useState('')
+  const [getWeather, { loading, error, data }] = useLazyQuery(GET_WEATHER)
 
   const handleFetch = () => {
-    const zipCode = parseInt(zip, 10);
-    if (isNaN(zipCode)) {
-      alert("Enter a valid ZIP code");
-      return;
-    }
-    getWeather({ variables: { zip: zipCode } });
-  };
+    const zipCode = parseInt(zip, 10)
+    if (isNaN(zipCode)) return
+    getWeather({ variables: { zip: zipCode, units: 'imperial' } })
+  }
 
   return (
     <div>
-      <input 
-        type="number" 
+      <input
+        type="number"
         value={zip}
         onChange={(e) => setZip(e.target.value)}
+        placeholder="ZIP code"
       />
       <button onClick={handleFetch}>Get Weather</button>
 
@@ -141,412 +229,223 @@ function WeatherComponent() {
         </div>
       )}
     </div>
-  );
+  )
 }
 
-export default WeatherComponent;
+export default WeatherComponent
 ```
----
 
-## 🔹 Best Practices for Using Variables in GraphQL
-✅ **Use meaningful variable names** (`$userId` instead of `$id`).  
-✅ **Use non-nullable (`!`) variables where required** (`Int!` ensures a valid input).  
-✅ **Validate user input before passing variables** to avoid errors.  
-✅ **Pass structured objects for complex queries** instead of multiple separate variables.
+<!-- > -->
 
----
+### Common Mistakes
 
-### 🔹 Summary
-- **Variables make queries reusable, secure, and performant**.
-- **Defined using `$variableName: Type` syntax**.
-- **Passed separately in a JSON object** to the query execution.
-- **Used in Apollo Client (`useQuery`, `useLazyQuery`) to fetch dynamic data**.
+`useLazyQuery` returns `undefined` until triggered:
 
-## Apollo Client hooks 
-
-### **📌 Apollo Client Hooks Overview**
-Apollo Client provides a set of powerful **React hooks** to handle GraphQL queries, mutations, and cache interactions efficiently.
-
----
-
-## **🔹 Hooks for Data Fetching**
-| Hook | Purpose |
-|------|---------|
-| [`useQuery`](https://www.apollographql.com/docs/react/api/react/hooks#usequery) | Fetches GraphQL queries when a component mounts and re-fetches on dependency updates. |
-| [`useLazyQuery`](https://www.apollographql.com/docs/react/api/react/hooks#uselazyquery) | Fetches queries **on demand**, instead of on component mount. |
-| [`useMutation`](https://www.apollographql.com/docs/react/api/react/hooks#usemutation) | Executes **mutations** to modify server data (e.g., create, update, delete). |
-| [`useSubscription`](https://www.apollographql.com/docs/react/api/react/hooks#usesubscription) | Subscribes to **real-time updates** from the GraphQL server. |
-
----
-
-## **🔹 Hooks for Apollo Cache & Client Interaction**
-| Hook | Purpose |
-|------|---------|
-| [`useApolloClient`](https://www.apollographql.com/docs/react/api/react/hooks#useapolloclient) | Access the **Apollo Client instance** directly to perform cache updates or execute raw queries. |
-| [`useFragment`](https://www.apollographql.com/docs/react/api/react/hooks#usefragment) | Reads a **GraphQL fragment** from the cache. |
-| [`useReactiveVar`](https://www.apollographql.com/docs/react/api/react/hooks#usereactivevar) | Reads a **reactive variable** for local state management. |
-
-## 🛸 Challenge! 
-
-Using your React Weather client, implement `useLazyQuery`. You can start by duplicating your existing weather component and updating it to use `useLazyQuery`.
-
----
-
-## **🔍 Detailed Explanation of Each Hook**
-### **1️⃣ `useQuery` (Auto-fetching GraphQL Queries)**
-Fetches data **immediately when a component mounts** and re-fetches automatically when dependencies change.
-
-#### ✅ **Example:**
-```jsx
-import { gql, useQuery } from '@apollo/client';
-
-const GET_USER = gql`
-  query GetUser($id: ID!) {
-    user(id: $id) {
-      name
-      email
-    }
-  }
-`;
-
-function UserProfile({ userId }) {
-  const { loading, error, data } = useQuery(GET_USER, {
-    variables: { id: userId },
-  });
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-
-  return <p>User: {data.user.name}</p>;
-}
+```js
+const [getWeather, { data }] = useLazyQuery(GET_WEATHER)
+console.log(data) // undefined — query hasn't run yet
 ```
-**Best for:** Fetching data automatically when the component mounts.
 
----
+Pass zip as a number, not a string:
 
-### **2️⃣ `useLazyQuery` (On-Demand Query Execution)**
-Similar to `useQuery`, but **does not fetch data immediately**. Instead, it waits until a function is called.
+```js
+// Wrong — zip is a string from input.value
+getWeather({ variables: { zip } })
 
-#### ✅ **Example:**
-```jsx
-import { gql, useLazyQuery } from '@apollo/client';
-
-const SEARCH_USER = gql`
-  query SearchUser($name: String!) {
-    searchUser(name: $name) {
-      id
-      name
-    }
-  }
-`;
-
-function SearchComponent() {
-  const [searchUser, { loading, data }] = useLazyQuery(SEARCH_USER);
-  
-  return (
-    <div>
-      <button onClick={() => searchUser({ variables: { name: "Alice" } })}>
-        Search User
-      </button>
-      {loading && <p>Loading...</p>}
-      {data && <p>Found: {data.searchUser.name}</p>}
-    </div>
-  );
-}
+// Right
+getWeather({ variables: { zip: parseInt(zip, 10) } })
 ```
-**Best for:** Fetching data when a user clicks a button or submits a form.
 
----
+<!-- > -->
 
-### **3️⃣ `useMutation` (Executing GraphQL Mutations)**
-Used to **modify server data** (e.g., create, update, delete).
+## Challenge 2 — Refactor to `useLazyQuery`
 
-#### ✅ **Example:**
-```jsx
-import { gql, useMutation } from '@apollo/client';
+Refactor your React weather component to use `useLazyQuery`.
 
-const ADD_USER = gql`
-  mutation AddUser($name: String!, $email: String!) {
-    addUser(name: $name, email: $email) {
-      id
-      name
-    }
-  }
-`;
+1. Replace the `useQuery` import with `useLazyQuery`
+2. Update the destructuring: `const [getWeather, { loading, error, data }] = ...`
+3. Remove any automatic-fetch behavior — query should only run when the button is clicked
+4. Call `getWeather({ variables: { zip: parseInt(zip, 10) } })` in your submit handler
+5. Test: load the page, confirm no query fires until you submit the form
 
-function CreateUser() {
-  const [addUser, { loading, error }] = useMutation(ADD_USER);
+<!-- > -->
 
-  const handleAddUser = () => {
-    addUser({ variables: { name: "Alice", email: "alice@example.com" } });
-  };
+## 🧩 Fragments
 
-  return (
-    <div>
-      <button onClick={handleAddUser}>Add User</button>
-      {loading && <p>Saving...</p>}
-      {error && <p>Error: {error.message}</p>}
-    </div>
-  );
-}
-```
-**Best for:** Sending **POST, PUT, DELETE** requests to modify data.
+Fragments let you reuse field selections across multiple queries.
 
----
-
-### **4️⃣ `useSubscription` (Real-Time Data Streaming)**
-Subscribes to real-time **WebSocket updates** from a GraphQL server.
-
-#### ✅ **Example:**
-```jsx
-import { gql, useSubscription } from '@apollo/client';
-
-const MESSAGE_SUBSCRIPTION = gql`
-  subscription OnMessageReceived {
-    messageReceived {
-      id
-      text
-    }
-  }
-`;
-
-function Chat() {
-  const { data } = useSubscription(MESSAGE_SUBSCRIPTION);
-
-  return <p>New Message: {data?.messageReceived.text}</p>;
-}
-```
-**Best for:** Live chat, notifications, stock prices, or any **real-time updates**.
-
----
-
-### **5️⃣ `useApolloClient` (Direct Client Access)**
-Gives access to the Apollo Client instance **without hooks like `useQuery`**.
-
-#### ✅ **Example:**
-```jsx
-import { useApolloClient } from '@apollo/client';
-
-function ClearCacheButton() {
-  const client = useApolloClient();
-
-  const handleClearCache = () => {
-    client.resetStore();
-  };
-
-  return <button onClick={handleClearCache}>Clear Cache</button>;
-}
-```
-**Best for:** Accessing Apollo cache, performing manual queries, or resetting the store.
-
----
-
-### **6️⃣ `useFragment` (Reading GraphQL Fragments)**
-Used to **read a fragment** from the Apollo cache.
-
-Read about Fragments here: https://graphql.org/learn/queries/#fragments. A Fragment is part of the GraphQL Query Language. 
-
-#### Challenge! 
-Using one of your GraphQL servers, in the Graphiql browser write a query that uses a fragment. 
-
-Alternatively, use the SWAPI GraphQL site: https://swapi-graphql.eskerda.vercel.app. Try the query below to get started: 
-
-```JSX
-fragment character on Person {
+```graphql
+fragment CharacterInfo on Character {
   name
-  eyeColor
+  status
+  species
 }
 
 query {
-  personA: person(personID: 1) {
-    ...character
+  rick: character(id: 1) {
+    ...CharacterInfo
   }
-
-  personB: person(personID: 3) {
-    ...character
+  morty: character(id: 2) {
+    ...CharacterInfo
   }
 }
 ```
 
-#### ✅ **Example:**
+Try this at https://rickandmortyapi.com/graphql.
+
+Without the fragment you would repeat `name status species` for every character. Fragments keep queries DRY.
+
+<!-- > -->
+
+## Challenge 3 — Fragments in Apollo Sandbox
+
+1. Open https://rickandmortyapi.com/graphql
+2. Define a fragment on `Character` with at least 3 fields
+3. Write a query that fetches 3 different characters using your fragment
+4. Verify all 3 return the same fields
+
+<!-- > -->
+
+## Apollo Hooks Reference
+
+Quick reference for all Apollo Client hooks.
+
+<!-- > -->
+
+### 🪝 Data Hooks
+
+| Hook | Runs when | Use case |
+|------|-----------|---------|
+| `useQuery` | Component mounts | Data always needed |
+| `useLazyQuery` | You call it | Forms, search, on-demand |
+| `useMutation` | You call it | Create, update, delete |
+| `useSubscription` | Server pushes | Real-time updates |
+
+<!-- > -->
+
+### ⚡ `useQuery`
+
+Fetches data immediately on mount. Re-fetches automatically when `variables` change.
+
 ```jsx
-import { gql, useFragment } from '@apollo/client';
-
-const USER_FRAGMENT = gql`
-  fragment UserFragment on User {
-    id
-    name
-  }
-`;
-
-const UserComponent = ({ id }) => {
-  const user = useFragment({
-    fragment: USER_FRAGMENT,
-    fragmentName: "UserFragment",
-    id: `User:${id}`,
-  });
-
-  return <p>{user?.name}</p>;
-};
+const { loading, error, data } = useQuery(GET_USER, {
+  variables: { id: userId },
+})
 ```
-**Best for:** Reading **specific fields** from the cache instead of fetching an entire query.
 
----
+<!-- > -->
 
-### **7️⃣ `useReactiveVar` (Local State with Apollo Reactive Variables)**
-Used to manage **local state** within Apollo Client **without using React state or context**.
+### 🦥 `useLazyQuery`
 
-#### ✅ **Example:**
+Same as `useQuery` but waits for you to call it.
+
 ```jsx
-import { makeVar, useReactiveVar } from '@apollo/client';
+const [searchUser, { loading, data }] = useLazyQuery(SEARCH_USER)
 
-// Create a global reactive variable
-const themeVar = makeVar("light");
+<button onClick={() => searchUser({ variables: { name: 'Rick' } })}>
+  Search
+</button>
+```
+
+<!-- > -->
+
+### ✏️ `useMutation`
+
+Executes a mutation. Returns a trigger function and status object.
+
+```jsx
+const [addPet, { loading, error }] = useMutation(ADD_PET)
+
+<button onClick={() => addPet({ variables: { name: 'Snuffles', species: 'cat' } })}>
+  Add Pet
+</button>
+```
+
+<!-- > -->
+
+### 📡 `useSubscription`
+
+Listens for real-time updates over WebSocket.
+
+```jsx
+const { data } = useSubscription(MESSAGE_RECEIVED)
+
+return <p>New message: {data?.messageReceived.text}</p>
+```
+
+Covered in detail in Lesson 11 (Subscriptions).
+
+<!-- > -->
+
+### 🔑 `useApolloClient`
+
+Direct access to the Apollo Client instance — useful for manually resetting the cache.
+
+```jsx
+const client = useApolloClient()
+
+<button onClick={() => client.resetStore()}>Clear Cache</button>
+```
+
+<!-- > -->
+
+### 🧩 `useFragment`
+
+Reads a specific fragment from the Apollo cache without re-fetching.
+
+```jsx
+const user = useFragment({
+  fragment: USER_FRAGMENT,
+  fragmentName: 'UserFragment',
+  id: `User:${id}`,
+})
+```
+
+**Best for:** Reading specific fields already in cache without a full query.
+
+<!-- > -->
+
+### 🔁 `useReactiveVar`
+
+Manages local state inside Apollo Client — no Redux or React Context needed.
+
+```jsx
+import { makeVar, useReactiveVar } from '@apollo/client'
+
+const themeVar = makeVar('light')
 
 function ThemeSwitcher() {
-  const theme = useReactiveVar(themeVar);
+  const theme = useReactiveVar(themeVar)
 
   return (
-    <button onClick={() => themeVar(theme === "light" ? "dark" : "light")}>
-      Toggle Theme (Current: {theme})
+    <button onClick={() => themeVar(theme === 'light' ? 'dark' : 'light')}>
+      Theme: {theme}
     </button>
-  );
+  )
 }
 ```
-**Best for:** Managing local state **without Redux or React Context**.
 
----
+<!-- > -->
 
-## **🛠️ Summary of Apollo Hooks**
-| Hook | Use Case |
-|------|---------|
-| `useQuery` | Fetches **data immediately** on mount |
-| `useLazyQuery` | Fetches **data on demand** (button clicks, etc.) |
-| `useMutation` | Executes **GraphQL mutations** (create, update, delete) |
-| `useSubscription` | **Listens for real-time updates** |
-| `useApolloClient` | **Direct access** to Apollo Client instance |
-| `useFragment` | Reads **fragments** from the cache |
-| `useReactiveVar` | Manages **local state with reactive variables** |
+## After This Lesson
 
----
+- Submit your refactored React weather component (using `useLazyQuery` and variables) to GradeScope.
 
-## **🚀 Which Hook Should You Use?**
-- **Use `useQuery`** when you need **data to load immediately**.
-- **Use `useLazyQuery`** when you want **to fetch data on demand**.
-- **Use `useMutation`** when **sending data to the server**.
-- **Use `useSubscription`** for **real-time data updates**.
-- **Use `useApolloClient`** for **manual queries & cache management**.
-- **Use `useReactiveVar`** for **managing local state without Redux**.
+<!-- > -->
 
-## Challenge! 
-Follow the guide below. replace `useQuery` with `useLazyQuery` in your React Weather client. Notice that you will be rewriting your query to use variables. The variables are passed as an argument to the `executeQuery` function. 
+### Evaluate Your Work
 
-### **`useLazyQuery` in Apollo Client**
-The `useLazyQuery` hook in Apollo Client allows you to execute GraphQL queries *on demand*, rather than running them immediately when a component renders. This is useful when you need to fetch data in response to a user action, such as clicking a button or submitting a form.
+| | Does not meet expectations | Meets expectations | Exceeds expectations |
+|:---:|:---:|:---:|:---:|
+| Variables | Can't write a query with variables | Writes queries with variables and passes them as JSON | Explains why variables are better than hardcoded values |
+| `useLazyQuery` | Can't distinguish from `useQuery` | Refactors a component to use `useLazyQuery` | Could explain when to use each hook and why |
+| Fragments | Can't read a fragment | Writes a fragment and uses it in a query | Uses fragments in Apollo Client with `useFragment` |
 
----
+<!-- > -->
 
-### **🔹 Syntax:**
-```jsx
-const [executeQuery, { loading, error, data }] = useLazyQuery(QUERY, {
-  variables: { someVariable: value },
-});
-```
+## Resources
 
----
-
-### **🔹 Key Differences Between `useQuery` and `useLazyQuery`**
-| Feature          | `useQuery` | `useLazyQuery` |
-|-----------------|------------|----------------|
-| **Execution Timing** | Runs immediately on component mount | Runs only when manually triggered |
-| **Use Case** | Fetching data automatically | Fetching data based on user action |
-| **Return Value** | `{ loading, error, data }` | `[executeQuery, { loading, error, data }]` |
-| **Variables** | Passed once at mount, refetched on dependency change | Passed when `executeQuery` is called |
-
----
-
-### **🔹 Example: Fetching Data on Button Click**
-```jsx
-import { gql, useLazyQuery } from '@apollo/client';
-import { useState } from 'react';
-
-const GET_WEATHER = gql`
-  query GetWeather($zip: Int!) {
-    getWeather(zip: $zip, units: imperial) {
-      temperature
-      description
-    }
-  }
-`;
-
-function WeatherComponent() {
-  const [zip, setZip] = useState('');
-  const [getWeather, { loading, error, data }] = useLazyQuery(GET_WEATHER);
-
-  return (
-    <div>
-      <input 
-        type="number"
-        placeholder="Enter ZIP code"
-        value={zip}
-        onChange={(e) => setZip(e.target.value)}
-      />
-      <button onClick={() => getWeather({ variables: { zip: parseInt(zip) } })}>
-        Get Weather
-      </button>
-
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error.message}</p>}
-      {data && (
-        <div>
-          <p>Temperature: {data.getWeather.temperature}°F</p>
-          <p>Description: {data.getWeather.description}</p>
-        </div>
-      )}
-    </div>
-  );
-}
-
-export default WeatherComponent;
-```
----
-
-### **🔹 How It Works**
-1. `useLazyQuery(GET_WEATHER)` returns a function (`getWeather`) and an object containing `{ loading, error, data }`.
-2. The query **does not run initially**.
-3. When the button is clicked, `getWeather({ variables: { zip: parseInt(zip) } })` executes the query.
-4. The component re-renders when `loading`, `error`, or `data` updates.
-
----
-
-### **🔹 When to Use `useLazyQuery`**
-✅ Fetching data **only when necessary** (e.g., search forms, filtering).  
-✅ Avoiding unnecessary queries when **data isn’t always needed**.  
-✅ Enhancing performance by preventing **unnecessary API calls on mount**.
-
----
-
-### **🔹 Common Mistakes**
-❌ **Forgetting to call the query function:**  
-```js
-const [getWeather, { data }] = useLazyQuery(GET_WEATHER);
-console.log(data); // Will be undefined until `getWeather` is called!
-```
-✔ **Solution:** Call `getWeather()` when needed.
-
-❌ **Not handling variables properly:**  
-```js
-getWeather({ variables: { zip } }); // If zip is a string, Apollo may throw an error!
-```
-✔ **Solution:** Ensure the correct type:
-```js
-getWeather({ variables: { zip: parseInt(zip, 10) } });
-```
-
----
-
-### **🔹 Summary**
-- **`useLazyQuery` is best for on-demand queries.**
-- **It does not run on mount; you must manually trigger it.**
-- **Useful for forms, search bars, and conditional fetching.**
-
+- https://www.apollographql.com/docs/react/api/react/hooks
+- https://graphql.org/learn/queries/#variables
+- https://graphql.org/learn/queries/#fragments
+- https://rickandmortyapi.com/graphql
