@@ -48,8 +48,6 @@ Work through this list. Each item should be working before you move on.
 
 ## Common Problems
 
-These are the most common issues students hit when putting the server and client together.
-
 <!-- > -->
 
 ### "Network Error" or "Failed to fetch"
@@ -62,11 +60,16 @@ These are the most common issues students hit when putting the server and client
 
 <!-- > -->
 
-### Apollo Sandbox works but React app gets an error
+### Apollo Sandbox works but React app gets a CORS error
 
-**Cause:** Apollo Server 4 standalone uses CORS-safe headers in the browser but sometimes needs explicit configuration.
+**Cause:** Apollo Server 4 standalone allows all origins by default, so a CORS error almost always means the URI in `apolloClient.js` is wrong — not a server config problem.
 
-**Fix:** If you see CORS errors in the browser console, update your server to use Apollo Server with Express middleware (covered in Lesson 12). For now, confirm the URI is correct first.
+**Fix:**
+1. Open the browser console — read the exact URL the request is hitting
+2. Check `uri` in `src/apolloClient.js` — must be `'http://localhost:4000/'` (trailing slash, no `/graphql`)
+3. Confirm both server and client are running
+
+If you've confirmed the URI is correct and are still getting CORS errors, check that you installed `@apollo/server` (not an older `apollo-server` package) — older versions have different CORS defaults.
 
 <!-- > -->
 
@@ -144,11 +147,11 @@ Your React app will now run at `https://localhost:5173`.
 
 <!-- > -->
 
-### Apollo Server — Enable HTTPS
+### Apollo Server — HTTPS not needed
 
-Apollo Server 4 standalone doesn't expose an HTTPS option directly. For local HTTPS on the server, the simplest approach is to use a reverse proxy like [Caddy](https://caddyserver.com) or switch to the Express middleware integration (covered in Lesson 12).
+Chrome, Firefox, and Safari treat `localhost` as a secure context. The Geolocation API works on `http://localhost` without any extra server config.
 
-For geolocation challenges, a common workaround: serve only the **client** over HTTPS (Vite above). The server can stay HTTP on localhost since the browser treats `localhost` as a secure context for most purposes in Chrome and Firefox.
+Keep your Apollo Server on HTTP. Enable HTTPS only on the Vite client (above) if you need it.
 
 <!-- > -->
 
