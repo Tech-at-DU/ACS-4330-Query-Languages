@@ -69,7 +69,7 @@ Students by the end of the course will be able to ...
 [Lesson 4 - React Intro]: Lessons/Lesson-4.md
 [Lesson 5 - React and GraphQL]: Lessons/Lesson-5.md
 [Lesson 6 - GraphQL Mutations]: Lessons/Lesson-6.md
-[Lesson 7 - Query Variables]: Lessons/Lesson-07.md
+[Lesson 7 - Query Variables]: Lessons/Lesson-7.md
 [Lesson 8 - Nested Resolvers]: Lessons/Lesson-8.md
 [Lesson 12 - GraphQL ORM]: Lessons/Lesson-12.md
 
