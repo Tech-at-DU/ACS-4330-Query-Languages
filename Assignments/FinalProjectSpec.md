@@ -1,37 +1,130 @@
-# Final Project
+# ACS 4330 - Final Project
+
+**Assigned:** Class 9  
+**Presentations:** Class 13  
+**Final submission:** Class 14
+
+<!-- > -->
 
 ## Description
 
-You will build a project of your own design that utilizes all the concepts you learned in this course. You should design a portfolio project that showcases your ability to build an app that utilizes GraphQL, Node, React, and Apollo.
+Build a full-stack GraphQL application of your own design. Your project should demonstrate everything you've learned: schema design, resolvers, mutations, nested types, and a React client using Apollo Client.
 
-## Learning Outcomes
-By completing this project, you should be able to…
+This is a portfolio piece — pick something you'd actually want to show to a future employer.
 
-1. Build an app of your own design that utilizes GraphQL, Node, React, and Apollo
-    
+<!-- > -->
+
+## Project Ideas
+
+Need inspiration? Here are some starting points:
+
+- **Bookshelf tracker** — books, authors, genres; track what you've read
+- **Recipe app** — recipes, ingredients, tags; build a personal cookbook
+- **Game tracker** — games, platforms, genres; log what you've played
+- **Movie watchlist** — movies, actors, genres; rate and review films
+- **Pet adoption board** — pets, shelters, species; available for adoption
+- **Study tracker** — topics, resources, sessions; log your learning
+
+Or pitch your own idea — submit it as part of your proposal.
+
+<!-- > -->
+
+## Milestones
+
+| Class | Deliverable |
+|-------|------------|
+| 9  | **Proposal** — what you're building, your types, your relationships |
+| 10 | **In-memory MVP** — server runs, basic queries and mutations work in Apollo Sandbox |
+| 11 | **React client** — frontend connected to server, data displays, mutations work from the UI |
+| 12 | **Polish** — error handling, loading states, stretch goals if time allows |
+| 13 | **Presentation** — 5 min demo + walkthrough of your schema and one resolver |
+| 14 | **Final submission** — code pushed to GitHub, link submitted to GradeScope |
+
+<!-- > -->
+
+## Proposal (Class 9)
+
+Submit a short written proposal with:
+
+1. **What your app does** — one sentence
+2. **Your types** — list each type and its fields
+3. **Your relationships** — which types connect to each other and how
+4. **Your queries** — what a user can fetch
+5. **Your mutations** — what a user can create, update, or delete
+
+Example proposal:
+
+> **Bookshelf Tracker**
+>
+> Types: `Book` (title, year, rating), `Author` (name, bio), `Genre` (name)
+>
+> Relationships: `Book → Author` (each book has an author), `Book → [Genre]` (each book has many genres)
+>
+> Queries: `books`, `book(id)`, `author(id)`, `authors`
+>
+> Mutations: `addBook`, `updateBook`, `deleteBook`, `addAuthor`
+
+<!-- > -->
+
 ## Requirements
-List out requirements for the project here
 
-1. Project must use GraphQL, Node, React, and Apollo
-    1. If you wish to use something other than Node, React, and Apollo, it must require instructor approval
-1. Your app must consist of at least 3 types
-1. There must be at least 1 relationship (i.e. one-to-many, many-to-many, etc.) between the types
-1. You must utilize an external API (not the OpenWeather API)
-1. Your app must be responsive, mobile-friendly.
+### Server
 
-You can build your own project from scratch or choose one or more of the tutorials here: https://www.howtographql.com
+- [ ] Apollo Server 4 with ESM (`import`/`export`, `"type": "module"` in package.json)
+- [ ] At least **3 GraphQL types** (not counting `Query` and `Mutation`)
+- [ ] At least **1 relationship** between types — implemented with a nested resolver
+- [ ] At least **2 queries** (e.g. get one by ID, get all)
+- [ ] At least **2 mutations** (e.g. create + update or delete)
+- [ ] At least one query accepts an **argument** (e.g. `book(id: ID!)`)
 
-The how to GraphQL tutorials inlcude front end and server projects. You can choose to make the front end backend or both! There are projects using React, TypeScript, JavaScript, Elixir, Ruby, Python, and Go, choose your favorite!  
+### Client
 
-### Stretch Requirements/Challenges (Optional)
+- [ ] React + Vite with Apollo Client
+- [ ] `ApolloProvider` wraps the app in `main.jsx`
+- [ ] At least one query uses **variables** (not hardcoded values)
+- [ ] Uses `useLazyQuery` or `useQuery` with variables
+- [ ] At least one mutation fires from the UI (form submit, button click, etc.)
+- [ ] Loading and error states handled — UI doesn't crash or show blank screen
 
-- Project is live
+### Code Quality
+
+- [ ] `.gitignore` includes `node_modules` and `.env`
+- [ ] No API keys committed to GitHub
+- [ ] Schema makes sense — types and fields are named clearly
+- [ ] Resolver structure matches schema (one resolver key per type that has nested fields)
+
+<!-- > -->
+
+## Stretch Goals
+
+These are optional. Prioritize the requirements first.
+
+- **MongoDB** — swap in-memory arrays for a real database (covered in Class 10)
+- **Subscriptions** — real-time updates with `useSubscription` (covered in Class 11)
+- **External API** — wrap a public REST API in a GraphQL resolver
+- **Authentication** — pass a user token via context, restrict mutations
+- **Deployed** — server and client live on the internet
+
+<!-- > -->
+
+## Presentation (Class 13)
+
+5 minutes. Show:
+
+1. What your app does — quick demo
+2. Your schema — walk through your types and one relationship
+3. One resolver — explain what it does and why it's structured that way
+4. What was hardest — one thing that took longer than expected
+
+No slides required. Just open your code and your app.
+
+<!-- > -->
 
 ## Rubric
 
-| Score | Rating   |        Requirements        |     Code Quality   |
-| :------------- | :------------- | :------------- | :------------- |
-|  1  | Needs Improvement | Meets 2 or fewer of the requirements | Code is messy and hard to follow, or code does not run |
-|  2  | Basic | Meets 3-4 of the requirements | Some sections have code that is messy and hard to follow, or is not properly commented to demonstrate understanding. |
-|  3  | Proficient | All requirements are met | Code is clear and easy to follow, all code is commented and steps taken are communicated.|
-|  4  | Advanced | ALl requirements and some stretch challenges are met | All code is clear, commented, and explained. Someone with limited technical ability could dive into your codebase and understand your project |
+| | 1 — Needs Improvement | 2 — Basic | 3 — Proficient | 4 — Advanced |
+|:---|:---|:---|:---|:---|
+| **Schema design** | Fewer than 3 types, no relationships | 3 types present but relationships missing or incorrect | 3+ types with at least 1 working relationship | Schema is well-designed, relationships are meaningful and match the domain |
+| **Resolvers** | Resolvers missing or don't return correct data | Basic Query resolvers work; mutations incomplete | Queries and mutations work; nested resolver returns correct data | Resolvers handle edge cases, null safety, argument validation |
+| **React client** | Client doesn't connect to server | Client fetches data but crashes on errors or loading | Queries and mutations work from UI; loading and error states handled | UI is polished; variables used correctly; multiple components |
+| **Requirements met** | Fewer than half the requirements | Most requirements met with minor gaps | All requirements met | All requirements met plus at least one stretch goal |
