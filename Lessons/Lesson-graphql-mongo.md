@@ -1,351 +1,373 @@
-# Apollo Server + MongoDB
+# ACS 4330 - GraphQL + MongoDB
 
-This starter code creates GraphQL server using Apollo. The server supports CRUD operations.
+**Estimated time:** 4–5 hours
 
-Get the project files here: https://github.com/Tech-at-DU/apollo-mongo-graphql-starter
+**Prerequisites:** Completed Lesson 9. You have a working Apollo Server with in-memory data and a project proposal.
 
-The project uses `ts-node`, a TypeScript engine for Node.js. https://www.npmjs.com/package/ts-node
+<!-- > -->
 
-It will run using `nodemon` without having to compile TS: https://www.npmjs.com/package/nodemon
+## Learning Outcomes
 
-The Graphiql interface used by Apollo Server only seemed to work for me in Chrome! If you're having trouble, try Chrome. This seems to be a cors issue of some kind. 
+By the end of this lesson, you should be able to:
 
-This is a React Client for the server: https://github.com/Tech-at-DU/apollo-mongo-client
+1. Connect Apollo Server to MongoDB using Mongoose
+2. Replace in-memory arrays with Mongoose models
+3. Write async resolvers that read and write to a database
+4. Handle the `_id` → `id` conversion between MongoDB and GraphQL
 
-# Project Files 
+<!-- > -->
 
-## `src/db.ts`
-### **📌 `db.ts` – Database Connection Module**
+## Review
 
-This file is responsible for **connecting to the MongoDB database** using the **MongoDB Node.js driver**. It ensures that the connection is established once and reused across the application.
+Write these from memory:
 
----
+- How do you define a resolver that accepts arguments?
+- What does `async`/`await` do in a resolver?
+- What is the `context` argument used for?
 
-### **🛠️ Key Features of `db.ts`**
-1. **Loads Environment Variables**  
-   - Uses `dotenv.config()` to load the `MONGO_URI` from the `.env` file.  
-   - Defaults to `"mongodb://127.0.0.1:27017/graphqlDB"` if no environment variable is set.
+<!-- > -->
 
-2. **Creates a Singleton Database Connection**  
-   - Declares `client` (MongoDB client) and `db` (database instance) **outside the function** to maintain a **single connection**.
-   - If a connection already exists, it **reuses** it instead of creating a new one.
+## 🗄️ Why Persist Data?
 
-3. **`connectToDB()` Function**
-   - **Creates and connects** to a MongoDB instance using `MongoClient`.
-   - **Enforces strict API rules** to catch deprecated methods early.
-   - Prints `"✅ Connected to MongoDB"` when the connection is successful.
+In-memory arrays reset every time your server restarts. For a real app — and your final project — you need data that survives restarts.
 
-4. **Exports**
-   - The `connectToDB()` function allows other modules to connect when needed.
-   - `db` is exported directly for queries (but isn’t set until `connectToDB()` is called).
+MongoDB is a document database that stores JSON-like objects. Mongoose is a Node.js library that adds schemas and models on top of MongoDB.
 
+**Two schemas, different purposes:**
 
-## `src/server.ts`
-### **📌 `server.ts` – The Entry Point of the GraphQL Server**  
+| | GraphQL Schema | Mongoose Schema |
+|---|---|---|
+| What it defines | The shape of your API | The shape of your database documents |
+| Where it lives | `typeDefs` string | `new mongoose.Schema({...})` |
+| Who uses it | Apollo Server | MongoDB via Mongoose |
 
-This file is the **main entry point** of the backend. It initializes and starts an **Apollo Server**, which handles GraphQL queries and mutations.  
+They often look similar, but they're separate things.
 
----
+<!-- > -->
 
-### **🛠️ Key Features of `server.ts`**
-1. **Loads Environment Variables**  
-   - Uses `dotenv.config()` to load any environment variables from a `.env` file.
+## Setup
 
-2. **Connects to MongoDB**  
-   - Calls `connectToDB()` **before starting the server** to ensure that the database connection is ready.
+<!-- > -->
 
-3. **Creates an Apollo GraphQL Server**  
-   - Uses the `ApolloServer` class from `apollo-server`.  
-   - Loads **GraphQL schema (`typeDefs`)** and **resolvers (`resolvers`)** from the `graphql/` folder.
+### 1. Get a MongoDB database
 
-4. **Starts the Server**
-   - Calls `server.listen()`, which:
-     - Starts the server on a default port (**4000** unless otherwise specified).
-     - Logs `"🚀 Server ready at http://localhost:4000/"` when successful.
+Use [MongoDB Atlas](https://www.mongodb.com/atlas) (free tier):
 
-## `src/graphql/schema.ts`
-### **📌 `schema.ts` – GraphQL Schema Definition**  
+1. Create an account
+2. Create a free cluster
+3. Click **Connect** → **Drivers** → copy the connection string
+4. Replace `<password>` with your database user password
 
-This file defines the **GraphQL schema** for the application using `gql` from `apollo-server`. The schema specifies **what data can be queried and modified** in the API.
+Or install [MongoDB Community Server](https://www.mongodb.com/try/download/community) locally — connection string is `mongodb://127.0.0.1:27017/mydb`.
 
----
+<!-- > -->
 
-### **🛠️ Key Features of `schema.ts`**
-1. **Defines the `Character` Type**  
-   ```graphql
-   type Character {
-     id: ID!
-     name: String!
-     initiative: Int
-   }
-   ```
-   - Each character has:
-     - An **ID** (`id: ID!`) – Unique identifier.
-     - A **name** (`name: String!`) – Required.
-     - An **initiative score** (`initiative: Int`) – Optional.
+### 2. Install Mongoose
 
-2. **Queries (`Query` Type)**
-   ```graphql
-   type Query {
-     characters: [Character!]!
-   }
-   ```
-   - **`characters`**: Fetches an array of all characters.
+```bash
+npm install mongoose
+```
 
-3. **Mutations (`Mutation` Type)**
-   ```graphql
-   type Mutation {
-     createCharacter(name: String!, initiative: Int): Character!
-     updateCharacter(id: ID! name: String, initiative: Int): Character!
-     deleteCharacter(id: ID!): Boolean
-   }
-   ```
-   - **`createCharacter(name, initiative)`** → Creates a new character.
-   - **`updateCharacter(id, name, initiative)`** → Updates an existing character.
-   - **`deleteCharacter(id)`** → Deletes a character and returns `true` if successful.
+<!-- > -->
 
----
+### 3. Add connection string to `.env`
 
-### **🚀 How to Use It**
-1. **Expand the API**  
-   - Add new types (e.g., `Weapon`, `Spell`).  
-   - Modify queries to filter or sort characters.  
+```
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/mydb
+```
 
-2. **Test in GraphQL Playground**  
-   ```graphql
-   mutation {
-     createCharacter(name: "Aragorn", initiative: 5) {
-       id
-       name
-       initiative
-     }
-   }
-   ```
+Add `.env` to `.gitignore` — never commit credentials.
 
-## `src/graphql/resolvers.ts`
-### **📌 `resolvers.ts` – GraphQL Resolvers**  
+<!-- > -->
 
-This file contains **the logic** behind each GraphQL query and mutation. It connects the GraphQL API to **MongoDB**, allowing the application to fetch, create, update, and delete data.
+### 4. Connect in `server.js`
 
----
+```js
+import { ApolloServer } from '@apollo/server'
+import { startStandaloneServer } from '@apollo/server/standalone'
+import mongoose from 'mongoose'
+import 'dotenv/config'
 
-### **🛠️ Key Features of `resolvers.ts`**
-1. **Handles Queries (`Query`)**
-   ```ts
-   characters: async () => { ... }
-   ```
-   - Fetches all characters from MongoDB.
-   - Converts `_id` (MongoDB’s unique identifier) to a string for GraphQL compatibility.
+await mongoose.connect(process.env.MONGO_URI)
+console.log('Connected to MongoDB')
 
-2. **Handles Mutations (`Mutation`)**
-   - **`createCharacter(name, initiative)`**
-     - Inserts a new character into the database.
-     - Returns the created character with its MongoDB-generated `id`.
-   - **`updateCharacter(id, name, initiative)`**
-     - Updates an existing character **only if the provided fields are non-null**.
-     - Ensures the character exists before updating.
-   - **`deleteCharacter(id)`**
-     - Deletes a character by ID.
-     - Returns `true` if deleted, `false` if no matching character was found.
+// typeDefs, resolvers, server setup below...
+```
 
-## `src/models/Characters.ts`
-### **📌 `Character.ts` – Mongoose Model for Characters**  
+Connect **before** starting the server. If `mongoose.connect` throws, your server shouldn't start.
 
-This file defines the **MongoDB schema** for storing characters using **Mongoose**, an Object Data Modeling (ODM) library for MongoDB.
+<!-- > -->
 
----
+## Mongoose Models
 
-### **🛠️ Key Features of `Character.ts`**
-1. **Defines the Schema (`characterSchema`)**
-   ```ts
-   const characterSchema = new mongoose.Schema({
-     name: { type: String, required: true },
-     initiative: { type: Number, required: false },
-   });
-   ```
-   - **`name`**: Required field (every character must have a name).
-   - **`initiative`**: Optional number (default is `null` if not provided).
+A Mongoose model is a class that maps to a MongoDB collection. Define a schema, then create the model.
 
-2. **Creates the Model (`Character`)**
-   ```ts
-   const Character = mongoose.model("Character", characterSchema);
-   ```
-   - Converts the schema into a **model**, allowing database operations like:
-     ```ts
-     Character.find();       // Get all characters
-     Character.create({...}) // Add a new character
-     Character.findById(id)  // Get a specific character
-     ```
+```js
+import mongoose from 'mongoose'
 
-3. **Exports the Model**
-   - `Character` is exported so that other files (like `resolvers.ts`) can interact with the database.
+const petSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  species: { type: String, required: true },
+})
 
-## Apollo Client cache
+const Pet = mongoose.model('Pet', petSchema)
 
-Read about the Apollo Client Cache here: https://www.apollographql.com/docs/react/caching/overview
+export default Pet
+```
 
-### TL;DR: Apollo Client Cache
-Apollo Client uses an **in-memory cache** to store GraphQL query results, reducing unnecessary network requests and improving performance.
+Put each model in its own file under `models/` — e.g. `models/Pet.js`.
 
-For more information on Apollo cache methods look here: https://www.apollographql.com/docs/react/caching/cache-interaction
+<!-- > -->
 
----
+## Replacing In-Memory Resolvers
 
-### 🔹 Key Concepts
-1. **Normalized Cache**  
-   - Apollo stores data in a normalized format, similar to a database.  
-   - Each object is stored by its `id`, preventing duplicate data.
+### Before (in-memory)
 
-2. **`cache.modify()` for Manual Updates**  
-   - Used after mutations to **update specific fields** without refetching.  
-   - Example: Updating a list of characters after one is edited.
-   ```javascript
-   cache.modify({
-     fields: {
-       characters(existingCharacters = [], { readField }) {
-         return existingCharacters.map((characterRef) =>
-           readField("id", characterRef) === updatedCharacter.id
-             ? { ...characterRef, ...updatedCharacter }
-             : characterRef
-         );
-       }
-     }
-   });
-   ```
+```js
+let petList = [
+  { id: '1', name: 'Biscuit', species: 'cat' },
+]
 
-   Learn more about `cache.modify()` here: https://www.apollographql.com/docs/react/caching/cache-interaction#using-cachemodify
-
-3. **Automatic Cache Updates**
-   - If a query uses `id` and `__typename`, Apollo **automatically updates cached data** after a mutation.
-   - Works when the mutation response contains the updated object.
-
-4. **`refetchQueries` for Simplicity**
-   - Forces a re-fetch of specific queries after a mutation.
-   ```javascript
-   const [updateCharacter] = useMutation(UPDATE_CHARACTER, {
-     refetchQueries: ["GetCharacters"], // Name of query in cache
-   });
-   ```
-   - **Use this if manual cache updates are too complex.**
-
-5. **Evicting & Resetting Cache**
-   - `cache.evict({ id: "Character:123" })` → Removes specific object.
-   - `cache.reset()` → Clears everything (useful on logout).
-
----
-
-### 🚀 TL;DR Summary
-| Feature | What It Does |
-|---------|-------------|
-| **Normalized Cache** | Stores GraphQL data like a database. |
-| **`cache.modify()`** | Manually updates cache after mutations. |
-| **Auto Updates** | Works if `id` & `__typename` exist in response. |
-| **`refetchQueries`** | Refetches specific queries instead of manual updates. |
-| **`cache.evict()`** | Removes specific items from the cache. |
-
-👉 **Use auto-updates when possible, `cache.modify()` for efficiency, and `refetchQueries` for simplicity!** 🚀🔥
-
-### 🔍 Understanding `update()` in Apollo Client's `useMutation` Hook
-The `update()` function in Apollo Client allows us to manually update the **Apollo cache** after a mutation runs. This prevents an unnecessary refetch from the server and ensures the UI reflects the most recent state.
-
----
-
-### ✅ Breakdown of What’s Happening
-```javascript
-const [updateCharacter, { error: updateError }] = useMutation(UPDATE_CHARACTER, {
-  update(cache, { data: { updateCharacter } }) {
-    cache.modify({
-      fields: {
-        characters(existingCharacters = [], { readField }) {
-          return existingCharacters.map((characterRef) =>
-            readField("id", characterRef) === updateCharacter.id
-              ? { ...characterRef, ...updateCharacter }
-              : characterRef
-          );
-        }
-      }
-    });
+const resolvers = {
+  Query: {
+    pets: () => petList,
+    pet: (_, { id }) => petList.find(p => p.id === id),
+  },
+  Mutation: {
+    addPet: (_, { name, species }) => {
+      const pet = { id: String(petList.length + 1), name, species }
+      petList.push(pet)
+      return pet
+    },
   }
-});
+}
 ```
 
----
+<!-- > -->
 
-### 🚀 Step-by-Step Execution
+### After (MongoDB)
 
-#### 1️⃣ The Mutation Executes
-- When `updateCharacter()` is called, it sends a mutation request to the GraphQL server.
-- Once the server responds with updated data, **Apollo calls the `update()` function** to modify the cache.
+```js
+import Pet from './models/Pet.js'
 
-#### 2️⃣ The `update()` Function Runs
-```javascript
-update(cache, { data: { updateCharacter } }) {
+const resolvers = {
+  Query: {
+    pets: async () => Pet.find(),
+    pet: async (_, { id }) => Pet.findById(id),
+  },
+  Mutation: {
+    addPet: async (_, { name, species }) => {
+      return Pet.create({ name, species })
+    },
+    updatePet: async (_, { id, name, species }) => {
+      return Pet.findByIdAndUpdate(
+        id,
+        { ...(name && { name }), ...(species && { species }) },
+        { new: true }  // return the updated document
+      )
+    },
+    deletePet: async (_, { id }) => {
+      const result = await Pet.findByIdAndDelete(id)
+      return result !== null
+    }
+  }
+}
 ```
-- The `cache` object represents Apollo’s in-memory cache.
-- `{ data: { updateCharacter } }` extracts the updated character from the mutation response.
 
-#### 3️⃣ `cache.modify()` Updates the Cache
-```javascript
-cache.modify({
-  fields: {
-    characters(existingCharacters = [], { readField }) {
+All resolvers are now `async` — Mongoose operations return promises.
+
+<!-- > -->
+
+## The `_id` → `id` Problem
+
+MongoDB stores documents with `_id`, not `id`. Your GraphQL schema uses `id: ID!`.
+
+Mongoose solves this automatically. Every Mongoose document has a virtual `id` getter that returns `_id.toString()`. Apollo's default resolvers read `obj.id`, which resolves to the Mongoose virtual.
+
+**You don't need to do anything extra** — it works out of the box. But know why: if you ever bypass Mongoose and use the raw MongoDB driver, you'll need to convert manually.
+
+<!-- > -->
+
+## Full Example
+
+`models/Pet.js`:
+
+```js
+import mongoose from 'mongoose'
+
+const petSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  species: { type: String, required: true },
+})
+
+export default mongoose.model('Pet', petSchema)
 ```
-- **`cache.modify()`** is a built-in Apollo function that allows us to update **specific fields** in the cache.
-- **`characters`** is the name of the field in the Apollo cache storing the list of characters.
-- **`existingCharacters`** represents the array of character references currently stored in Apollo's cache.
 
-#### 4️⃣ Updating the Characters List
-```javascript
-return existingCharacters.map((characterRef) =>
-  readField("id", characterRef) === updateCharacter.id
-    ? { ...characterRef, ...updateCharacter }
-    : characterRef
-);
+`server.js`:
+
+```js
+import { ApolloServer } from '@apollo/server'
+import { startStandaloneServer } from '@apollo/server/standalone'
+import mongoose from 'mongoose'
+import 'dotenv/config'
+import Pet from './models/Pet.js'
+
+await mongoose.connect(process.env.MONGO_URI)
+console.log('Connected to MongoDB')
+
+const typeDefs = `#graphql
+  type Pet {
+    id: ID!
+    name: String!
+    species: String!
+  }
+
+  type Query {
+    pets: [Pet!]!
+    pet(id: ID!): Pet
+  }
+
+  type Mutation {
+    addPet(name: String!, species: String!): Pet!
+    updatePet(id: ID!, name: String, species: String): Pet
+    deletePet(id: ID!): Boolean!
+  }
+`
+
+const resolvers = {
+  Query: {
+    pets: async () => Pet.find(),
+    pet: async (_, { id }) => Pet.findById(id),
+  },
+  Mutation: {
+    addPet: async (_, { name, species }) => Pet.create({ name, species }),
+    updatePet: async (_, { id, name, species }) => {
+      return Pet.findByIdAndUpdate(
+        id,
+        { ...(name && { name }), ...(species && { species }) },
+        { new: true }
+      )
+    },
+    deletePet: async (_, { id }) => {
+      const result = await Pet.findByIdAndDelete(id)
+      return result !== null
+    }
+  }
+}
+
+const server = new ApolloServer({ typeDefs, resolvers })
+
+const { url } = await startStandaloneServer(server, {
+  listen: { port: 4000 }
+})
+
+console.log(`Server ready at: ${url}`)
 ```
-- **`readField("id", characterRef")`** extracts the `id` from each character stored in the cache.
-- It **checks if the `id` matches** the one from `updateCharacter` (the updated data).
-- **If it matches**, the character **is replaced with the updated data**.
-- **If it doesn’t match**, the character remains unchanged.
 
----
+<!-- > -->
 
-### 🔥 Why Is This Important?
-1. **Ensures UI Updates Immediately**  
-   - Without this, the UI might **not reflect the update** until the next refetch.
-   
-2. **Prevents Unnecessary Network Requests**  
-   - Since the cache is updated manually, **Apollo doesn’t need to fetch fresh data from the server**.
+## Passing Models via Context
 
-3. **Efficient & Optimized Performance**  
-   - `cache.modify()` ensures that **only the affected character is updated**, instead of refetching the entire list.
+When your app has multiple models, pass them through context instead of importing them into every resolver file:
 
----
+```js
+import Pet from './models/Pet.js'
+import User from './models/User.js'
 
-### 🔧 Alternative: Using `refetchQueries` Instead
-If cache modification is too complex, you can **force a refetch**:
-```javascript
-const [updateCharacter] = useMutation(UPDATE_CHARACTER, {
-  refetchQueries: ["GetCharacters"], // Query name from Apollo's cache
-});
+const { url } = await startStandaloneServer(server, {
+  listen: { port: 4000 },
+  context: async () => ({ Pet, User })
+})
 ```
-This will **refetch the entire `characters` list** from the server instead of modifying the cache manually.
 
----
+Resolver:
 
-### 🎯 Summary
-| Step | What Happens? |
-|------|--------------|
-| **1️⃣ Mutation Runs** | Sends `updateCharacter` mutation to the server. |
-| **2️⃣ Server Responds** | Server returns updated character data. |
-| **3️⃣ `update()` Runs** | Apollo calls `update()` to modify the cache. |
-| **4️⃣ `cache.modify()` Updates Characters List** | Replaces the old character in the cache with the updated one. |
-| **5️⃣ UI Updates Immediately** | React re-renders with the new character data. |
+```js
+pets: async (_, __, context) => context.Pet.find(),
+```
 
----
+This makes resolvers easier to test and keeps imports centralized.
 
-### 🚀 Final Thoughts
-- This approach **manually updates the cache** instead of relying on a full refetch.
-- It’s **efficient** but requires understanding Apollo’s cache structure.
-- **Alternative:** Use `refetchQueries` if manual cache updates feel too complex.
+<!-- > -->
 
-Now, your app will **instantly update** the character list without an extra API request! 🚀🔥
+## Challenges
+
+<!-- > -->
+
+**Challenge 1 — Set up MongoDB**
+
+1. Create a MongoDB Atlas cluster (or start a local MongoDB instance)
+2. Create a `.env` with `MONGO_URI`
+3. Add `mongoose` to your server
+4. Connect before starting — verify "Connected to MongoDB" logs on startup
+
+<!-- > -->
+
+**Challenge 2 — Migrate the Pet Server**
+
+Starting from the pet server you built in Lesson 6:
+
+1. Create `models/Pet.js` with a Mongoose schema
+2. Replace `petList` array with Mongoose queries in all resolvers
+3. Test every query and mutation in Apollo Sandbox:
+   - `pets` — list all
+   - `pet(id)` — get one
+   - `addPet` — create
+   - `updatePet` — update
+   - `deletePet` — delete
+4. Restart the server and verify data persists
+
+<!-- > -->
+
+**Challenge 3 — Add a Second Model**
+
+Add an `Owner` type:
+
+```graphql
+type Owner {
+  id: ID!
+  name: String!
+  pets: [Pet!]!
+}
+```
+
+1. Create `models/Owner.js`
+2. Add `ownerId` to your `Pet` Mongoose schema
+3. Write a nested resolver: `Pet.owner` and `Owner.pets`
+4. Add `addOwner` and `assignPet(petId, ownerId)` mutations
+
+<!-- > -->
+
+**Challenge 4 — Migrate Your Final Project**
+
+Apply what you've learned to your final project server:
+
+1. Create a `models/` folder with a Mongoose model for each type
+2. Replace all in-memory arrays with Mongoose queries
+3. Pass models through context
+4. Test all queries and mutations — data should persist across server restarts
+
+<!-- > -->
+
+## After This Lesson
+
+- Submit your MongoDB-backed server to GradeScope
+- Your final project server should now persist data
+
+<!-- > -->
+
+### Evaluate Your Work
+
+| | Does not meet expectations | Meets expectations | Exceeds expectations |
+|:---:|:---:|:---:|:---:|
+| MongoDB connection | Server doesn't connect to MongoDB | Server connects on startup; error is thrown if connection fails | Connection string in `.env`; models passed via context |
+| Mongoose models | No models defined | At least one model with correct schema | Multiple models; required fields marked; relationships via IDs |
+| Resolvers | Resolvers still use in-memory arrays | All CRUD resolvers use Mongoose; async/await used correctly | Handles null results; uses `{ new: true }` on updates |
+
+<!-- > -->
+
+## Resources
+
+- https://mongoosejs.com/docs/guide.html
+- https://www.mongodb.com/atlas
+- https://www.apollographql.com/docs/apollo-server/data/fetching-data

@@ -56,10 +56,10 @@ Students by the end of the course will be able to ...
 |  6  | Thu, Sep 10 | [Lesson 6 - GraphQL Mutations]         | - |
 |  7  | Tue, Sep 15 | [Lesson 7 - Query Variables]                      | - |
 |  8  | Thu, Sep 17 | [Nested resolvers]                     | - |
-|  9  | Tue, Sep 22 | -                                      | [Final Project] |
-|  10 | Thu, Sep 24 | [GraphQL Mongo]                        | - |
-|  11 | Tue, Sep 29 | [Subscriptions]                        | - |
-|  12 | Thu, Oct  1 | [Lesson 12 - GraphQL ORM]              | - |
+|  9  | Tue, Sep 22 | [Lesson 9 - Context]                   | [Final Project] proposal due |
+|  10 | Thu, Sep 24 | [Lesson 10 - MongoDB]                  | - |
+|  11 | Tue, Sep 29 | [Lesson 11 - Apollo Cache]             | - |
+|  12 | Thu, Oct  1 | [Lesson 12 - Authentication]           | - |
 |  13 | Tue, Oct  6 | Final Presentations                    | - |
 |  14 | Thu, Oct  8 | Final Assessment                       | - |
 
@@ -69,14 +69,14 @@ Students by the end of the course will be able to ...
 [Lesson 4 - React Intro]: Lessons/Lesson-4.md
 [Lesson 5 - React and GraphQL]: Lessons/Lesson-5.md
 [Lesson 6 - GraphQL Mutations]: Lessons/Lesson-6.md
-[Lesson 7 - Query Variables]: Lessons/Lesson-7.md
+[Lesson 7 - Query Variables]: Lessons/Lesson-useLazyQuery.md
 [Lesson 8 - Nested Resolvers]: Lessons/Lesson-8.md
-[Lesson 12 - GraphQL ORM]: Lessons/Lesson-12.md
-
+[Lesson 9 - Context]: Lessons/Lesson-9.md
+[Lesson 10 - MongoDB]: Lessons/Lesson-graphql-mongo.md
+[Lesson 11 - Apollo Cache]: Lessons/Lesson-apollo-cache.md
+[Lesson 12 - Authentication]: Lessons/Lesson-12.md
 
 [Nested resolvers]: Lessons/Lesson-8.md
-[GraphQL Mongo]: Lessons/Lesson-graphql-mongo.md
-[Subscriptions]: Lessons/Lesson-websockets.md
 
 [Final Project]: Assignments/FinalProjectSpec.md
 
