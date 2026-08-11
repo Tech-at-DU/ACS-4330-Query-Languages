@@ -1013,7 +1013,7 @@ Returns: "Cat", "Dog", "Frog"
 
 ## After This Lesson
 
-- Complete the challenges here. Submit them on GradeScope.
+- Complete the challenges here. Push your code to `lesson-02/` in your course repo.
 - Watch the following sections at https://www.howtographql.com:
   - Clients
   - Servers

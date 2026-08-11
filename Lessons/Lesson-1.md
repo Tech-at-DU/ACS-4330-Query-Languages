@@ -561,14 +561,14 @@ The result would look like this:
   - GraphQL is the better REST
   - Core Concepts
   - Big Picture (Architecture)
-- Complete the queries below and submit on GradeScope.
+- Complete the queries below and add your answers to `lesson-01/README.md` in your course repo.
   - For each question write the GraphQL query that returns the requested data.
 
 <!-- > -->
 
 ### Evaluate your Work
 
-Submit on GradeScope. Write the **query** that solves each question. Use the Rick and Morty GraphQL API at https://rickandmortyapi.com/graphql.
+Add your answers to `lesson-01/README.md` in your course repo. Write the **query** that solves each question. Use the Rick and Morty GraphQL API at https://rickandmortyapi.com/graphql.
 
 1. Get Rick Sanchez's name and status.
 1. Get Morty Smith's name, species, and gender.

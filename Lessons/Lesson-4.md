@@ -801,7 +801,7 @@ This is an open-ended stretch challenge. Substitute another API for the OpenWeat
 
 ## After This Lesson
 
-Complete the challenges above and submit your work to GradeScope.
+Push your completed React weather app to `lesson-04/` in your course repo.
 
 <!-- > -->
 

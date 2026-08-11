@@ -421,7 +421,7 @@ Handle this gracefully in your resolver so it returns `null` instead of throwing
 
 ## After This Lesson
 
-Submit your completed nested resolvers project to GradeScope.
+Push your completed nested resolvers project to `lesson-08/` in your course repo.
 
 Before moving on, you should be able to:
 - [ ] Explain what the `parent` argument is and when it's used

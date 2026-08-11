@@ -38,7 +38,7 @@ Or pitch your own idea — submit it as part of your proposal.
 | 11 | **React client** — frontend connected to server, data displays, mutations work from the UI |
 | 12 | **Polish** — error handling, loading states, stretch goals if time allows |
 | 13 | **Presentation** — 5 min demo + walkthrough of your schema and one resolver |
-| 14 | **Final submission** — code pushed to GitHub, link submitted to GradeScope |
+| 14 | **Final submission** — code pushed to `final-project/` in your course repo, link shared with instructor |
 
 <!-- > -->
 

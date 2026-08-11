@@ -300,7 +300,7 @@ Add the following types to your schema:
 
 ## After This Lesson
 
-Complete the challenges above and submit to GradeScope.
+Push your completed mutations server to `lesson-06/` in your course repo.
 
 <!-- > -->
 

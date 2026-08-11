@@ -351,7 +351,7 @@ Apply what you've learned to your final project server:
 
 ## After This Lesson
 
-- Submit your MongoDB-backed server to GradeScope
+- Push your MongoDB-backed server to `lesson-10/` in your course repo
 - Your final project server should now persist data
 
 <!-- > -->

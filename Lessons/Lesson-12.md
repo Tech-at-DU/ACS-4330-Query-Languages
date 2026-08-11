@@ -331,7 +331,7 @@ mutation {
 
 ## After This Lesson
 
-- Submit your auth-enabled server and React client to GradeScope
+- Push your auth-enabled server and React client to `lesson-12/` in your course repo
 - Your final project should have working login/register by this point
 
 <!-- > -->

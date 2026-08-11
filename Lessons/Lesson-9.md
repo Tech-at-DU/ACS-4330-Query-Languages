@@ -263,7 +263,7 @@ Write it in GraphQL Schema Language (the `typeDefs` string format).
 
 ## 📋 Project Proposal
 
-Your proposal is due this class. Submit it to GradeScope.
+Your proposal is due this class. Add it to `final-project/PROPOSAL.md` in your course repo and share the link with your instructor.
 
 **Required sections:**
 
@@ -325,7 +325,7 @@ type Mutation {
 
 ## After This Lesson
 
-- Submit your project proposal to GradeScope
+- Push your project proposal to `final-project/PROPOSAL.md` in your course repo
 - Begin building your server with in-memory data arrays
 - Schema should match your proposal — you will migrate to MongoDB in Lesson 10
 

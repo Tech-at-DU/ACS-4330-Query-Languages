@@ -482,7 +482,7 @@ Try as many of these stretch goals as you can!
 
 ## After This Lesson
 
-- Submit your completed GraphQL Weather API to GradeScope.
+- Push your completed GraphQL Weather API to `lesson-03/` in your course repo.
   - Solve as many challenges as you can!
   - If you finish all challenges, try the stretch challenges.
 

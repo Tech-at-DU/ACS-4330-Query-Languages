@@ -83,7 +83,7 @@ Add a Date field to the Todo type.
 
 ## Submit your work 
 
-Submit your completed work on GradeScope.
+Add your completed answers to `final-assessment/README.md` in your course repo and share the link with your instructor.
 
 <!-- 
 

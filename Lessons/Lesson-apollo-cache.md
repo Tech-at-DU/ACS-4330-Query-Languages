@@ -237,7 +237,7 @@ For each mutation in your final project React client:
 
 ## After This Lesson
 
-- Submit your updated React client to GradeScope
+- Push your updated React client to `lesson-11/` in your course repo
 - All mutations should update the UI without a manual refresh
 
 <!-- > -->

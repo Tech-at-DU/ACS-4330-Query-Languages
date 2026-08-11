@@ -429,7 +429,7 @@ function ThemeSwitcher() {
 
 ## After This Lesson
 
-- Submit your refactored React weather component (using `useLazyQuery` and variables) to GradeScope.
+- Push your refactored React weather component (using `useLazyQuery` and variables) to `lesson-07/` in your course repo.
 
 <!-- > -->
 

@@ -52,7 +52,7 @@ Students by the end of the course will be able to ...
 |  2  | Thu, Aug 27 | [Lesson 2 - GraphQL Schemas and Types] | GraphQL Resolver Challenges |
 |  3  | Tue, Sep  1 | [Lesson 3 - GraphQL + Apollo]          | GraphQL OpenWeatherMap API |
 |  4  | Thu, Sep  3 | [Lesson 4 - React Intro]               | React GraphQL Weather |
-|  5  | Tue, Feb  8 | [Lesson 5 - React and GraphQL]         | - |
+|  5  | Tue, Sep  8 | [Lesson 5 - React and GraphQL]         | - |
 |  6  | Thu, Sep 10 | [Lesson 6 - GraphQL Mutations]         | - |
 |  7  | Tue, Sep 15 | [Lesson 7 - Query Variables]                      | - |
 |  8  | Thu, Sep 17 | [Nested resolvers]                     | - |
@@ -69,7 +69,7 @@ Students by the end of the course will be able to ...
 [Lesson 4 - React Intro]: Lessons/Lesson-4.md
 [Lesson 5 - React and GraphQL]: Lessons/Lesson-5.md
 [Lesson 6 - GraphQL Mutations]: Lessons/Lesson-6.md
-[Lesson 7 - Query Variables]: Lessons/Lesson-useLazyQuery.md
+[Lesson 7 - Query Variables]: Lessons/Lesson-7.md
 [Lesson 8 - Nested Resolvers]: Lessons/Lesson-8.md
 [Lesson 9 - Context]: Lessons/Lesson-9.md
 [Lesson 10 - MongoDB]: Lessons/Lesson-graphql-mongo.md
@@ -80,30 +80,50 @@ Students by the end of the course will be able to ...
 
 [Final Project]: Assignments/FinalProjectSpec.md
 
+## Course Repo Setup
+
+At the start of the course, create one GitHub repository for all your work: e.g. `acs-4330-graphql`. Share the link with your instructor.
+
+Organize it like this:
+
+```
+acs-4330-graphql/
+  lesson-01/
+    README.md       ← written answers and query responses
+  lesson-02/
+    server.js
+    package.json
+    README.md
+  lesson-03/
+    ...
+  final-project/
+    PROPOSAL.md
+    server/
+    client/
+```
+
+Each lesson tells you what to push and where. Written answers go in `README.md` inside the lesson folder. Code goes alongside it.
+
 ### Homework
 
-- Class 1 - Start: Tues. Jan 21 Due: Thurs. Jan 23
-	- Watch How To GraphQL (first 4 sections)
-	- Answer Questions on Gradescope
-	- Due Class 2
-- Class 2 - Start: Thurs. Jan 23 Due: Tues. Jan 28
-	- Watch How to GraphQL (remaining videos)
-	- Complete challenges in Lesson-2 #challenges
-		- Submit to GradeScope
-		- Due Class 3
-- Class 3 - Start: Tues. 28 Due: Thrus. Feb 14
-	- OpenWeatherMap graphQL API
-		- Complete the challenges in Lesson-3
-		- Submit to GradeScope
-		- Due Class 5
-- Class 4 - Start: Thurs. Jan 30 Due: Thurs. Feb 6
-	- **Lab for assignment 3**
-	- GraphQL Express server and Mutations
-	- Complete the challenges in Lesson-4
-		- Submit to Gradscope
-- Class 5 - **Lab day for assignment 3 and 4**
-- Class 6 - Start: Thurs. Feb 6 Due: Thurs. Mar. 6
-	- How to GraphQL tutorial
+Complete the work for each lesson before your next weekly check-in. Bring questions — stuck spots are better discussed in person than via messages.
+
+| Class | Work due by next check-in |
+|-------|--------------------------|
+| 1  | Watch howtographql.com intro videos. Add query answers to `lesson-01/README.md` |
+| 2  | Complete Lesson 2 challenges. Push server to `lesson-02/` |
+| 3  | Complete Lesson 3 challenges. Push weather API to `lesson-03/` |
+| 4  | Complete Lesson 4 challenges. Push React weather app to `lesson-04/` |
+| 5  | Finish any open items from Lessons 3–4. Pass all checklist items in Lesson 5 |
+| 6  | Complete Lesson 6 challenges. Push mutations server to `lesson-06/` |
+| 7  | Complete Lesson 7 challenges. Push updated React client to `lesson-07/` |
+| 8  | Complete Lesson 8 challenges. Push nested resolvers project to `lesson-08/` |
+| 9  | Write project proposal. Push to `final-project/PROPOSAL.md` |
+| 10 | Add MongoDB to your project server. Push to `lesson-10/` |
+| 11 | Add cache handling to React client. Push to `lesson-11/` |
+| 12 | Add authentication. Push to `lesson-12/` |
+| 13 | Final project presentations — demo ready |
+| 14 | Final assessment. Push answers to `final-assessment/README.md` |
 
 ## Evaluation
 To pass this course you must meet the following requirements:
