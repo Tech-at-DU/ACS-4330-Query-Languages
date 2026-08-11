@@ -40,6 +40,24 @@ Students by the end of the course will be able to ...
 1. Write a basic GraphQL Query and Schema
 1. Implement GraphQL in a CRUD Application
 
+## Before You Start
+
+### Node.js
+
+This course requires Node.js 18 or higher. Check your version:
+
+```bash
+node --version
+```
+
+If the output is below `v18`, download the latest LTS release from [nodejs.org](https://nodejs.org) and reinstall.
+
+### Course Repo
+
+Create one GitHub repository for all your coursework — e.g. `acs-4330-graphql`. You'll use this repo for every lesson. See [Course Repo Setup](#course-repo-setup) below for the folder structure.
+
+Always include a `.gitignore` in every project folder. Use [gitignore.io](https://www.toptal.com/developers/gitignore/api/node) to generate one for Node — make sure it excludes `node_modules` and `.env`.
+
 ## Schedule
 
 **Course Dates:** August 24 – October 9, 2026
@@ -125,44 +143,50 @@ Complete the work for each lesson before your next weekly check-in. Bring questi
 | 13 | Final project presentations — demo ready |
 | 14 | Final assessment. Push answers to `final-assessment/README.md` |
 
+## When You're Stuck
+
+Getting stuck is normal. Here's how to work through it before the next check-in.
+
+**1. Read the error message in full.** The first line usually tells you what went wrong. Copy it exactly.
+
+**2. Check the right place for the error:**
+- Terminal → server problem (resolver, schema, Apollo Server startup)
+- Browser console → client problem (Apollo Client, React component, network)
+- Apollo Sandbox → test the query in isolation to rule out the server
+
+**3. Add a `console.log` just before the failure.** Confirm the value you're passing is what you think it is.
+
+**4. Search the exact error message.** Include the library name: `"Apollo Server 4 context function"`, `"useLazyQuery undefined"`, etc.
+
+**5. Check the official docs:**
+- Apollo Server: https://www.apollographql.com/docs/apollo-server
+- Apollo Client: https://www.apollographql.com/docs/react
+- GraphQL spec: https://graphql.org/learn
+- MDN (JavaScript): https://developer.mozilla.org
+
+**6. Still stuck?** Note the exact error message, what you tried, and what you expected to happen. Bring it to the weekly check-in. The more specific your question, the faster it gets answered.
+
+## Independent Study Expectations
+
+This course runs as independent study. You work through the lessons on your own schedule and meet with your instructor once per week.
+
+- Work through lessons between check-ins — aim for the pacing in the homework table above
+- Push completed work to your course repo before each meeting
+- Come to check-ins with specific questions, not just "I'm stuck" — know which step failed and what you tried
+- The course is 75 total hours. That's roughly 5–6 hours per week over 13 weeks
+
 ## Evaluation
-To pass this course you must meet the following requirements:
 
-- Complete all required tutorials 
-- Pass all projects according to the associated project rubric
-- Pass the final summative assessment >=75%
-- Actively participate in class and abide by the attendance policy
-- Make up all classwork from all absences
+To pass this course you must:
 
-## Attendance
-Just like any job, attendance at Make School is required and a key component of your success. Attendance is being onsite from 9:30 to 5:30 each day, attending all scheduled sessions including classes, huddles, coaching and school meetings, and working in the study labs when not in a scheduled session. Working onsite allows you to learn with your peers, have access to support from TAs, instructors and others, and is vital to your learning.
+- Complete all lesson assignments and push them to your course repo
+- Complete and present the final project
+- Pass the final assessment ≥75%
 
-Attendance requirements for scheduled sessions are:
-- No more than two no call no shows per term in any scheduled session.
-- No more than four excused absences per term in any scheduled session.
+## Resources
 
-Failure to meet these requirements will result in a PIP (Participation Improvement Plan).  Failure to improve after the PIP is cause for not being allowed to continue at Make School. 
-
-##  Information Resources
-
-Any additional resources you may need (online books, etc.) can be found here. You can also find additional resources through the library linked below:
-
-<!-- - [make.sc/library](http://make.sc/library) -->
-
-<!-- ## Make School Course Policies
-
-- [Program Learning Outcomes](https://make.sc/program-learning-outcomes) - What you will achieve after finishing Make School, all courses are designed around these outcomes.
-- [Grading System](https://make.sc/grading-system) - How grading is done at Make School
-- [Code of Conduct, Equity, and Inclusion](https://make.sc/code-of-conduct) - Learn about Diversity and Inclusion at Make School
-- [Academic Honesty](https://make.sc/academic-honesty-policy) - Our policies around plagerism, cheating, and other forms of academic misconduct
-- [Attendance Policy](https://make.sc/attendance-policy) - What we expect from you in terms of attendance for all classes at Make School
-- [Course Credit Policy](https://make.sc/course-credit-policy) - Our policy for how you obtain credit for your courses
-- [Disability Services (Academic Accommodations)](https://make.sc/disability-services) - Services and accommodations we provide for students
-- [Online Learning Tutorial](https://make.sc/online-learning-tutorial) - How to succeed in online learning at Make School
-- [Student Handbook](https://make.sc/student-handbook) - Guidelines, policies, and resources for all Make School students -->
-
-# Resources 
-
+- https://www.apollographql.com/docs/apollo-server
+- https://www.apollographql.com/docs/react
+- https://graphql.org/learn
+- https://rickandmortyapi.com/documentation
 - https://github.com/soggybag/BasicGraphQLExample
-- https://github.com/soggybag/react-apollo-github
-- https://github.com/soggybag/graphql-express-react
