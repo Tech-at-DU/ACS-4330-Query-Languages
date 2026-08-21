@@ -1,44 +1,31 @@
-# 4330 Query Languages
+# ACS 4330 - Query Languages
 
-ACS 4330 Query Languages explores modern alternatives to REST. In this class you will learn to use languages that facilitate communication between client and server applications, expand and improve on the tired and frustrating REST paradigm. 
+This course covers GraphQL — a query language for APIs that replaces REST with a single flexible endpoint. Instead of multiple endpoints returning fixed data shapes, GraphQL lets clients request exactly the fields they need, nothing more.
 
-Query languages solve many of the problems of REST. Modern query languages such as GraphQL were made with the goal of solving all of the problems of REST. 
-
-Using Modern query languages, you will be able to define requests at your client and receive only the data you requested. Imagine making multiple nested requests with a single query and only receiving the data you asked for. Query languages are the future of web APIs and are currently used by hundreds of companies like: FaceBook/Meta, Twitter, GitHub, AirBnB, Coursera, Intuit, Lyft, Paypal, Pinterest, and more. 
-
-## GraphQL
-
-Learn GraphQL the better replacement for REST! Invented at Facebook to solve problems imposed by REST. GraphQL is an open source alternative that offers a new way of managing network resources. 
-
-### Why you should know this (optional)
-
-GraphQL provides many advantages over REST. It's used by all of the biggest services. 
-
-FaceBook, Coursera, GitHub and many others 
-
-GraphQL is built with a schema and strong types. GraphQL provides reliablity through it's strong typing system. GraphQL provides a solution to over fetching and unders fetching data, and allows front end requests to determine what data is returned from an endpoint. 
-
-If you want to work with a future of network resources learn GraphQL. 
+GraphQL is used in production at Facebook, GitHub, Shopify, Twitter, Coursera, Airbnb, and hundreds of other companies. It's a marketable skill and a genuinely better way to design APIs.
 
 ## Course Specifics
 
-**Course Delivery**: online | 7 weeks | 14 sessions
+**Course Delivery**: Independent study | 7 weeks | 75 total hours (~10 hours/week)
 
-**Course Credits**: 3 units | 37.5 Seat Hours | 75 Total Hours
+**Course Credits**: 3 units
 
-### Prerequisites  
+### Prerequisites
 
 - Senior Standing
 - Instructor Approval
+- Familiarity with JavaScript, Node.js, and React
 
 ### Learning Objectives
 
-Students by the end of the course will be able to ...
+By the end of this course you will be able to:
 
-1. Compare GraphQL with REST
-1. Describe the Features of the GraphQL language
-1. Write a basic GraphQL Query and Schema
-1. Implement GraphQL in a CRUD Application
+1. Compare GraphQL with REST and explain the tradeoffs
+2. Write GraphQL queries, mutations, and subscriptions
+3. Build a GraphQL API with Apollo Server
+4. Connect a React frontend to a GraphQL API with Apollo Client
+5. Design a schema with multiple related types and nested resolvers
+6. Persist data with MongoDB and protect routes with JWT authentication
 
 ## Before You Start
 
@@ -60,49 +47,40 @@ Always include a `.gitignore` in every project folder. Use [gitignore.io](https:
 
 ## Schedule
 
-**Course Dates:** August 24 – October 9, 2026
+**Course Dates:** August 25 – October 8, 2026
 
-**Class Times:** Tuesday and Thursday at 4:00 PM - 6:45 PM
+**Format:** Independent study. Work through two lessons per week on your own. Meet with your instructor once per week to review progress and ask questions.
 
-| Class |    Date   |                Topics                  | Assignment |
-|:-----|:---------:|:--------------------------------------:|:-----------|
-|  1  | Tue, Aug 25 | [Lesson 1 - GraphQL Intro]             | Query Challenges |
-|  2  | Thu, Aug 27 | [Lesson 2 - GraphQL Schemas and Types] | GraphQL Resolver Challenges |
-|  3  | Tue, Sep  1 | [Lesson 3 - GraphQL + Apollo]          | GraphQL OpenWeatherMap API |
-|  4  | Thu, Sep  3 | [Lesson 4 - React Intro]               | React GraphQL Weather |
-|  5  | Tue, Sep  8 | [Lesson 5 - React and GraphQL]         | - |
-|  6  | Thu, Sep 10 | [Lesson 6 - GraphQL Mutations]         | - |
-|  7  | Tue, Sep 15 | [Lesson 7 - Query Variables]                      | - |
-|  8  | Thu, Sep 17 | [Nested resolvers]                     | - |
-|  9  | Tue, Sep 22 | [Lesson 9 - Context]                   | [Final Project] proposal due |
-|  10 | Thu, Sep 24 | [Lesson 10 - MongoDB]                  | - |
-|  11 | Tue, Sep 29 | [Lesson 11 - Apollo Cache]             | - |
-|  12 | Thu, Oct  1 | [Lesson 12 - Authentication]           | - |
-|  13 | Tue, Oct  6 | Final Presentations                    | - |
-|  14 | Thu, Oct  8 | Final Assessment                       | - |
+| Week | Lessons | Topics | Graded |
+|:-----|:--------|:-------|:-------|
+| 1 | [Lesson 1] + [Lesson 2] | GraphQL intro, schemas, types | L1 queries |
+| 2 | [Lesson 3] + [Lesson 4] | Apollo Server + React client | L3 server, L4 app |
+| 3 | [Lesson 5] + [Lesson 6] | Lab checkpoint + mutations | — |
+| 4 | [Lesson 7] + [Lesson 8] | Query variables + nested resolvers | — |
+| 5 | [Lesson 9] + start [Final Project] | Context + project proposal | L9 proposal |
+| 6 | [Lesson 10] + [Lesson 11] | MongoDB + Apollo cache | — |
+| 7 | [Lesson 12] + presentations | Authentication + final project demo | Final project, final assessment |
 
-[Lesson 1 - GraphQL Intro]: Lessons/Lesson-1.md
-[Lesson 2 - GraphQL Schemas and Types]: Lessons/Lesson-2.md
-[Lesson 3 - GraphQL + Apollo]: Lessons/Lesson-3.md
-[Lesson 4 - React Intro]: Lessons/Lesson-4.md
-[Lesson 5 - React and GraphQL]: Lessons/Lesson-5.md
-[Lesson 6 - GraphQL Mutations]: Lessons/Lesson-6.md
-[Lesson 7 - Query Variables]: Lessons/Lesson-7.md
-[Lesson 8 - Nested Resolvers]: Lessons/Lesson-8.md
-[Lesson 9 - Context]: Lessons/Lesson-9.md
-[Lesson 10 - MongoDB]: Lessons/Lesson-graphql-mongo.md
-[Lesson 11 - Apollo Cache]: Lessons/Lesson-apollo-cache.md
-[Lesson 12 - Authentication]: Lessons/Lesson-12.md
-
-[Nested resolvers]: Lessons/Lesson-8.md
-
+[Lesson 1]: Lessons/Lesson-1.md
+[Lesson 2]: Lessons/Lesson-2.md
+[Lesson 3]: Lessons/Lesson-3.md
+[Lesson 4]: Lessons/Lesson-4.md
+[Lesson 5]: Lessons/Lesson-5.md
+[Lesson 6]: Lessons/Lesson-6.md
+[Lesson 7]: Lessons/Lesson-7.md
+[Lesson 8]: Lessons/Lesson-8.md
+[Lesson 9]: Lessons/Lesson-9.md
+[Lesson 10]: Lessons/Lesson-graphql-mongo.md
+[Lesson 11]: Lessons/Lesson-apollo-cache.md
+[Lesson 12]: Lessons/Lesson-12.md
 [Final Project]: Assignments/FinalProjectSpec.md
+
 
 ## Course Repo Setup
 
-At the start of the course, create one GitHub repository for all your work: e.g. `acs-4330-graphql`. Share the link with your instructor.
+At the start of the course, create one GitHub repository for all your work — e.g. `acs-4330-graphql`. Then add your name and repo link to the [course tracker spreadsheet] (link shared by your instructor at the first meeting).
 
-Organize it like this:
+Organize your repo like this:
 
 ```
 acs-4330-graphql/
@@ -122,26 +100,30 @@ acs-4330-graphql/
 
 Each lesson tells you what to push and where. Written answers go in `README.md` inside the lesson folder. Code goes alongside it.
 
-### Homework
+### Submitting Work
 
-Complete the work for each lesson before your next weekly check-in. Bring questions — stuck spots are better discussed in person than via messages.
+For each lesson, the "After This Lesson" section tells you what to do. Most work falls into one of two categories:
 
-| Class | Work due by next check-in |
-|-------|--------------------------|
-| 1  | Watch howtographql.com intro videos. Add query answers to `lesson-01/README.md` |
-| 2  | Complete Lesson 2 challenges. Push server to `lesson-02/` |
-| 3  | Complete Lesson 3 challenges. Push weather API to `lesson-03/` |
-| 4  | Complete Lesson 4 challenges. Push React weather app to `lesson-04/` |
-| 5  | Finish any open items from Lessons 3–4. Pass all checklist items in Lesson 5 |
-| 6  | Complete Lesson 6 challenges. Push mutations server to `lesson-06/` |
-| 7  | Complete Lesson 7 challenges. Push updated React client to `lesson-07/` |
-| 8  | Complete Lesson 8 challenges. Push nested resolvers project to `lesson-08/` |
-| 9  | Write project proposal. Push to `final-project/PROPOSAL.md` |
-| 10 | Add MongoDB to your project server. Push to `lesson-10/` |
-| 11 | Add cache handling to React client. Push to `lesson-11/` |
-| 12 | Add authentication. Push to `lesson-12/` |
-| 13 | Final project presentations — demo ready |
-| 14 | Final assessment. Push answers to `final-assessment/README.md` |
+**Mark your tracker** — self-report when done. Your instructor may spot-check.
+
+**Paste a link in the tracker** — paste a direct GitHub link to the specific file or folder. Your instructor will review it.
+
+| Week | What to submit | How |
+|------|---------------|-----|
+| 1 (L1) | Link to `lesson-01/README.md` — your 10 GraphQL queries | Paste link in tracker |
+| 1 (L2) | Apollo Server challenges | Mark tracker |
+| 2 (L3) | Link to `lesson-03/` — your GraphQL weather API | Paste link in tracker |
+| 2 (L4) | Link to `lesson-04/` — your React weather app | Paste link in tracker |
+| 3 (L5) | Lesson 5 self-assessment checklist | Mark tracker |
+| 3 (L6) | Mutations server | Mark tracker |
+| 4 (L7) | Updated React client with `useLazyQuery` | Mark tracker |
+| 4 (L8) | Nested resolvers project | Mark tracker |
+| 5 (L9) | Link to `final-project/PROPOSAL.md` | Paste link in tracker |
+| 6 (L10) | Add MongoDB to your final project | Mark tracker |
+| 6 (L11) | Add Apollo cache handling to your final project | Mark tracker |
+| 7 (L12) | Add authentication to your final project | Mark tracker |
+| 7 | Final project demo — push `final-project/`, paste repo + deployed URL in tracker | Paste links in tracker |
+| 7 | Final assessment — push `final-assessment/README.md`, paste link in tracker | Paste link in tracker |
 
 ## When You're Stuck
 
@@ -173,7 +155,7 @@ This course runs as independent study. You work through the lessons on your own 
 - Work through lessons between check-ins — aim for the pacing in the homework table above
 - Push completed work to your course repo before each meeting
 - Come to check-ins with specific questions, not just "I'm stuck" — know which step failed and what you tried
-- The course is 75 total hours. That's roughly 5–6 hours per week over 13 weeks
+- The course is 75 total hours. That's roughly 10 hours per week over 7 weeks
 
 ## Evaluation
 
