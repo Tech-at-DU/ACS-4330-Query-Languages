@@ -125,6 +125,8 @@ For each lesson, the "After This Lesson" section tells you what to do. Most work
 | 7 | Final project demo — push `final-project/`, paste repo + deployed URL in tracker | Paste links in tracker |
 | 7 | Final assessment — push `final-assessment/README.md`, paste link in tracker | Paste link in tracker |
 
+Link to Course Tracker: https://docs.google.com/spreadsheets/d/1Dbz53bRigu6FwVzyEKY2Gxi4ySKDsEamsvRMLccOCbM/edit?usp=sharing
+
 ## When You're Stuck
 
 Getting stuck is normal. Here's how to work through it before the next check-in.
