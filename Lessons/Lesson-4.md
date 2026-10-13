@@ -761,7 +761,11 @@ This is an open-ended challenge. Do as much work here as you like!
 
 <!-- > -->
 
-**Challenge 9 - Use Units**
+### Stretch Challenges
+
+Solve at least one of these, you should do more if you are capable! 
+
+**Stretch Challenge 9 - Use Units**
 
 Add a radio button or another method to set the unit type: metric or imperial. And display the weather with that unit. 
 
@@ -771,7 +775,7 @@ Add a radio button or another method to set the unit type: metric or imperial. A
 
 <!-- > -->
 
-**Challenge 10 - Get the current location**
+**Stretch Challenge 10 - Get the current location**
 
 OpenWeatherMap supports getting the weather by location. You can get the geocoordinates with the browser API. 
 
@@ -781,19 +785,19 @@ Make a button that gets the coordinates.
 
 <!-- > -->
 
-**Challenge 11 - Add Weather by location to your GraphQL API**
+**Stretch Challenge 11 - Add Weather by location to your GraphQL API**
 
 Spends some time on your GraphQL server. Add a query type that gets weather by geolocation. 
 
 <!-- > -->
 
-**Challenge 12 - Get weather by geolocation**
+**Stretch Challenge 12 - Get weather by geolocation**
 
 Add a button to your React project that gets the geolocation from the browser and makes a request to the GraphQL API. 
 
 <!-- > -->
 
-**Challenge 13 - Sub another API**
+**Stretch Challenge 13 - Sub another API**
 
 This is an open-ended stretch challenge. Substitute another API for the OpenWeatherMap API.
 
