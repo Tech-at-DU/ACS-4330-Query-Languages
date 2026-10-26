@@ -1,6 +1,6 @@
 # ACS 4330 - Advanced GraphQL
 
-This course picks up where ACS 4330 Query Languages left off. Students have built a full-stack GraphQL application with Apollo Server, React + Apollo Client, and a final project. This term covers the topics that make GraphQL production-ready: real databases, authentication, real-time data, pagination, performance, and deployment.
+This course picks up where ACS 4330 Query Languages left off. You've built a GraphQL API with Apollo Server and a React + Apollo Client frontend. This course covers what it takes to make a GraphQL app production-ready: a real database, authentication, cache management, pagination, real-time data, performance, and deployment.
 
 **Course Delivery**: Independent study | 7 weeks | 75 total hours (~10 hours/week)
 
@@ -8,39 +8,39 @@ This course picks up where ACS 4330 Query Languages left off. Students have buil
 
 ## Prerequisites
 
-- Completed ACS 4330 Query Languages (Lessons 1–9 + Final Project)
-- Comfortable with: GraphQL schemas, resolvers, mutations, Apollo Server 4, React + Apollo Client, `useQuery`, `useMutation`
-- Node.js 18+, basic async/await, ES modules
+- Completed ACS 4330 Query Languages
+- Comfortable with: GraphQL schemas, resolvers, nested resolvers, mutations, Apollo Server, React + Apollo Client, `useQuery`, `useMutation`
+- Node.js 20+, async/await, ES modules (`import`/`export`)
+
+> **Did ACS 4330 Lessons 10–12 (MongoDB, Apollo cache, authentication)?** Weeks 1–3 start with that material, so you can skim it. Each of those weeks then adds a new part: data modeling, optimistic UI, and authorization.
 
 ## Learning Objectives
 
 By the end of this course you will be able to:
 
-1. Persist GraphQL data with MongoDB and Mongoose
-2. Manage Apollo Client cache efficiently — updates, deletes, optimistic UI
-3. Implement JWT authentication and role-based authorization
-4. Paginate results using both offset and cursor-based (Relay-style) patterns
+1. Persist GraphQL data with MongoDB and Mongoose, and model relationships between collections
+2. Keep the Apollo Client cache in sync after mutations, including optimistic UI
+3. Implement JWT authentication and role- and ownership-based authorization
+4. Paginate results with offset and cursor-based (Relay-style) patterns
 5. Build real-time features with GraphQL subscriptions
 6. Solve the N+1 problem with DataLoader
-7. Design schemas with unions, interfaces, and custom scalars
-8. Test GraphQL resolvers and mutations
-9. Deploy a full-stack GraphQL app to the internet
+7. Deploy a full-stack GraphQL app to the internet
 
 ---
 
 ## Schedule
 
-**Format:** Independent study. Work through two lessons per week on your own. Meet with your instructor once per week.
+**Format:** Independent study. Work through one lesson per week on your own, and apply it to your final project. Meet with your instructor once per week.
 
-| Week | Lessons | Topics | Graded |
-|:-----|:--------|:-------|:-------|
-| 1 | [Lesson 1] + [Lesson 2] | MongoDB + Mongoose, data modeling | L1 server |
-| 2 | [Lesson 3] + [Lesson 4] | Apollo cache strategies, optimistic UI | — |
-| 3 | [Lesson 5] + [Lesson 6] | JWT auth, authorization + roles | L5 auth server |
-| 4 | [Lesson 7] + [Lesson 8] | Offset pagination, cursor/Relay pagination | — |
-| 5 | [Lesson 9] + [Lesson 10] | Subscriptions setup, `useSubscription` in React | — |
-| 6 | [Lesson 11] + [Lesson 12] | N+1 + DataLoader, unions + interfaces | — |
-| 7 | [Lesson 13] + presentations | Testing + deployment, final project demo | Final project, final assessment |
+| Week | Lesson | Topics | Final Project Milestone |
+|:-----|:-------|:-------|:------------------------|
+| 1 | [Lesson 1] | MongoDB + Mongoose, data modeling | `PLAN.md`; models + one relationship |
+| 2 | [Lesson 2] | Apollo cache, optimistic UI | Client updates without refresh |
+| 3 | [Lesson 3] | JWT authentication, authorization | Login + one authorization rule |
+| 4 | [Lesson 4] | Offset and cursor pagination | One paginated list |
+| 5 | [Lesson 5] | Subscriptions (server + React) | Express server; subscription *or*… |
+| 6 | [Lesson 6] | N+1 problem, DataLoader | …DataLoader; feature-complete |
+| 7 | [Lesson 7] | Deployment, final presentation | Deployed + presented |
 
 [Lesson 1]: Lessons/Lesson-1.md
 [Lesson 2]: Lessons/Lesson-2.md
@@ -49,133 +49,138 @@ By the end of this course you will be able to:
 [Lesson 5]: Lessons/Lesson-5.md
 [Lesson 6]: Lessons/Lesson-6.md
 [Lesson 7]: Lessons/Lesson-7.md
-[Lesson 8]: Lessons/Lesson-8.md
-[Lesson 9]: Lessons/Lesson-9.md
-[Lesson 10]: Lessons/Lesson-10.md
-[Lesson 11]: Lessons/Lesson-11.md
-[Lesson 12]: Lessons/Lesson-12.md
-[Lesson 13]: Lessons/Lesson-13.md
-[Final Project]: Assignments/FinalProjectSpec.md
+
+---
+
+## How Each Week Works
+
+Every lesson has the same structure:
+
+1. **Learning Outcomes and Review** — what you'll learn, and a few questions to answer from memory first
+2. **Lesson** — explanations with all the code you need, built on a running **Pets** example app
+3. **Challenges** — hands-on practice in the Pets app, ending with a stretch challenge
+4. **Final Project Milestone** — apply the week's topic to your own project
+5. **After This Lesson** — what to push and mark in the tracker
+6. **Evaluate Your Work** — a rubric to check yourself before your check-in
+
+Budget about **4–5 hours for the lesson and challenges** and **2–3 hours for your project** each week. Week 6 is shorter, so you have time to finish your project before deploying.
 
 ---
 
 ## Lesson Outline
 
-### Week 1 — Real Persistence
+**Week 1 — MongoDB and Data Modeling**
+Connect Apollo Server to MongoDB Atlas with Mongoose. Replace in-memory arrays with models and async resolvers, and pass models through context. Then model a relationship: compare embedding with referencing, add a `Shelter` model referenced from `Pet`, resolve it with nested resolvers, and add validation and indexes.
 
-**Lesson 1 — MongoDB + Mongoose**
-Connect a GraphQL API to a real database. Install Mongoose, define models, and replace in-memory arrays with `find`, `findById`, `create`, `findByIdAndUpdate`, and `findByIdAndDelete`. Understand the difference between a Mongoose schema and a GraphQL schema. Pass models through context so resolvers stay clean. Cover the `_id` → `id` virtual so GraphQL IDs work correctly.
+**Week 2 — Apollo Client Cache and Optimistic UI**
+See why the UI goes stale after a mutation, and fix it four ways: `refetchQueries`, automatic updates by `id`, `cache.modify` + `writeFragment`, and `cache.evict`. Then make mutations feel instant with `optimisticResponse`: style pending items, and recover when the server fails.
 
-**Lesson 2 — Data Modeling with Mongoose**
-Go deeper on data relationships in MongoDB. Compare embedding documents vs. storing references (IDs). Use Mongoose `populate()` to resolve references in a nested resolver. Add indexes for fields you query often. Design a schema with at least two related types — for example, `Post` and `Author`, or `Product` and `Category`. Explore schema validation options (required, min/max, enum).
+**Week 3 — Authentication and Authorization**
+Build `register`, `login`, and `me` with bcrypt and JWT. Verify tokens in context and protect resolvers with a `requireAuth` helper and `GraphQLError` codes. Add roles (admin-only actions) and ownership (only the creator can edit or delete). Send the token from Apollo Client with `SetContextLink`, and reset the cache on login and logout.
 
----
+**Week 4 — Pagination**
+Build offset pagination (`limit`/`offset`, `total`, `hasMore`) with page controls, and see why inserts break it. Then build Relay-style cursor pagination (`edges`, `node`, `cursor`, `pageInfo`) with opaque cursors. Add "Load more" using `fetchMore` and `relayStylePagination`.
 
-### Week 2 — Apollo Client Cache
+**Week 5 — Subscriptions**
+Move the server to Express so it can serve HTTP and WebSockets together. Publish events from mutations with `PubSub`, and test subscriptions in Sandbox. In React, route subscriptions with `ApolloLink.split`, show live events with `useSubscription`, and write them into the cache.
 
-**Lesson 3 — Apollo Cache Strategies**
-Understand why stale cache causes bugs after mutations. Learn three strategies for keeping the cache in sync: (1) `refetchQueries` — simple but fetches from the network; (2) returning `id` in a mutation so Apollo auto-updates the cached item; (3) `cache.modify` + `writeFragment` — direct cache writes for adding new items without a network round-trip. Know when to use each.
+**Week 6 — The N+1 Problem and DataLoader**
+Measure the N+1 problem with Mongoose debug logging. Fix it with per-request DataLoaders for one-to-one and one-to-many relationships, then measure again. Shorter lesson: use the extra time to finish your project.
 
-**Lesson 4 — Optimistic UI and Cache Eviction**
-Make mutations feel instant with `optimisticResponse`. Show the new item in the list before the server replies — then reconcile when the real response arrives. Handle the delete case: `cache.evict` removes an item by cache ID, and `cache.gc()` cleans up dangling references. Build a UI where add, update, and delete all feel immediate.
-
----
-
-### Week 3 — Authentication and Authorization
-
-**Lesson 5 — JWT Authentication**
-Implement user registration and login as GraphQL mutations. Hash passwords with `bcrypt`, sign tokens with `jsonwebtoken`, and return an `AuthPayload` containing the token and user. Verify the token in Apollo Server's `context` function so every resolver can check `context.user`. Wire up Apollo Client with `setContext` auth link to send the token in every request header.
-
-**Lesson 6 — Authorization: Roles and Ownership**
-Authentication answers "who are you?" — authorization answers "what can you do?" Add a `role` field to the User model (`user`, `admin`). Write a `requireAuth(context)` helper to avoid repeating the auth check. Protect mutations by role: only admins can delete; only the owner can update their own record. Implement field-level restrictions: hide sensitive fields like `email` from non-admins in the schema or resolver.
-
----
-
-### Week 4 — Pagination
-
-**Lesson 7 — Offset Pagination**
-Paginate large result sets with `limit` and `offset` arguments — the simplest pattern, closest to SQL `LIMIT`/`SKIP`. Add `limit` and `offset` to a query, implement in the resolver with `.limit()` and `.skip()` in Mongoose, and return a `PaginatedResult` type containing `items`, `total`, and `hasMore`. Build page controls in React using `useQuery` variables.
-
-**Lesson 8 — Cursor-Based Pagination (Relay Style)**
-The industry-standard pagination pattern used by GitHub, Shopify, and most large GraphQL APIs. Instead of a page number, use a cursor — an opaque pointer to the last item seen. Return a `Connection` type with `edges` (each containing a `node` and a `cursor`) and `pageInfo` (`hasNextPage`, `endCursor`). Implement `first` and `after` arguments. Understand why cursor pagination handles live data better than offset.
-
----
-
-### Week 5 — Real-Time with Subscriptions
-
-**Lesson 9 — GraphQL Subscriptions Setup**
-Subscriptions push data from server to client over a persistent WebSocket connection. Set up `graphql-ws` alongside Apollo Server 4, define a `Subscription` type in the schema, and use `PubSub` from `graphql-subscriptions` to publish events when mutations fire. Test subscriptions in Apollo Sandbox's subscription tab. Understand the difference between queries/mutations (HTTP) and subscriptions (WebSocket).
-
-**Lesson 10 — Subscriptions in React**
-Connect the React client to subscriptions with `useSubscription`. Add a `WebSocketLink` to Apollo Client alongside the `HttpLink`, and use `split` to route subscription operations to the WebSocket and everything else to HTTP. Build a live-updating list that adds new items as they arrive without a page refresh. Handle the loading and error states for subscriptions.
-
----
-
-### Week 6 — Performance and Advanced Schema
-
-**Lesson 11 — N+1 Problem and DataLoader**
-The N+1 problem: fetching a list of 100 items triggers 100 additional queries for each item's related data — 101 queries total. Identify it with `console.log` in a resolver. Fix it with `DataLoader`, a utility that batches and caches requests within a single tick of the event loop. Write a DataLoader for a nested field and measure the reduction in database queries.
-
-**Lesson 12 — Advanced Schema Design**
-Four patterns that make schemas more expressive: (1) **Unions** — a field that can return one of several types (search results that return `Post | User | Product`); (2) **Interfaces** — shared fields across types (`Node` interface with `id`, common in Relay); (3) **Custom scalars** — `Date`, `Email`, `URL` with built-in validation; (4) **Input types** — reusable argument objects for mutations (`CreatePostInput`, `UpdatePostInput`). Apply at least two to the final project schema.
-
----
-
-### Week 7 — Testing and Deployment
-
-**Lesson 13 — Testing GraphQL APIs**
-Write tests that give you confidence without mocking too much. Unit test pure resolver functions with plain JavaScript. Integration-test the full Apollo Server with `executeOperation` — no HTTP needed, just pass a query string and check the response. Use `vitest` or `jest`. Test the happy path, error cases, and auth guards. Cover at least: one query, one mutation, one auth-protected operation.
-
-**Lesson 14 (Final Week) — Deployment**
-Ship the final project to the internet. Deploy the Apollo Server to [Railway](https://railway.app) or [Render](https://render.com) — both support Node.js with zero-config deploys from GitHub. Deploy the React + Vite client to [Vercel](https://vercel.com) or [Netlify](https://netlify.com). Set environment variables (MongoDB URI, JWT secret) in the platform dashboard — never commit them. Update the Apollo Client URI to the production server URL. Verify the full app works end-to-end in production.
+**Week 7 — Deployment and Final Presentation**
+Prepare the server and client for production (`PORT`, CORS, `VITE_` env vars, Atlas network access). Deploy the server to Render and the client to Vercel, smoke-test everything, and present your project.
 
 ---
 
 ## Final Project
 
-The final project extends or rebuilds a GraphQL application using the advanced features from this course. Requirements are in [Assignments/FinalProjectSpec.md](Assignments/FinalProjectSpec.md).
+Take a GraphQL app — ideally your ACS 4330 final project — and make it production-ready, one milestone per week. Full requirements and rubric: [Assignments/FinalProjectSpec.md](Assignments/FinalProjectSpec.md).
 
-**Minimum requirements for this term:**
-- MongoDB persistence (not in-memory)
-- JWT authentication with at least one protected route
-- Pagination on at least one list query
-- Deployed — both server and client live at a public URL
+**Required:**
+- MongoDB persistence with at least one relationship
+- JWT authentication plus one authorization rule (ownership or role)
+- Every mutation updates the UI without a refresh; at least one optimistic mutation
+- Pagination on at least one list
+- A subscription **or** a DataLoader
+- Deployed — server and client live at public URLs
 
-**Stretch goals:**
-- Real-time subscription for at least one event
-- Role-based authorization (admin vs. user)
-- DataLoader for a nested resolver
-- Full test suite for server resolvers
+**Stretch goals:** both a subscription and a DataLoader, cursor pagination, field-level privacy, resolver tests.
 
 ---
 
 ## Course Repo Setup
 
-Same repo from last term works fine — add a new top-level folder, e.g. `acs-4330-advanced/`, with sub-folders per lesson.
+Create one GitHub repository for this course — e.g. `acs-4330-advanced`. Add your name and repo link to the course tracker (your instructor will share the link at your first meeting).
 
 ```
 acs-4330-advanced/
-  lesson-01/
-    server.js
-    package.json
-  lesson-05/
-    server.js
-    package.json
+  pets/              ← follow-along app, grows each week
+    server/
+    client/
   final-project/
+    PLAN.md
+    README.md
     server/
     client/
 ```
 
-Not every lesson produces code to push — check each lesson's "After This Lesson" section.
+Include a `.gitignore` in every project folder that excludes `node_modules` and `.env`.
+
+### Submitting Work
+
+| Week | What to submit | How |
+|------|---------------|-----|
+| 1 | `pets/server/`, `final-project/PLAN.md`, project models | Mark tracker |
+| 2 | `pets/client/`, project client cache updates | Mark tracker |
+| 3 | Pets auth, project auth | Mark tracker |
+| 4 | Pets pagination, project pagination | Mark tracker |
+| 5 | Pets subscriptions, project server on Express | Mark tracker |
+| 6 | Pets DataLoader, project feature-complete | Mark tracker |
+| 7 | Deployed project + `final-project/README.md` | Paste repo link and live URL in tracker |
+| 7 | Final presentation | At final check-in |
+
+Your instructor will look at your repo before each check-in, so push before you meet.
 
 ---
+
+## When You're Stuck
+
+**1. Read the whole error message.** The first line usually says what went wrong.
+
+**2. Figure out where the error is coming from:**
+- Terminal → server (resolver, schema, database connection)
+- Browser console → client (Apollo Client, React)
+- Apollo Sandbox → test the operation by itself to rule out the client
+- Apollo DevTools → see what's in the cache
+
+**3. Add a `console.log` just before the failure** to confirm values are what you expect. For database issues, `mongoose.set('debug', true)` logs every query.
+
+**4. Check the library version.** Many online examples are for older versions. These lessons use Apollo Server 5, Apollo Client 4, graphql-ws 6, graphql-subscriptions 3, and Mongoose 9. If an import path doesn't work, the example is probably outdated.
+
+**5. Search the exact error message**, along with the library name.
+
+**6. Still stuck?** Write down the exact error, what you tried, and what you expected. Bring it to your check-in.
+
+## Independent Study Expectations
+
+- Work through one lesson per week. Lessons build on each other, so don't skip ahead
+- Push your work before each check-in
+- Come to check-ins with specific questions and a working (or specifically broken) demo
+- 75 hours total: about 10 hours per week for 7 weeks
+
+## Evaluation
+
+To pass this course you must:
+
+- Complete all seven lessons and push the Pets app to your course repo
+- Complete, deploy, and present the final project, scoring at least **2** in every rubric row
 
 ## Resources
 
 - https://www.apollographql.com/docs/apollo-server
 - https://www.apollographql.com/docs/react
 - https://mongoosejs.com/docs
-- https://github.com/graphql/dataloader
 - https://relay.dev/graphql/connections.htm (Relay cursor spec)
-- https://graphql-ws.netlify.app (WebSocket subscriptions)
+- https://the-guild.dev/graphql/ws (`graphql-ws`)
+- https://github.com/graphql/dataloader
 - https://jwt.io
