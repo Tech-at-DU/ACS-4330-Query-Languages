@@ -36,11 +36,15 @@ Skip this if you already have a React + Apollo Client app that talks to your Pet
 
 ```bash
 cd pets
-npm create vite@latest client -- --template react
+npm create vite@9 client -- --template react
 cd client
 npm install
-npm install @apollo/client graphql rxjs
+npm install @apollo/client@4 graphql@16 rxjs@7
 ```
+
+`rxjs` is required by Apollo Client 4. Pin the versions as shown — see [Library Versions](../README.md#library-versions).
+
+> **Reusing your ACS 4330 client?** Check `package.json`. If `@apollo/client` is `^3.x`, upgrade it with the command above. The import paths in these lessons are for Apollo Client 4.
 
 <!-- > -->
 

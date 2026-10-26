@@ -10,7 +10,7 @@ This course picks up where ACS 4330 Query Languages left off. You've built a Gra
 
 - Completed ACS 4330 Query Languages
 - Comfortable with: GraphQL schemas, resolvers, nested resolvers, mutations, Apollo Server, React + Apollo Client, `useQuery`, `useMutation`
-- Node.js 20+, async/await, ES modules (`import`/`export`)
+- Node.js 22 LTS (20.19 minimum), async/await, ES modules (`import`/`export`)
 
 > **Did ACS 4330 Lessons 10–12 (MongoDB, Apollo cache, authentication)?** Weeks 1–3 start with that material, so you can skim it. Each of those weeks then adds a new part: data modeling, optimistic UI, and authorization.
 
@@ -64,6 +64,39 @@ Every lesson has the same structure:
 6. **Evaluate Your Work** — a rubric to check yourself before your check-in
 
 Budget about **4–5 hours for the lesson and challenges** and **2–3 hours for your project** each week. Week 6 is shorter, so you have time to finish your project before deploying.
+
+---
+
+## Library Versions
+
+Every install command in the lessons pins a **major version**, e.g. `npm install @apollo/server@5`. You get bug fixes, but no breaking changes. **Always copy the install commands exactly.** Many tutorials online use older versions with different import paths. Newer versions may not work with each other: for example, `graphql@17` is out, but Apollo Server 5 requires `graphql@16`.
+
+These lessons were written and checked against:
+
+| Package | Pin | Tested version | Used from |
+|:--------|:----|:---------------|:----------|
+| Node.js | 22 LTS (min 20.19) | — | Week 1 |
+| `@apollo/server` | `@5` | 5.5.1 | Week 1 |
+| `graphql` | `@16` | 16.14.2 | Week 1 |
+| `mongoose` | `@9` | 9.11.4 | Week 1 |
+| `dotenv` | `@18` | 18.0.9 | Week 1 |
+| `create-vite` (React 19, Vite 8) | `vite@9` | 9.3.1 | Week 2 |
+| `@apollo/client` | `@4` | 4.3.5 | Week 2 |
+| `rxjs` | `@7` | 7.8.2 | Week 2 |
+| `jsonwebtoken` | `@9` | 9.0.3 | Week 3 |
+| `bcryptjs` | `@3` | 3.0.3 | Week 3 |
+| `express` | `@5` | 5.3.0 | Week 5 |
+| `cors` | `@2` | 2.8.6 | Week 5 |
+| `@as-integrations/express5` | `@1` | 1.1.2 | Week 5 |
+| `ws` | `@8` | 8.22.0 | Week 5 |
+| `graphql-ws` | `@6` | 6.4.1 | Week 5 |
+| `@graphql-tools/schema` | `@11` | 11.0.7 | Week 5 |
+| `graphql-subscriptions` | `@3` | 3.0.0 | Week 5 |
+| `dataloader` | `@2` | 2.2.3 | Week 6 |
+
+**Reusing code from ACS 4330?** Check its `package.json`. If it has `@apollo/client` 3.x or `@apollo/server` 4.x, upgrade with the pinned install commands before you start.
+
+**Something won't install?** Run `npm ls graphql`. If you see more than one version, or a 17.x, run `npm install graphql@16`.
 
 ---
 
@@ -155,7 +188,7 @@ Your instructor will look at your repo before each check-in, so push before you 
 
 **3. Add a `console.log` just before the failure** to confirm values are what you expect. For database issues, `mongoose.set('debug', true)` logs every query.
 
-**4. Check the library version.** Many online examples are for older versions. These lessons use Apollo Server 5, Apollo Client 4, graphql-ws 6, graphql-subscriptions 3, and Mongoose 9. If an import path doesn't work, the example is probably outdated.
+**4. Check the library version.** Compare your `package.json` with [Library Versions](#library-versions). Many online examples are for older versions. If an import path from a tutorial doesn't work, the example is probably outdated. Follow the lesson's code instead.
 
 **5. Search the exact error message**, along with the library name.
 

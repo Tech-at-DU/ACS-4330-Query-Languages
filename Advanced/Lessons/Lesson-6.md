@@ -124,7 +124,7 @@ Two rules for the batch function:
 ## Install
 
 ```bash
-npm install dataloader
+npm install dataloader@2
 ```
 
 <!-- > -->

@@ -81,8 +81,10 @@ Both use the same schema and the same port.
 In `pets/server`:
 
 ```bash
-npm install express cors @as-integrations/express5 ws graphql-ws @graphql-tools/schema graphql-subscriptions
+npm install express@5 cors@2 @as-integrations/express5@1 ws@8 graphql-ws@6 @graphql-tools/schema@11 graphql-subscriptions@3
 ```
+
+Run `npm ls graphql` afterwards. Every entry should still be 16.x.
 
 | Package | Purpose |
 |---|---|
@@ -321,7 +323,7 @@ const resolvers = {
 In `pets/client`:
 
 ```bash
-npm install graphql-ws
+npm install graphql-ws@6
 ```
 
 <!-- > -->

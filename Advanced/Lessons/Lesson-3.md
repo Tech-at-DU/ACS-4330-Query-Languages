@@ -61,7 +61,7 @@ You don't need any special GraphQL middleware. Context does it all.
 In `pets/server`:
 
 ```bash
-npm install jsonwebtoken bcryptjs
+npm install jsonwebtoken@9 bcryptjs@3
 ```
 
 - `jsonwebtoken` — creates and verifies JWTs

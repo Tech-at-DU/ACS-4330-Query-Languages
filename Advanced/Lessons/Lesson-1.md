@@ -102,10 +102,19 @@ npm init -y
 npm pkg set type=module
 npm pkg set scripts.start="node server.js"
 npm pkg set scripts.dev="node --watch server.js"
-npm install @apollo/server graphql mongoose dotenv
+npm install @apollo/server@5 graphql@16 mongoose@9 dotenv@18
 ```
 
 `npm run dev` restarts the server whenever you save a file.
+
+> **Always install the versions shown.** The `@5`, `@16`, etc. pin each library to the major version these lessons were written for. Without them, npm installs the newest version, which may have breaking changes. For example, `graphql@17` doesn't work with Apollo Server 5. See [Library Versions](../README.md#library-versions) for the full list.
+
+Check it worked:
+
+```bash
+node --version   # v20.19 or newer (v22 LTS recommended)
+npm ls graphql   # every entry should be 16.x
+```
 
 <!-- > -->
 

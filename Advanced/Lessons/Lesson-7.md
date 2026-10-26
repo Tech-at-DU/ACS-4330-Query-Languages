@@ -71,7 +71,7 @@ Do these steps locally, test them, and push before you deploy anything.
 
 ```json
 "engines": {
-  "node": ">=20"
+  "node": ">=20.19"
 }
 ```
 
